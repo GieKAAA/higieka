@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238B5CF6'/><path d='M10 22V10h5.4c2.5 0 4.1 1.4 4.1 3.5 0 1.6-.9 2.7-2.4 3.1L23 22h-3.3l-3.1-4.9h-1.8V22H10zm5.1-7.2c1.1 0 1.7-.5 1.7-1.4s-.6-1.4-1.7-1.4h-1.7v2.8h1.7z' fill='%23fff'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238B5CF6'/><path d='M9.6 23 14.3 9.5h3.4L22.4 23h-3.25l-.95-3h-4.4l-.95 3H9.6zm4.95-5.6h2.9L16 12.8l-1.45 4.6z' fill='%23fff' fill-rule='evenodd'/></svg>">
 
 <script type="application/ld+json">
 {
@@ -77,7 +77,7 @@ a{color:inherit}
 .skip:focus{left:var(--gut);top:.75rem;z-index:20;background:var(--panel);padding:.6rem 1rem;border:1px solid var(--violet)}
 
 /* ---------- nav ---------- */
-.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.5rem 0}
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.5rem 0}
 .brand{
   font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.95rem;
   letter-spacing:.02em;text-decoration:none;display:flex;align-items:center;gap:.55rem;
@@ -89,7 +89,6 @@ a{color:inherit}
   text-decoration:none;color:var(--muted);transition:color .2s ease;
 }
 .nav ul a:hover,.nav ul a:focus-visible{color:var(--ink)}
-@media (max-width:620px){.nav ul{display:none}}
 
 /* ---------- hero ---------- */
 .hero{padding-block:clamp(3.5rem,9vw,6.5rem) 0}
@@ -111,8 +110,9 @@ h1 .dim{color:var(--violet-lite)}
   padding:.8rem 1.4rem;border-radius:999px;text-decoration:none;
   border:1px solid transparent;transition:background-color .2s ease,border-color .2s ease,transform .15s ease;
 }
-.btn--solid{background:var(--violet);color:#fff}
-.btn--solid:hover,.btn--solid:focus-visible{background:#7C4DF0}
+/* a shade darker than --violet so white label text meets WCAG AA */
+.btn--solid{background:#7C4DF0;color:#fff}
+.btn--solid:hover,.btn--solid:focus-visible{background:#6D3FE0}
 .btn--ghost{border-color:var(--line);color:var(--ink);background:rgba(255,255,255,.02)}
 .btn--ghost:hover,.btn--ghost:focus-visible{border-color:var(--violet);background:rgba(139,92,246,.1)}
 .btn svg{width:15px;height:15px;flex:none}
@@ -136,7 +136,7 @@ h1 .dim{color:var(--violet-lite)}
 @keyframes beat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.78)}}
 
 /* ---------- showcase panel ---------- */
-.showcase{margin-top:clamp(3rem,7vw,5rem);position:relative}
+.showcase{margin:clamp(3rem,7vw,5rem) 0 0;position:relative}
 .showcase__glow{
   border-radius:calc(var(--r) + 10px);
   padding:clamp(.75rem,2.5vw,1.5rem);
@@ -185,6 +185,8 @@ section{padding-block:clamp(3.5rem,8vw,6rem)}
 }
 .eyebrow i{width:7px;height:7px;background:var(--violet);display:block}
 h2{margin:0 0 1.75rem;font-weight:700;font-size:clamp(1.6rem,1.25rem + 1.5vw,2.5rem);letter-spacing:-.035em;line-height:1.14;max-width:22ch}
+/* nav links target the headings; keep the eyebrow above them in view */
+h2[id]{scroll-margin-top:3.5rem}
 .prose p{max-width:var(--measure);margin:0 0 1.1em;color:#C4C4D0}
 .prose p:last-child{margin-bottom:0}
 
@@ -208,8 +210,8 @@ h2{margin:0 0 1.75rem;font-weight:700;font-size:clamp(1.6rem,1.25rem + 1.5vw,2.5
   font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;
   padding:.25rem .55rem;border-radius:999px;border:1px solid currentColor;white-space:nowrap;
 }
-.tag--live{color:var(--violet-lite)}
-.tag--plan{color:var(--amber)}
+.tag--live{color:var(--amber)}
+.tag--plan{color:var(--violet-lite)}
 .tag--done{color:var(--muted)}
 .card p{margin:0;color:#B9B9C6;font-size:.98rem;line-height:1.6}
 .card .stack{
@@ -284,9 +286,9 @@ footer p{margin:0;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:
       </aside>
     </div>
 
-    <div class="showcase">
-      <div class="showcase__glow">
-        <div class="win">
+    <figure class="showcase">
+      <div class="showcase__glow" role="img" aria-label="Antarmuka Lokasi: peta dengan penanda di Makassar, joystick kendali, dan status sesi DVT yang tersambung">
+        <div class="win" aria-hidden="true">
           <div class="win__bar">
             <b></b><b></b><b></b><span>Lokasi — sesi DVT aktif</span>
           </div>
@@ -305,8 +307,8 @@ footer p{margin:0;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:
           </div>
         </div>
       </div>
-      <p class="caption">Lokasi — aplikasi desktop simulasi lokasi iPhone yang saya tulis.</p>
-    </div>
+      <figcaption class="caption">Lokasi — aplikasi desktop simulasi lokasi iPhone yang saya tulis.</figcaption>
+    </figure>
   </header>
 
   <main id="utama">
