@@ -9,7 +9,7 @@ selain berkas font yang dimuat dari Google Fonts.
 
 | Berkas         | Keterangan                                   |
 | -------------- | -------------------------------------------- |
-| `index.html`   | Seluruh halaman: markup, gaya, dan ikon       |
+| `index.html`   | Seluruh halaman: markup, gaya, skrip, ikon    |
 | `netlify.toml` | Konfigurasi deploy dan tajuk keamanan         |
 | `robots.txt`   | Izin perayapan mesin pencari                  |
 | `sitemap.xml`  | Peta situs                                    |

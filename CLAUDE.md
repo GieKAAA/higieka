@@ -15,23 +15,30 @@ Hosting: Netlify, deploy otomatis dari branch `main`, publish directory `.`.
 
 | Berkas         | Keterangan                                  |
 | -------------- | ------------------------------------------- |
-| `index.html`   | Seluruh halaman: markup, gaya, dan ikon     |
+| `index.html`   | Seluruh halaman: markup, gaya, skrip, ikon  |
 | `netlify.toml` | Konfigurasi deploy dan tajuk keamanan       |
 | `robots.txt`   | Izin perayapan mesin pencari                |
 | `sitemap.xml`  | Peta situs                                  |
 
-Seluruh CSS berada inline di dalam `index.html`. Jangan memecahnya menjadi berkas
-terpisah tanpa diminta; sifat satu-berkas adalah keputusan desain yang disengaja.
+Seluruh CSS dan JavaScript berada inline di dalam `index.html`. Jangan memecahnya
+menjadi berkas terpisah tanpa diminta; sifat satu-berkas adalah keputusan desain
+yang disengaja.
 
 ## Arah desain
 
-Tampilan mengacu pada gaya kiro.dev, atas permintaan pemilik situs.
+Tampilan mengacu pada gaya kiro.dev, atas permintaan pemilik situs. Warna aksen
+diganti dari ungu menjadi biru atas permintaan pemilik situs; jangan dikembalikan
+ke ungu.
 
-- Latar nyaris hitam `#0B0B0F`, dengan gradien ungu lembut di bagian atas halaman
-- Aksen utama ungu `#8B5CF6`, varian terang `#B99DFB`
+- Latar nyaris hitam `#0B0B0F`, dengan gradien biru lembut di bagian atas halaman
+- Aksen utama biru `#3B82F6`, varian terang `#93C5FD`, varian gelap `#2563EB`
+  untuk latar tombol bertulisan putih (aksen utama tidak memenuhi kontras AA)
 - Amber `#F2A93B` khusus sebagai penanda status aktif
 - Judul memakai JetBrains Mono tebal dengan tracking rapat; badan teks memakai Inter
-- Panel bersudut membulat dengan bingkai gradien ungu
+- Panel bersudut membulat dengan bingkai gradien biru
+
+Warna ditetapkan sebagai variabel pada `:root` (`--accent`, `--accent-rgb`,
+`--accent-lite`, `--accent-deep`); gunakan variabel tersebut, bukan nilai mentah.
 
 Palet amber dan ritme antarmuka diambil dari aplikasi desktop "Lokasi" buatan
 pemilik situs, agar tampilan situs selaras dengan karyanya sendiri.
@@ -43,32 +50,38 @@ Ketentuan kualitas yang harus dipertahankan pada setiap perubahan:
 - Cincin fokus papan ketik terlihat jelas
 - Kontras warna memenuhi WCAG AA
 
+## Interaksi dan visual proyek
+
+Skrip inline di akhir `index.html` menjalankan beberapa interaksi: demo Lokasi pada
+hero (joystick dapat diseret atau digerakkan dengan tombol panah, peta dapat
+diklik), tahapan verifikasi wajah LKH KKN, tab laporan pemeriksa PKTI, pilihan
+platform pada rekaman asal-usul korpus, tombol salin surel, jam WITA, penanda
+menu aktif, dan animasi muncul saat digulir.
+
+- Situs harus tetap utuh tanpa JavaScript. Kelas `js` pada `html` dipasang oleh
+  skrip kecil di `head`; gaya yang menyembunyikan konten hanya berlaku di bawahnya.
+- Animasi hanya berjalan di bawah `prefers-reduced-motion: no-preference`.
+- Gelung animasi demo Lokasi berhenti saat joystick diam, meniru aplikasi aslinya.
+
+Setiap kartu proyek memuat visual yang merupakan ilustrasi, bukan tangkapan layar
+asli, dan keterangannya menyatakan hal itu. Jangan menyajikan ilustrasi seolah-olah
+tangkapan layar asli. Jika pemilik situs memberikan tangkapan layar asli, visual
+tersebut boleh diganti; periksa dahulu agar tidak memuat data pribadi.
+
 ## Bahasa
 
 Seluruh teks situs dan pesan commit ditulis dalam bahasa Indonesia ragam formal.
 Atribut `lang` pada elemen `html` adalah `id`.
 
-## Isi yang belum lengkap
-
-Bagian "Kerja" belum memuat entri skripsi. Topiknya adalah sistem presensi KKN
-(LKH KKN), namun redaksi judul final belum tersedia. Setelah judul diperoleh,
-tambahkan entri tersendiri pada bagian Kerja dan ganti keterangan "Menyusun tugas
-akhir" pada bagian hero menjadi keterangan yang lebih spesifik.
+## Isi
 
 Jangan mencantumkan karya milik orang lain pada situs ini. Beberapa judul skripsi
 yang pernah dibahas pemilik situs adalah milik rekannya, bukan miliknya sendiri.
 
-## Kendala yang sedang berjalan
-
-Situs sudah ter-deploy dan DNS sudah mengarah dengan benar, tetapi belum dapat
-diakses publik. Pengunjung dialihkan ke halaman "Team protection" milik Netlify.
-Penyebabnya adalah proteksi akses tingkat tim pada akun Netlify, yang membuat
-seluruh situs dalam tim bersifat privat. Setelan ini hanya dapat diubah oleh
-pemilik akun melalui dasbor Netlify.
-
 ## Verifikasi sebelum push
 
-Periksa struktur HTML dan tautan internal sebelum mendorong perubahan:
+Periksa struktur HTML sebelum mendorong perubahan, lalu buka halaman di peramban
+untuk memastikan konsol bebas galat dan tidak ada gulir horizontal pada lebar 320px:
 
 ```sh
 python3 -c "
