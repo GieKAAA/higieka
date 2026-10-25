@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>As Shadiq Nur</title>
+<meta name="description" content="As Shadiq Nur — mahasiswa Teknik Informatika UIN Alauddin Makassar. Membangun perkakas untuk perangkat, model di atas ponsel, dan naskah akademik.">
+<link rel="canonical" href="https://higieka.web.id/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://higieka.web.id/">
+<meta property="og:title" content="As Shadiq Nur">
+<meta property="og:description" content="Mahasiswa Teknik Informatika UIN Alauddin Makassar. Membangun perkakas untuk perangkat, model di atas ponsel, dan naskah akademik.">
+<meta property="og:locale" content="id_ID">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0B0B0F">
+<meta name="color-scheme" content="dark">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238B5CF6'/><path d='M10 22V10h5.4c2.5 0 4.1 1.4 4.1 3.5 0 1.6-.9 2.7-2.4 3.1L23 22h-3.3l-3.1-4.9h-1.8V22H10zm5.1-7.2c1.1 0 1.7-.5 1.7-1.4s-.6-1.4-1.7-1.4h-1.7v2.8h1.7z' fill='%23fff'/></svg>">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"Person","name":"As Shadiq Nur",
+  "url":"https://higieka.web.id/","email":"asshadiqnur21@gmail.com",
+  "affiliation":{"@type":"CollegeOrUniversity","name":"UIN Alauddin Makassar"},
+  "address":{"@type":"PostalAddress","addressLocality":"Makassar","addressCountry":"ID"},
+  "sameAs":["https://github.com/GieKAAA","https://instagram.com/hidhithere"]
+}
+</script>
+
+<style>
+:root{
+  --bg:#0B0B0F;
+  --panel:#131319;
+  --panel-2:#1A1A22;
+  --line:#272731;
+  --line-soft:#1F1F28;
+  --ink:#F3F3F6;
+  --muted:#9A9AA8;
+  --violet:#8B5CF6;
+  --violet-lite:#B99DFB;
+  --amber:#F2A93B;
+
+  --gut:clamp(1.25rem,5vw,3rem);
+  --measure:62ch;
+  --r:14px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:clamp(1rem,.95rem + .25vw,1.0625rem);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+/* soft violet wash behind the top of the page */
+body::before{
+  content:"";position:fixed;inset:0 0 auto;height:70vh;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(70% 55% at 18% 0%,rgba(139,92,246,.17),transparent 65%),
+    radial-gradient(50% 45% at 85% 5%,rgba(139,92,246,.09),transparent 70%);
+}
+.wrap{position:relative;z-index:1;width:min(100% - calc(var(--gut) * 2),1180px);margin-inline:auto}
+
+h1,h2,h3,.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+a{color:inherit}
+:focus-visible{outline:2.5px solid var(--violet-lite);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:var(--gut);top:.75rem;z-index:20;background:var(--panel);padding:.6rem 1rem;border:1px solid var(--violet)}
+
+/* ---------- nav ---------- */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.5rem 0}
+.brand{
+  font-family:"JetBrains Mono",monospace;font-weight:700;font-size:.95rem;
+  letter-spacing:.02em;text-decoration:none;display:flex;align-items:center;gap:.55rem;
+}
+.brand i{width:10px;height:10px;background:var(--violet);border-radius:3px;display:block}
+.nav ul{list-style:none;display:flex;gap:clamp(1rem,3vw,2rem);margin:0;padding:0}
+.nav ul a{
+  font-family:"JetBrains Mono",monospace;font-size:.8rem;font-weight:500;
+  text-decoration:none;color:var(--muted);transition:color .2s ease;
+}
+.nav ul a:hover,.nav ul a:focus-visible{color:var(--ink)}
+@media (max-width:620px){.nav ul{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(3.5rem,9vw,6.5rem) 0}
+.hero__top{display:grid;gap:clamp(2.5rem,6vw,4rem);grid-template-columns:1fr;align-items:start}
+@media (min-width:940px){.hero__top{grid-template-columns:minmax(0,1.6fr) minmax(15rem,.75fr)}}
+
+h1{
+  margin:0;font-weight:700;
+  font-size:clamp(2.1rem,1.3rem + 3.6vw,4.25rem);
+  line-height:1.06;letter-spacing:-.045em;
+}
+h1 .dim{color:var(--violet-lite)}
+.lede{margin:1.5rem 0 0;max-width:54ch;color:#C9C9D4;font-size:clamp(1.05rem,1rem + .35vw,1.2rem);line-height:1.6}
+
+.cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:"JetBrains Mono",monospace;font-size:.875rem;font-weight:500;
+  padding:.8rem 1.4rem;border-radius:999px;text-decoration:none;
+  border:1px solid transparent;transition:background-color .2s ease,border-color .2s ease,transform .15s ease;
+}
+.btn--solid{background:var(--violet);color:#fff}
+.btn--solid:hover,.btn--solid:focus-visible{background:#7C4DF0}
+.btn--ghost{border-color:var(--line);color:var(--ink);background:rgba(255,255,255,.02)}
+.btn--ghost:hover,.btn--ghost:focus-visible{border-color:var(--violet);background:rgba(139,92,246,.1)}
+.btn svg{width:15px;height:15px;flex:none}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+
+/* right rail */
+.rail{border-top:1px solid var(--line);padding-top:1rem}
+.rail__head{
+  display:flex;align-items:center;gap:.5rem;
+  font-family:"JetBrains Mono",monospace;font-size:.72rem;font-weight:500;
+  letter-spacing:.14em;color:var(--muted);margin-bottom:1.1rem;
+}
+.rail__head i{width:7px;height:7px;background:var(--violet);display:block}
+.rail dl{margin:0}
+.rail dt{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--muted);margin-bottom:.15rem}
+.rail dd{margin:0 0 1rem;font-size:.92rem;line-height:1.45;padding-bottom:1rem;border-bottom:1px solid var(--line-soft)}
+.rail dd:last-of-type{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.coord{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--violet-lite);font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--amber);margin-right:.5rem}
+@media (prefers-reduced-motion:no-preference){.dot{animation:beat 2.8s ease-in-out 1s 3}}
+@keyframes beat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.78)}}
+
+/* ---------- showcase panel ---------- */
+.showcase{margin-top:clamp(3rem,7vw,5rem);position:relative}
+.showcase__glow{
+  border-radius:calc(var(--r) + 10px);
+  padding:clamp(.75rem,2.5vw,1.5rem);
+  background:linear-gradient(170deg,rgba(139,92,246,.85),rgba(139,92,246,.35) 45%,rgba(139,92,246,.12));
+}
+.win{background:#0E0E13;border-radius:var(--r);overflow:hidden;border:1px solid #23232D}
+.win__bar{display:flex;align-items:center;gap:.5rem;padding:.7rem .9rem;border-bottom:1px solid #1E1E27;background:#121219}
+.win__bar b{width:10px;height:10px;border-radius:50%;background:#2E2E3A;display:block}
+.win__bar span{
+  margin-left:.6rem;font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--muted);
+}
+.win__body{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:720px){.win__body{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}}
+.map{
+  position:relative;min-height:230px;
+  background:
+    linear-gradient(rgba(139,92,246,.07) 1px,transparent 1px) 0 0/34px 34px,
+    linear-gradient(90deg,rgba(139,92,246,.07) 1px,transparent 1px) 0 0/34px 34px,
+    radial-gradient(60% 60% at 50% 50%,rgba(139,92,246,.1),transparent 70%),
+    #0C0C11;
+}
+.map__pin{position:absolute;left:46%;top:48%;width:14px;height:14px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 6px rgba(139,92,246,.2),0 0 22px rgba(139,92,246,.75)}
+.map__label{
+  position:absolute;left:1rem;bottom:1rem;font-family:"JetBrains Mono",monospace;
+  font-size:.78rem;color:var(--violet-lite);background:rgba(11,11,15,.75);padding:.3rem .55rem;border-radius:6px;
+}
+.ctrl{padding:1.1rem 1.15rem;border-top:1px solid #1E1E27;display:grid;gap:.85rem;align-content:start}
+@media (min-width:720px){.ctrl{border-top:0;border-left:1px solid #1E1E27}}
+.ctrl__row{display:flex;align-items:center;justify-content:space-between;gap:1rem;font-family:"JetBrains Mono",monospace;font-size:.76rem}
+.ctrl__row span:first-child{color:var(--muted)}
+.ctrl__row span:last-child{color:var(--ink)}
+.stick{
+  width:104px;height:104px;border-radius:50%;margin:.25rem auto .1rem;
+  background:radial-gradient(circle at 50% 50%,#17171F,#101016);
+  border:1px solid #262630;display:grid;place-items:center;
+}
+.stick i{width:38px;height:38px;border-radius:50%;background:var(--violet);box-shadow:0 6px 18px rgba(139,92,246,.45);display:block}
+.caption{margin:.9rem 0 0;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:var(--muted);text-align:center}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(3.5rem,8vw,6rem)}
+.eyebrow{
+  display:flex;align-items:center;gap:.55rem;
+  font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;
+  color:var(--muted);margin:0 0 1rem;
+}
+.eyebrow i{width:7px;height:7px;background:var(--violet);display:block}
+h2{margin:0 0 1.75rem;font-weight:700;font-size:clamp(1.6rem,1.25rem + 1.5vw,2.5rem);letter-spacing:-.035em;line-height:1.14;max-width:22ch}
+.prose p{max-width:var(--measure);margin:0 0 1.1em;color:#C4C4D0}
+.prose p:last-child{margin-bottom:0}
+
+.split{display:grid;gap:clamp(2rem,5vw,3.5rem);grid-template-columns:1fr;align-items:center}
+@media (min-width:900px){.split{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+
+/* ---------- work ---------- */
+.work{display:grid;gap:1.1rem;grid-template-columns:1fr}
+@media (min-width:800px){.work{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(1.4rem,3vw,1.85rem);display:flex;flex-direction:column;gap:.7rem;
+  transition:border-color .22s ease,background-color .22s ease;
+}
+.card:hover{border-color:#3A3550;background:var(--panel-2)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+.card--wide{grid-column:1/-1}
+.card__head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.card h3{margin:0;font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
+.tag{
+  font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.08em;
+  padding:.25rem .55rem;border-radius:999px;border:1px solid currentColor;white-space:nowrap;
+}
+.tag--live{color:var(--violet-lite)}
+.tag--plan{color:var(--amber)}
+.tag--done{color:var(--muted)}
+.card p{margin:0;color:#B9B9C6;font-size:.98rem;line-height:1.6}
+.card .stack{
+  margin-top:auto;padding-top:.6rem;
+  font-family:"JetBrains Mono",monospace;font-size:.74rem;color:var(--muted);line-height:1.7;
+}
+.card .note{
+  margin:.25rem 0 0;padding-left:.8rem;border-left:2px solid var(--violet);
+  font-size:.88rem;color:var(--muted);
+}
+
+/* ---------- contact ---------- */
+.links{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:.5rem}
+.links a{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  text-decoration:none;padding:.95rem 1.15rem;
+  border:1px solid var(--line);border-radius:10px;background:var(--panel);
+  font-family:"JetBrains Mono",monospace;font-size:.9rem;
+  transition:border-color .22s ease,background-color .22s ease;
+}
+.links a:hover,.links a:focus-visible{border-color:var(--violet);background:rgba(139,92,246,.09)}
+.links em{font-style:normal;color:var(--muted);font-size:.72rem;letter-spacing:.1em}
+@media (prefers-reduced-motion:reduce){.links a{transition:none}}
+
+footer{border-top:1px solid var(--line);padding-block:2rem 3rem;margin-top:2rem}
+footer p{margin:0;font-family:"JetBrains Mono",monospace;font-size:.76rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<a class="skip" href="#utama">Lewati ke konten</a>
+
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="brand" href="#atas"><i></i>AS SHADIQ NUR</a>
+    <ul>
+      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#kerja">Kerja</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="atas">
+    <div class="hero__top">
+      <div>
+        <h1>Membongkar cara<br>sebuah sistem<br><span class="dim">benar-benar bekerja</span></h1>
+        <p class="lede">
+          Saya As Shadiq Nur, mahasiswa Teknik Informatika di UIN Alauddin Makassar.
+          Saya membangun perkakas untuk hal-hal yang tidak sepenuhnya mau diatur:
+          protokol perangkat, model yang berjalan di atas ponsel, dan naskah yang
+          harus patuh aturan.
+        </p>
+        <div class="cta">
+          <a class="btn btn--solid" href="#kerja">
+            Lihat kerja saya
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="mailto:asshadiqnur21@gmail.com">Hubungi saya</a>
+        </div>
+      </div>
+
+      <aside class="rail" aria-label="Status">
+        <p class="rail__head"><i></i>SAAT INI</p>
+        <dl>
+          <dt>Lokasi</dt>
+          <dd>Makassar, Indonesia<br><span class="coord">-5.1477, 119.4327</span></dd>
+          <dt>Sedang</dt>
+          <dd><span class="dot" aria-hidden="true"></span>Menyusun tugas akhir</dd>
+          <dt>Terbuka untuk</dt>
+          <dd>Kerja lepas dan kolaborasi riset</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase__glow">
+        <div class="win">
+          <div class="win__bar">
+            <b></b><b></b><b></b><span>Lokasi — sesi DVT aktif</span>
+          </div>
+          <div class="win__body">
+            <div class="map">
+              <div class="map__pin"></div>
+              <div class="map__label">-5.147700, 119.432700</div>
+            </div>
+            <div class="ctrl">
+              <div class="stick" aria-hidden="true"><i></i></div>
+              <div class="ctrl__row"><span>Kecepatan</span><span>Sepeda · 7 m/s</span></div>
+              <div class="ctrl__row"><span>Terowongan</span><span>Tersambung</span></div>
+              <div class="ctrl__row"><span>Keep-alive</span><span>3×/detik</span></div>
+              <div class="ctrl__row"><span>CPU saat diam</span><span>0%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Lokasi — aplikasi desktop simulasi lokasi iPhone yang saya tulis.</p>
+    </div>
+  </header>
+
+  <main id="utama">
+
+    <section class="split" aria-labelledby="tentang">
+      <div>
+        <p class="eyebrow"><i></i>TENTANG</p>
+        <h2 id="tentang">Pekerjaan menarik ada di asumsi yang belum diuji</h2>
+      </div>
+      <div class="prose">
+        <p>
+          Saya tertarik pada titik tempat perangkat lunak bersentuhan dengan sesuatu yang
+          tidak sepenuhnya ia kendalikan: sensor ponsel, wajah di depan kamera, aturan
+          penulisan yang ditetapkan sebuah fakultas. Di titik itu biasanya ada asumsi yang
+          tidak pernah diperiksa ulang.
+        </p>
+        <p>
+          Sebagian besar yang saya kerjakan berangkat dari kebutuhan sendiri atau kebutuhan
+          orang di sekitar kampus, lalu tumbuh menjadi perkakas yang benar-benar dipakai.
+          Saya menulis Python dan TypeScript, senang membaca spesifikasi protokol, dan lebih
+          suka menyelesaikan satu masalah sampai tuntas daripada menumpuk purwarupa.
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="kerja">
+      <p class="eyebrow"><i></i>KERJA</p>
+      <h2 id="kerja">Perkakas yang saya bangun dan pakai sendiri</h2>
+
+      <div class="work">
+
+        <article class="card card--wide">
+          <div class="card__head">
+            <h3>LKH KKN untuk iOS</h3>
+            <span class="tag tag--done">SELESAI · 2026</span>
+          </div>
+          <p>
+            Versi iOS dari aplikasi presensi mahasiswa KKN yang semula hanya tersedia di
+            Android. Verifikasi wajah berjalan sepenuhnya di perangkat memakai MobileFaceNet:
+            wajah dideteksi dari pratinjau kamera, dipotong dan diluruskan dari foto resolusi
+            penuh, lalu diubah menjadi vektor 192 dimensi yang dibandingkan dengan data pendaftaran.
+          </p>
+          <p>
+            Dalam proses pengerjaannya saya menemukan bahwa server memercayai begitu saja nilai
+            yang dikirim aplikasi — informasi perangkat, koordinat, dan hasil verifikasi wajah —
+            sehingga presensi dapat dipalsukan lewat proksi intersepsi tanpa menyentuh pengenalan
+            wajahnya sama sekali.
+          </p>
+          <p class="note">Temuan disusun menjadi laporan dan disampaikan lebih dahulu secara tertutup kepada pengelola sistem kampus.</p>
+          <p class="stack">React Native · Expo · TypeScript · VisionCamera · TensorFlow Lite</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3>Lokasi</h3>
+            <span class="tag tag--live">DIPAKAI · 2026</span>
+          </div>
+          <p>
+            Aplikasi desktop untuk menyimulasikan lokasi iPhone dari laptop Windows saat menguji
+            fitur yang bergantung pada GPS. Terowongan dan sesi DVT dinyalakan sendiri oleh
+            aplikasi, tanpa langkah manual di terminal.
+          </p>
+          <p>
+            Kendalinya joystick empat kecepatan, klik peta, dan masukan koordinat langsung.
+            Pembaruan label hanya terjadi saat digit yang terlihat berubah dan gelung gerak
+            berhenti saat joystick diam, sehingga CPU tidak terpakai ketika aplikasi menganggur.
+          </p>
+          <p class="stack">Python · Tkinter · pymobiledevice3 · tkintermapview</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3>Pemeriksa naskah PKTI</h3>
+            <span class="tag tag--live">DIKERJAKAN · 2026</span>
+          </div>
+          <p>
+            Mahasiswa mengunggah proposal atau skripsi dalam bentuk DOCX, lalu sistem memeriksanya
+            terhadap Pedoman Karya Tulis Ilmiah UIN Alauddin Makassar dalam tiga lapis: format
+            dokumen, ragam bahasa, dan kelengkapan isi.
+          </p>
+          <p>
+            Pemeriksaan dilakukan langsung di atas struktur berkas Word, sehingga aturan tata letak
+            paragraf bisa diperiksa tanpa merusak medan sitasi Mendeley atau Zotero di dalam naskah.
+          </p>
+          <p class="stack">Python · OOXML · analisis dokumen</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3>Pipeline korpus penelitian</h3>
+            <span class="tag tag--done">SELESAI · 2026</span>
+          </div>
+          <p>
+            Alur pengumpulan teks publik dari Facebook, Instagram, X, dan Google News sebagai bahan
+            penelitian. Setiap dokumen dibawa bersama asal-usulnya: URL, platform, tanggal, penanda
+            unggahan, kode pengambilan, log, dan catatan setiap transformasi.
+          </p>
+          <p>
+            Syaratnya ketat sejak awal karena datanya dicantumkan dalam naskah dan harus bisa
+            ditelusuri ulang — hanya data publik sesuai ketentuan platform, tanpa membawa identitas
+            pengguna.
+          </p>
+          <p class="stack">Python · Apify · perunutan asal-usul data</p>
+        </article>
+
+        <article class="card">
+          <div class="card__head">
+            <h3>Layanan korpus mandiri</h3>
+            <span class="tag tag--plan">RENCANA</span>
+          </div>
+          <p>
+            Membuka pipeline di atas sebagai layanan web: peneliti lain menghubungkan akun Apify
+            miliknya sendiri, menjalankan pengumpulan dari peramban, dan menerima keluaran lengkap
+            dengan berkas asal-usul yang sama. Biaya dan data tetap di tangan masing-masing peneliti.
+          </p>
+          <p class="stack">Masih tahap rancangan</p>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="split" aria-labelledby="kontak">
+      <div>
+        <p class="eyebrow"><i></i>KONTAK</p>
+        <h2 id="kontak">Mari bicara soal sesuatu yang perlu dibangun</h2>
+        <p class="prose" style="max-width:48ch;color:#C4C4D0">
+          Punya pekerjaan yang butuh dikerjakan, atau ingin membahas sesuatu dari halaman ini?
+          Surel adalah cara tercepat menghubungi saya.
+        </p>
+      </div>
+      <ul class="links">
+        <li><a href="mailto:asshadiqnur21@gmail.com">asshadiqnur21@gmail.com <em>SUREL</em></a></li>
+        <li><a href="https://github.com/GieKAAA" rel="me noopener">github.com/GieKAAA <em>KODE</em></a></li>
+        <li><a href="https://instagram.com/hidhithere" rel="me noopener">@hidhithere <em>INSTAGRAM</em></a></li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Dirancang dan ditulis sendiri · Makassar, 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>
