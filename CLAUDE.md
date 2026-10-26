@@ -65,7 +65,18 @@ Skrip inline di akhir `index.html` menjalankan beberapa interaksi: demo Lokasi p
 panel proyek Lokasi (joystick dapat diseret atau digerakkan dengan tombol panah,
 peta dapat diklik), tahapan verifikasi wajah LKH KKN, tab laporan pemeriksa PKTI,
 pilihan platform pada rekaman asal-usul korpus, tombol salin surel, jam WITA,
-penanda menu aktif, dan animasi muncul saat digulir.
+sorotan menu yang meluncur ke menu yang ditunjuk atau yang sedang dibaca, angka 192
+yang menghitung naik, dan animasi muncul saat digulir.
+
+Bulan pada hero bergerak dengan beberapa cara:
+
+- Sisi terangnya mengikuti kursor, seolah kursor adalah matahari, sehingga fasenya
+  berubah. Tanpa tetikus, fasenya berubah mengikuti guliran halaman.
+- Bayangan bulan berada pada elemen `.moon__shade` di luar SVG dan dikendalikan
+  oleh variabel `--lx`, `--ly`, dan `--k`, agar perubahan cahaya tidak menggambar
+  ulang filter SVG. Gelung animasinya berbasis waktu dan berhenti saat cahaya tenang.
+- Bulan melayang perlahan, pendarnya berdenyut, bintang berkelip, sesekali ada
+  bintang jatuh, dan bulan bergerak paralaks saat digulir.
 
 - Situs harus tetap utuh tanpa JavaScript. Kelas `js` pada `html` dipasang oleh
   skrip kecil di `head`; gaya yang menyembunyikan konten hanya berlaku di bawahnya.

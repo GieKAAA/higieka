@@ -89,22 +89,30 @@ button{font:inherit;color:inherit}
 }
 
 /* ---------- floating navigation ---------- */
-.pill-nav{position:fixed;top:1.1rem;left:50%;transform:translateX(-50%);z-index:50}
-.pill-nav ul{
-  list-style:none;margin:0;padding:.3rem;display:flex;gap:.2rem;border-radius:999px;
+.pill-nav{
+  position:fixed;top:1.1rem;left:50%;transform:translateX(-50%);z-index:50;
+  padding:.3rem;border-radius:999px;
   background:rgba(12,16,26,.55);border:1px solid rgba(255,255,255,.12);
   -webkit-backdrop-filter:blur(16px) saturate(1.2);backdrop-filter:blur(16px) saturate(1.2);
   box-shadow:0 12px 30px -14px rgba(0,0,0,.7);
 }
+.pill-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:.2rem}
 .pill-nav a{
-  display:block;padding:.5rem 1.05rem;border-radius:999px;text-decoration:none;
+  position:relative;z-index:1;display:block;padding:.5rem 1.05rem;border-radius:999px;text-decoration:none;
   font-size:.88rem;font-weight:500;color:rgba(238,241,246,.82);transition:background-color .2s ease,color .2s ease;
 }
 .pill-nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .pill-nav a[aria-current]{color:#fff;background:rgba(255,255,255,.15)}
+/* with scripts, one highlight slides between the links instead */
+.js .pill-nav a:hover,.js .pill-nav a[aria-current]{background:transparent}
+.pill-nav__glow{
+  position:absolute;top:.3rem;bottom:.3rem;left:0;width:0;border-radius:999px;pointer-events:none;
+  background:rgba(255,255,255,.15);opacity:0;
+  transition:transform .45s cubic-bezier(.3,1.25,.4,1),width .45s cubic-bezier(.3,1.25,.4,1),opacity .25s ease;
+}
 @media (max-width:720px){.pill-nav{left:auto;right:var(--gut);transform:none}.pill-nav a{padding:.5rem .8rem}}
-@media (prefers-reduced-motion:reduce){.pill-nav a{transition:none}}
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.pill-nav ul{background:rgba(14,18,28,.94)}}
+@media (prefers-reduced-motion:reduce){.pill-nav a,.pill-nav__glow{transition:none}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.pill-nav{background:rgba(14,18,28,.94)}}
 
 /* ---------- hero: night sky and moon ---------- */
 .hero{
@@ -148,13 +156,46 @@ button{font:inherit;color:inherit}
 }
 /* sized by height too, so the moon never slides under the glass cards on short screens */
 .moon{position:absolute;z-index:-1;width:min(52vmin,560px,calc(100svh - 25rem));aspect-ratio:1;top:clamp(5rem,10vh,8.5rem);right:clamp(1.5rem,10vw,11rem)}
-.moon::before{
+.moon__body{position:relative;width:100%;height:100%}
+.moon__body::before{
   content:"";position:absolute;inset:-38%;border-radius:50%;pointer-events:none;
   background:radial-gradient(closest-side,rgba(165,192,255,.2),rgba(165,192,255,.06) 52%,transparent);
 }
 .moon svg{position:relative;display:block;width:100%;height:100%}
-@media (prefers-reduced-motion:no-preference){.moon{animation:terbit 1.8s cubic-bezier(.2,.7,.2,1) both}}
-@keyframes terbit{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+/* the terminator lives outside the SVG, so moving the light never re-runs its filters */
+.moon__shade{
+  position:absolute;inset:2.2%;border-radius:50%;  /* a hair wider than the disc, so no lit rim shows */
+  /* --k (0 to 1) deepens the shadow toward a crescent as the light swings to the edge */
+  background:radial-gradient(ellipse 94.7% 94.7% at var(--lx,33%) var(--ly,29%),
+    rgba(6,10,20,0) calc(62% - var(--k,0) * 24%),rgba(6,10,20,.5) calc(82% - var(--k,0) * 24%),rgba(6,10,20,.92) calc(100% - var(--k,0) * 18%));
+}
+@media (prefers-reduced-motion:no-preference){
+  .moon__body{animation:terbit 1.8s cubic-bezier(.2,.7,.2,1) both,apung 11s ease-in-out 1.8s infinite}
+  .moon__body::before{animation:napas 7s ease-in-out infinite}
+}
+@keyframes terbit{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}
+@keyframes apung{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes napas{0%,100%{opacity:.7}50%{opacity:1}}
+
+.star{
+  position:absolute;width:var(--s,2px);height:var(--s,2px);border-radius:50%;opacity:.75;
+  background:#EEF2FF;box-shadow:0 0 6px rgba(200,215,255,.8);
+}
+.meteor{
+  position:absolute;top:15%;left:56%;width:150px;height:1.5px;border-radius:2px;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(235,242,255,.95));
+}
+@media (prefers-reduced-motion:no-preference){
+  .star{animation:kerlip var(--t,5s) ease-in-out var(--d,0s) infinite}
+  .meteor{animation:meteor 16s linear 4s infinite}
+}
+@keyframes kerlip{0%,100%{opacity:.85}50%{opacity:.12}}
+@keyframes meteor{
+  0%{opacity:0;transform:rotate(150deg) translateX(0)}
+  1.2%{opacity:1}
+  5.5%{opacity:0;transform:rotate(150deg) translateX(440px)}
+  100%{opacity:0;transform:rotate(150deg) translateX(440px)}
+}
 
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.35rem}
 .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:#fff;font-weight:700;font-size:1rem;letter-spacing:-.01em}
@@ -181,6 +222,14 @@ button{font:inherit;color:inherit}
   .hero__inner{padding-top:calc(6rem + 64vw)}
 }
 .hero__text{max-width:42rem}
+@media (prefers-reduced-motion:no-preference){
+  .hero__text>*,.cards>*{animation:masuk .9s cubic-bezier(.2,.7,.2,1) both}
+  .hero__text>:nth-child(2){animation-delay:.12s}
+  .hero__text>:nth-child(3){animation-delay:.24s}
+  .cards>:nth-child(1){animation-delay:.4s}
+  .cards>:nth-child(2){animation-delay:.52s}
+}
+@keyframes masuk{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
 .kicker{margin:0 0 1.2rem;font-size:.95rem;font-weight:500;color:rgba(232,237,246,.78)}
 h1{font-size:clamp(2.3rem,1.2rem + 3.6vw,4.1rem);line-height:1.06;letter-spacing:-.04em;color:#fff}
 
@@ -207,11 +256,14 @@ h1{font-size:clamp(2.3rem,1.2rem + 3.6vw,4.1rem);line-height:1.06;letter-spacing
   background:rgba(12,16,26,.55);border:1px solid rgba(255,255,255,.13);
   -webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
   box-shadow:0 24px 50px -24px rgba(0,0,0,.75);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s ease,background-color .35s ease;
 }
+.glass:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.24);background:rgba(16,21,33,.62)}
+@media (prefers-reduced-motion:reduce){.glass{transition:none}.glass:hover{transform:none}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:rgba(14,18,28,.92)}}
 .glass p{margin:0}
 .stat{display:flex;flex-direction:column}
-.stat__num{font-family:"JetBrains Mono",monospace;font-weight:300;font-size:3.4rem;line-height:1;letter-spacing:-.05em;color:#fff}
+.stat__num{font-family:"JetBrains Mono",monospace;font-weight:300;font-size:3.4rem;line-height:1;letter-spacing:-.05em;color:#fff;font-variant-numeric:tabular-nums}
 .stat__text{margin-top:2rem !important;font-size:.88rem;line-height:1.55}
 .stat a{margin-top:.8rem;font-size:.82rem;font-weight:600;color:var(--accent-lite);text-underline-offset:.25em}
 .now__head{display:flex;align-items:center;gap:.55rem;font-size:.82rem;font-weight:600;color:#fff;padding-bottom:.85rem;margin-bottom:.85rem !important;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -443,6 +495,7 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
 <a class="skip" href="#utama">Lewati ke konten</a>
 
 <nav class="pill-nav" aria-label="Navigasi utama">
+  <span class="pill-nav__glow" aria-hidden="true"></span>
   <ul>
     <li><a href="#tentang">Tentang</a></li>
     <li><a href="#proyek">Proyek</a></li>
@@ -451,8 +504,25 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
 </nav>
 
 <header class="hero" id="atas">
-  <div class="sky" aria-hidden="true"></div>
+  <div class="sky" aria-hidden="true">
+    <i class="star" style="left:60.9%;top:46.8%;--s:1.5px;--t:6.9s;--d:-4.7s"></i>
+    <i class="star" style="left:26.2%;top:6.1%;--s:2px;--t:4.0s;--d:-2.8s"></i>
+    <i class="star" style="left:25.9%;top:35.1%;--s:2px;--t:3.6s;--d:-1.3s"></i>
+    <i class="star" style="left:29.0%;top:57.1%;--s:2.5px;--t:4.1s;--d:-4.8s"></i>
+    <i class="star" style="left:15.9%;top:39.4%;--s:2px;--t:4.0s;--d:-5.8s"></i>
+    <i class="star" style="left:3.5%;top:48.6%;--s:2px;--t:7.0s;--d:-1.7s"></i>
+    <i class="star" style="left:92.4%;top:34.8%;--s:2px;--t:4.2s;--d:-5.8s"></i>
+    <i class="star" style="left:21.3%;top:59.9%;--s:2.5px;--t:4.7s;--d:-2.2s"></i>
+    <i class="star" style="left:18.4%;top:11.6%;--s:1.5px;--t:4.8s;--d:-4.9s"></i>
+    <i class="star" style="left:57.5%;top:38.2%;--s:2px;--t:3.8s;--d:-2.1s"></i>
+    <i class="star" style="left:31.5%;top:44.1%;--s:2px;--t:5.4s;--d:-4.2s"></i>
+    <i class="star" style="left:8.3%;top:60.5%;--s:1.5px;--t:7.3s;--d:-2.1s"></i>
+    <i class="star" style="left:40.6%;top:35.4%;--s:2.5px;--t:5.0s;--d:-3.5s"></i>
+    <i class="star" style="left:3.8%;top:5.8%;--s:2px;--t:6.0s;--d:-5.7s"></i>
+    <i class="meteor"></i>
+  </div>
   <div class="moon" aria-hidden="true">
+   <div class="moon__body">
     <svg viewBox="0 0 400 400">
       <defs>
         <radialGradient id="bulan-cahaya" cx="40%" cy="36%" r="70%">
@@ -460,12 +530,6 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
           <stop offset=".55" stop-color="#E7E4DB"/>
           <stop offset=".85" stop-color="#CFCDC7"/>
           <stop offset="1" stop-color="#ADAFB5"/>
-        </radialGradient>
-        <!-- curved terminator: darkens the lower-right limb along the sphere -->
-        <radialGradient id="bulan-bayang" cx="34%" cy="30%" r="90%">
-          <stop offset=".62" stop-color="#060A14" stop-opacity="0"/>
-          <stop offset=".82" stop-color="#060A14" stop-opacity=".5"/>
-          <stop offset="1" stop-color="#060A14" stop-opacity=".9"/>
         </radialGradient>
         <filter id="bulan-butir" x="0" y="0" width="100%" height="100%">
           <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="4" seed="4"/>
@@ -491,9 +555,10 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
           <ellipse cx="116" cy="284" rx="15" ry="13" opacity=".7"/>
         </g>
         <rect width="400" height="400" filter="url(#bulan-butir)" opacity=".22"/>
-        <rect width="400" height="400" fill="url(#bulan-bayang)"/>
       </g>
     </svg>
+    <div class="moon__shade"></div>
+   </div>
   </div>
 
   <div class="topbar wrap">
@@ -815,6 +880,96 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
     setInterval(tick, 15000);
   }
 
+  // one highlight slides to the hovered link, or back to the link of the section being read
+  function navGlow() {
+    const nav = document.querySelector('.pill-nav'), glow = nav.querySelector('.pill-nav__glow');
+    let hovered = null, placed = false;
+    const place = () => {
+      const a = hovered || nav.querySelector('a[aria-current]');
+      if (!a) { glow.style.opacity = 0; return; }
+      if (!placed) {  // first placement jumps into position instead of sliding in from the left
+        placed = true;
+        glow.style.transition = 'none';
+        requestAnimationFrame(() => requestAnimationFrame(() => { glow.style.transition = ''; }));
+      }
+      const n = nav.getBoundingClientRect(), r = a.getBoundingClientRect();
+      glow.style.width = r.width + 'px';
+      glow.style.transform = `translateX(${r.left - n.left - nav.clientLeft}px)`;
+      glow.style.opacity = 1;
+    };
+    nav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('pointerenter', () => { hovered = a; place(); });
+      a.addEventListener('focus', () => { hovered = a; place(); });
+      a.addEventListener('blur', () => { hovered = null; place(); });
+    });
+    nav.addEventListener('pointerleave', () => { hovered = null; place(); });
+    new MutationObserver(place).observe(nav, { subtree: true, attributeFilter: ['aria-current'] });
+    addEventListener('resize', place);
+  }
+
+  // the lit side of the moon turns toward the cursor, as if the cursor were the sun;
+  // without a mouse, scrolling through the hero moves the light instead
+  function moonLight() {
+    const hero = document.getElementById('atas'), moon = hero.querySelector('.moon'), shade = moon.querySelector('.moon__shade');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const REST = { x: 33, y: 29 };
+    let cur = { ...REST }, aim = { ...REST }, raf = 0, last = 0, mouse = false, queued = false;
+
+    const paint = () => {
+      shade.style.setProperty('--lx', cur.x.toFixed(2) + '%');
+      shade.style.setProperty('--ly', cur.y.toFixed(2) + '%');
+      shade.style.setProperty('--k', Math.min(Math.max((Math.hypot(cur.x - 50, cur.y - 50) - 27) / 15, 0), 1).toFixed(3));
+    };
+    // time-based easing, so the light settles in about a second at any frame rate
+    const ease = t => {
+      const k = 1 - Math.exp(-Math.min(t - last, 100) / 150);
+      last = t;
+      cur.x += (aim.x - cur.x) * k;
+      cur.y += (aim.y - cur.y) * k;
+      paint();
+      raf = Math.abs(aim.x - cur.x) + Math.abs(aim.y - cur.y) > 0.1 ? requestAnimationFrame(ease) : 0;  // settled: stop
+    };
+    const light = (x, y) => {
+      aim = { x, y };
+      if (Math.abs(x - cur.x) + Math.abs(y - cur.y) <= 0.1) return;
+      if (still) { cur = { x, y }; paint(); return; }
+      if (!raf) { last = performance.now(); raf = requestAnimationFrame(ease); }
+    };
+
+    hero.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      mouse = true;
+      const r = moon.getBoundingClientRect();
+      const dx = e.clientX - r.left - r.width / 2, dy = e.clientY - r.top - r.height / 2;
+      const d = Math.hypot(dx, dy) || 1, reach = Math.min(d / r.width, 1) * 42;
+      light(50 + dx / d * reach, 50 + dy / d * reach);
+    });
+    hero.addEventListener('pointerleave', e => {
+      if (e.pointerType !== 'mouse') return;
+      mouse = false;
+      light(REST.x, REST.y);
+    });
+
+    const onScroll = () => {
+      queued = false;
+      const p = Math.min(Math.max(scrollY / hero.offsetHeight, 0), 1);
+      if (!still) moon.style.translate = `0 ${(scrollY * 0.3 * (p < 1)).toFixed(1)}px`;
+      if (!mouse) light(REST.x + p * 50, REST.y + p * 14);
+    };
+    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  }
+
+  function countUp() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const el = document.querySelector('.stat__num'), end = +el.textContent, start = performance.now() + 700;
+    const step = t => {
+      const k = Math.min(Math.max((t - start) / 1400, 0), 1);
+      el.textContent = Math.round(end * (1 - (1 - k) ** 3));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
   // Lokasi demo: the pin stays centred and the map moves under it, like the real app
   function lokasi() {
     const stick = document.getElementById('stick'), knob = stick.firstElementChild;
@@ -985,7 +1140,7 @@ footer p{margin:0;font-size:.85rem;color:var(--muted)}
   }
 
   // reveal runs first: if anything later fails, content must not stay hidden
-  [reveal, scrollSpy, clock, lokasi, vectors, segments, tabs, provenance, copyMail].forEach(init => {
+  [reveal, scrollSpy, navGlow, clock, moonLight, countUp, lokasi, vectors, segments, tabs, provenance, copyMail].forEach(init => {
     try { init(); } catch (err) { console.error(err); }
   });
 })();
