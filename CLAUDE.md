@@ -26,22 +26,31 @@ yang disengaja.
 
 ## Arah desain
 
-Tampilan mengacu pada gaya kiro.dev, atas permintaan pemilik situs. Warna aksen
-diganti dari ungu menjadi biru atas permintaan pemilik situs; jangan dikembalikan
-ke ungu.
+Atas permintaan pemilik situs, tampilan dirancang agar sederhana, elegan, dan
+berwibawa, serta tidak berkesan dibuat oleh AI. Warna aksen adalah biru; jangan
+dikembalikan ke ungu.
 
-- Latar nyaris hitam `#0B0B0F`, dengan gradien biru lembut di bagian atas halaman
+- Hero berupa langit malam penuh layar dengan bulan besar yang digambar sebagai
+  SVG inline (bukan foto). Judul besar di kiri bawah, pil surel putih, dan dua
+  kartu kaca (`.glass`, `backdrop-filter`) di kanan bawah
+- Navigasi berupa pil kaca yang melayang di bagian atas layar
+- Bagian di bawah hero memakai neumorphism gelap di atas latar `#151A24`:
+  permukaan timbul (`--raise`, `.surface`) dan sumur cekung (`--inset`, `.well`)
+  dengan cahaya dari kiri atas. Tombol yang aktif tampil tertekan (`--inset-sm`)
 - Aksen utama biru `#3B82F6`, varian terang `#93C5FD`, varian gelap `#2563EB`
   untuk latar tombol bertulisan putih (aksen utama tidak memenuhi kontras AA)
 - Amber `#F2A93B` khusus sebagai penanda status aktif
-- Judul memakai JetBrains Mono tebal dengan tracking rapat; badan teks memakai Inter
-- Panel bersudut membulat dengan bingkai gradien biru
+- Seluruh teks memakai Plus Jakarta Sans; JetBrains Mono hanya untuk data seperti
+  angka, koordinat, kode, dan daftar teknologi
 
-Warna ditetapkan sebagai variabel pada `:root` (`--accent`, `--accent-rgb`,
-`--accent-lite`, `--accent-deep`); gunakan variabel tersebut, bukan nilai mentah.
+Warna dan bayangan ditetapkan sebagai variabel pada `:root` (`--accent`,
+`--accent-rgb`, `--accent-lite`, `--accent-deep`, `--raise`, `--inset`, dan
+seterusnya); gunakan variabel tersebut, bukan nilai mentah.
 
-Palet amber dan ritme antarmuka diambil dari aplikasi desktop "Lokasi" buatan
-pemilik situs, agar tampilan situs selaras dengan karyanya sendiri.
+Hindari pola yang lazim pada halaman buatan AI: label kecil berkotak dengan huruf
+kapital renggang, bingkai jendela tiruan bertitik tiga, judul aforistik, tanda pisah
+panjang, dan daftar bertiga yang berulang. Judul bagian cukup berupa kata biasa
+seperti "Tentang", "Proyek", dan "Kontak".
 
 Ketentuan kualitas yang harus dipertahankan pada setiap perubahan:
 
@@ -53,10 +62,10 @@ Ketentuan kualitas yang harus dipertahankan pada setiap perubahan:
 ## Interaksi dan visual proyek
 
 Skrip inline di akhir `index.html` menjalankan beberapa interaksi: demo Lokasi pada
-hero (joystick dapat diseret atau digerakkan dengan tombol panah, peta dapat
-diklik), tahapan verifikasi wajah LKH KKN, tab laporan pemeriksa PKTI, pilihan
-platform pada rekaman asal-usul korpus, tombol salin surel, jam WITA, penanda
-menu aktif, dan animasi muncul saat digulir.
+panel proyek Lokasi (joystick dapat diseret atau digerakkan dengan tombol panah,
+peta dapat diklik), tahapan verifikasi wajah LKH KKN, tab laporan pemeriksa PKTI,
+pilihan platform pada rekaman asal-usul korpus, tombol salin surel, jam WITA,
+penanda menu aktif, dan animasi muncul saat digulir.
 
 - Situs harus tetap utuh tanpa JavaScript. Kelas `js` pada `html` dipasang oleh
   skrip kecil di `head`; gaya yang menyembunyikan konten hanya berlaku di bawahnya.
