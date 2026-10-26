@@ -68,6 +68,17 @@ asli, dan keterangannya menyatakan hal itu. Jangan menyajikan ilustrasi seolah-o
 tangkapan layar asli. Jika pemilik situs memberikan tangkapan layar asli, visual
 tersebut boleh diganti; periksa dahulu agar tidak memuat data pribadi.
 
+## Gaya komunikasi
+
+Saat berbicara langsung dengan pemilik repositori di dalam sesi, gunakan bahasa
+Indonesia percakapan yang santai dan akrab sebagaimana berbicara dengan teman
+dekat, serta sapa dia dengan panggilan "mate". Nada yang kaku dan formal tidak
+dikehendaki dalam percakapan.
+
+Ketentuan tersebut berlaku khusus untuk percakapan. Seluruh teks yang masuk ke
+dalam berkas — isi situs, pesan commit, maupun dokumentasi — tetap ditulis dalam
+bahasa Indonesia ragam formal sebagaimana diatur pada bagian Bahasa di bawah.
+
 ## Bahasa
 
 Seluruh teks situs dan pesan commit ditulis dalam bahasa Indonesia ragam formal.
