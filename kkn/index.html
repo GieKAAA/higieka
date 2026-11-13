@@ -128,7 +128,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 .info b{font-size:12px;color:var(--teks-2)}
 .info small{font-size:12px;color:var(--teks-2)}
 .baris{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.tombol{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid var(--garis-tegas);background:#fff;color:var(--teks);font-weight:600}
+.tombol{display:inline-flex;align-items:center;text-decoration:none;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid var(--garis-tegas);background:#fff;color:var(--teks);font-weight:600}
 .tombol.utama{border:0;padding:10px 20px;background:var(--hijau);color:#fff;font-weight:700}
 .tombol.bahaya{border:0;background:var(--jingga-tua);color:#fff;font-weight:700}
 .tombol.rapat{padding:8px 12px;font-size:13px}
@@ -177,7 +177,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   var S = {
     layar: 'ringkasan', angkatan: 'A', rentang: 'minggu', kelompok: 'kecamatan', tindak: 'absen',
     langkah: 1, jenis: 'peserta', berkas: null, saring: 'semua', lewati: false,
-    templatDiminta: false, hasil: '', tanyaBatal: null,
+    hasil: '', tanyaBatal: null,
     riwayat: [
       { id: 3, waktu: '2 hari lalu, 09.14', jenis: 'Lokasi', berkas: 'lokasi-contoh.xlsx', baru: 5, ubah: 1, lewat: 0, oleh: 'admin.contoh', status: 'Berhasil' },
       { id: 2, waktu: '5 hari lalu, 14.02', jenis: 'Pembimbing', berkas: 'pembimbing-contoh.xlsx', baru: 6, ubah: 0, lewat: 1, oleh: 'admin.contoh', status: 'Berhasil' },
@@ -395,8 +395,8 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       }).join('');
       isi = '<section class="kartu"><h2>1. Pilih jenis data</h2><div class="jenis" role="group" aria-label="Jenis data">' + jenis + '</div>' +
         '<div class="info"><b>Kolom lembar ' + J.nama + '</b><span>' + J.kolom.join(', ') + (J.kolomLain ? ', ' + J.kolomLain : '') + '</span><small>Tujuan: ' + J.tujuan + '</small></div>' +
-        '<div class="baris"><button type="button" class="tombol" data-a="templat">Unduh templat Excel</button>' +
-        (S.templatDiminta ? '<span role="status" class="kecil">Pada sistem sebenarnya, berkas templat terunduh di sini.</span>' : '') + '</div></section>' +
+        '<div class="baris"><a class="tombol" href="Templat-Impor-LKH-KKN.xlsx" download>Unduh templat Excel</a>' +
+        '<span class="kecil">Satu berkas memuat lembar Angkatan, Lokasi, Pembimbing, dan Peserta.</span></div></section>' +
         '<section class="kartu"><h2>2. Unggah berkas</h2><div class="unggah"><span class="tebal" style="font-weight:600">Berkas Excel atau CSV (.xlsx, .xls, .csv)</span>' +
         '<div class="baris"><input class="sr" id="berkas" type="file" accept=".xlsx,.xls,.csv"><label class="tombol" for="berkas">Pilih berkas</label>' +
         '<button type="button" class="tombol" data-a="contoh">Pakai berkas contoh</button></div>' +
@@ -482,8 +482,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     else if (a === 'rentang') atur({ rentang: v });
     else if (a === 'kelompok') atur({ kelompok: v });
     else if (a === 'tindak') atur({ tindak: v });
-    else if (a === 'jenis') atur({ jenis: v, berkas: null, saring: 'semua', lewati: false, templatDiminta: false });
-    else if (a === 'templat') atur({ templatDiminta: true });
+    else if (a === 'jenis') atur({ jenis: v, berkas: null, saring: 'semua', lewati: false });
     else if (a === 'contoh') atur({ berkas: IMPOR[S.jenis].contoh });
     else if (a === 'saring') atur({ saring: v });
     else if (a === 'langkah') { atur({ langkah: Number(v), saring: 'semua' }); utama.focus({ preventScroll: true }); }
@@ -498,7 +497,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       }, 'riwayat-buka');
     }
     else if (a === 'riwayat-buka') atur({ layar: 'riwayat', langkah: 1, berkas: null, lewati: false, saring: 'semua' }, 'layar:riwayat');
-    else if (a === 'impor-lagi') { atur({ langkah: 1, berkas: null, lewati: false, saring: 'semua', templatDiminta: false }); utama.focus({ preventScroll: true }); }
+    else if (a === 'impor-lagi') { atur({ langkah: 1, berkas: null, lewati: false, saring: 'semua' }); utama.focus({ preventScroll: true }); }
     else if (a === 'batal-minta') atur({ tanyaBatal: Number(v) }, 'batal-tidak');
     else if (a === 'batal-tidak') atur({ tanyaBatal: null });
     else if (a === 'batal-ya') {
