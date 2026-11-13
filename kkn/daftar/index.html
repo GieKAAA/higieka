@@ -122,8 +122,79 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;
 </div>
 <div class="isian">
 <label for="jurusan">Jurusan</label>
-<input id="jurusan" name="jurusan" type="text" maxlength="80" aria-describedby="jurusan-bantu" required>
-<small id="jurusan-bantu">Tulis nama lengkap jurusan tanpa singkatan, misalnya Teknik Informatika.</small>
+<select id="jurusan" name="jurusan" aria-describedby="jurusan-bantu" required>
+<option value="">Pilih jurusan</option>
+<optgroup label="Syariah dan Hukum">
+<option>Hukum Ekonomi Syariah</option>
+<option>Hukum Keluarga Islam</option>
+<option>Hukum Tatanegara</option>
+<option>Ilmu Falak</option>
+<option>Ilmu Hukum</option>
+<option>Perbandingan Mazhab dan Hukum</option>
+</optgroup>
+<optgroup label="Tarbiyah dan Keguruan">
+<option>Manajemen Pendidikan Islam</option>
+<option>Pendidikan Agama Islam</option>
+<option>Pendidikan Bahasa Arab</option>
+<option>Pendidikan Bahasa Inggris</option>
+<option>Pendidikan Biologi</option>
+<option>Pendidikan Fisika</option>
+<option>Pendidikan Guru Madrasah Ibtidaiyah</option>
+<option>Pendidikan Islam Anak Usia Dini</option>
+<option>Pendidikan Matematika</option>
+</optgroup>
+<optgroup label="Ushuluddin dan Filsafat">
+<option>Aqidah dan Filsafat Islam</option>
+<option>Hubungan Internasional</option>
+<option>Ilmu Al-Qur&#39;an dan Tafsir</option>
+<option>Ilmu Hadis</option>
+<option>Ilmu Politik</option>
+<option>Sosiologi Agama</option>
+<option>Studi Agama-Agama</option>
+</optgroup>
+<optgroup label="Adab dan Humaniora">
+<option>Bahasa dan Sastra Arab</option>
+<option>Bahasa dan Sastra Inggris</option>
+<option>Ilmu Perpustakaan</option>
+<option>Sejarah Peradaban Islam</option>
+</optgroup>
+<optgroup label="Dakwah dan Komunikasi">
+<option>Bimbingan dan Penyuluhan Islam</option>
+<option>Ilmu Komunikasi</option>
+<option>Jurnalistik</option>
+<option>Kesejahteraan Sosial</option>
+<option>Komunikasi dan Penyiaran Islam</option>
+<option>Manajemen Dakwah</option>
+<option>Manajemen Haji dan Umrah</option>
+<option>Pengembangan Masyarakat Islam</option>
+</optgroup>
+<optgroup label="Sains dan Teknologi">
+<option>Biologi</option>
+<option>Fisika</option>
+<option>Ilmu Peternakan</option>
+<option>Kimia</option>
+<option>Matematika</option>
+<option>Sistem Informasi</option>
+<option>Teknik Arsitektur</option>
+<option>Teknik Informatika</option>
+<option>Teknik Perencanaan Wilayah dan Kota</option>
+</optgroup>
+<optgroup label="Ekonomi dan Bisnis Islam">
+<option>Akuntansi</option>
+<option>Ekonomi Islam</option>
+<option>Ilmu Ekonomi</option>
+<option>Manajemen</option>
+<option>Perbankan Syariah</option>
+</optgroup>
+<optgroup label="Kedokteran dan Ilmu Kesehatan">
+<option>Farmasi</option>
+<option>Kebidanan</option>
+<option>Keperawatan</option>
+<option>Kesehatan Masyarakat</option>
+<option>Pendidikan Dokter</option>
+</optgroup>
+</select>
+<small id="jurusan-bantu">Pilih fakultas lebih dahulu; daftar jurusan menyesuaikan.</small>
 </div>
 </div>
 </div>
@@ -175,6 +246,30 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;
   var tanggal = document.getElementById('tanggal');
   tanggal.max = new Date().toISOString().slice(0, 10);
 
+  // Daftar jurusan mengikuti fakultas yang dipilih. Tanpa JavaScript, semua
+  // jurusan tetap tampil berkelompok per fakultas.
+  var fakultas = document.getElementById('fakultas');
+  var jurusan = document.getElementById('jurusan');
+  var kelompok = Array.prototype.slice.call(jurusan.getElementsByTagName('optgroup'));
+  function saring() {
+    kelompok.forEach(function (g) {
+      var cocok = !fakultas.value || g.label === fakultas.value;
+      g.hidden = !cocok;
+      g.disabled = !cocok;
+    });
+    var terpilih = jurusan.options[jurusan.selectedIndex];
+    if (terpilih && terpilih.parentNode.disabled) jurusan.value = '';
+  }
+  fakultas.addEventListener('change', saring);
+  jurusan.addEventListener('change', function () {
+    var terpilih = jurusan.options[jurusan.selectedIndex];
+    if (terpilih && terpilih.parentNode.tagName === 'OPTGROUP' && fakultas.value !== terpilih.parentNode.label) {
+      fakultas.value = terpilih.parentNode.label;
+      saring();
+    }
+  });
+  saring();
+
   var LABEL = [
     ['nama_lengkap', 'Nama lengkap'], ['nim', 'NIM'], ['jenis_kelamin', 'Jenis kelamin'],
     ['tempat_lahir', 'Tempat lahir'], ['tanggal_lahir', 'Tanggal lahir'], ['fakultas', 'Fakultas'],
@@ -183,8 +278,8 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    // Rapikan spasi supaya nama jurusan yang sama tidak terbaca sebagai dua jurusan.
-    ['nama', 'tempat', 'jurusan', 'hobi'].forEach(function (id) {
+    // Rapikan spasi berlebih pada isian yang diketik.
+    ['nama', 'tempat', 'hobi'].forEach(function (id) {
       var el = document.getElementById(id);
       el.value = el.value.replace(/\s+/g, ' ').trim();
     });
