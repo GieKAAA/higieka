@@ -158,6 +158,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 .angka-isian{display:flex;flex-wrap:wrap;gap:12px}
 .angka-isian .isian{flex:1 1 150px}
 .angka-isian input{min-height:44px;width:100%;padding:8px 12px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff;font-weight:600}
+.rujukan{border:1px solid var(--garis);border-radius:10px;padding:0 14px}
+.rujukan summary{min-height:44px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.rujukan .gulir{margin-bottom:12px}
+.rujukan p{margin-bottom:12px}
+.t-rujukan{min-width:640px}
+.t-rujukan [role="row"]{grid-template-columns:110px minmax(0,1.6fr) 90px minmax(0,1.5fr);padding:9px 12px}
 .tautan-sisi{display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:8px;color:#fff;font-weight:600;border:1px solid rgba(255,255,255,.3);text-decoration:none}
 .tautan-sisi:hover{color:#fff;background:rgba(255,255,255,.1)}
 .tautan-sisi:focus-visible{outline-color:#fff}
@@ -614,6 +620,20 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
+  // Lokasi KKN Angkatan 78 menurut Pengumuman Lokasi Mahasiswa KKN Angkatan 78
+  // Tahun 2026 (LP2M UIN Alauddin, 2 Maret 2026): 1.544 mahasiswa, 7 kabupaten,
+  // 21 kecamatan. Bahasa setempat menurut artikel Bahasa Bugis dan Bahasa
+  // Makassar di Wikipedia bahasa Indonesia; tingkatnya kabupaten, bukan kecamatan.
+  var WILAYAH_78 = [
+    ['Bone', "Ajangale, Amali, Mare'", 281, 'Bugis'],
+    ['Wajo', 'Pammana, Sabbangparu, Tanasitolo', 310, 'Bugis'],
+    ['Sidrap', 'Baranti, Duapitue, Panca Rijang', 188, 'Bugis'],
+    ['Barru', 'Pujananting, Tanete Riaja, Tanete Rilau', 182, 'Bugis'],
+    ['Maros', 'Camba, Cenrana, Mallawa', 203, 'Campuran Bugis dan Makassar'],
+    ['Pangkep', "Ma'rang, Mandalle, Segeri", 207, 'Campuran Bugis dan Makassar'],
+    ['Luwu', 'Kamanre, Larompong, Larompong Selatan', 173, 'Tidak tercatat sebagai wilayah Bugis atau Makassar']
+  ];
+
   var LENCANA = { baru: ['Baru', 'l-baru'], ubah: ['Diperbarui', 'l-ubah'], salah: ['Bermasalah', 'l-salah'] };
 
   function esc(s) {
@@ -830,7 +850,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       centang('a-prodi', 'prodi', 'Tidak ada dua peserta dari prodi yang sama dalam satu posko.') +
       centang('a-jk', 'jk', 'Laki-laki dan perempuan dibagi merata ke semua posko.') +
       centang('a-fak', 'fak', 'Peserta dari fakultas yang sama disebar ke posko yang berbeda sejauh mungkin.') +
-      '</div>' + peringatan +
+      '</div>' +
+      '<details class="rujukan"><summary>Rujukan wilayah bahasa: lokasi KKN Angkatan 78</summary>' +
+      '<div class="gulir"><div class="tabel t-rujukan" role="table" aria-label="Wilayah bahasa lokasi KKN Angkatan 78"><div role="row" class="judul"><span role="columnheader">Kabupaten</span><span role="columnheader">Kecamatan</span><span role="columnheader">Mahasiswa</span><span role="columnheader">Bahasa setempat</span></div>' +
+      WILAYAH_78.map(function (w) { return '<div role="row"><span role="cell" class="tebal">' + w[0] + '</span><span role="cell">' + esc(w[1]) + '</span><span role="cell" class="angka-rata">' + w[2] + '</span><span role="cell">' + w[3] + '</span></div>'; }).join('') +
+      '</div></div><p class="kecil">Lokasi dan jumlah mahasiswa: Pengumuman Lokasi Mahasiswa KKN Angkatan 78 Tahun 2026, LP2M UIN Alauddin Makassar, 2 Maret 2026 (1.544 mahasiswa, 21 kecamatan). Bahasa setempat: artikel Bahasa Bugis dan Bahasa Makassar di Wikipedia bahasa Indonesia; keterangannya per kabupaten, belum per kecamatan atau desa, sehingga perlu dipastikan ke pemerintah setempat atau dosen pembimbing lapangan.</p></details>' +
+      peringatan +
       '<div class="baris"><button type="button" class="tombol utama" data-a="acak">' + (H ? 'Acak ulang' : 'Acak penempatan') + '</button>' +
       (H ? '<button type="button" class="tombol" data-a="simpan-penempatan"' + (S.penempatanTersimpan ? ' disabled' : '') + '>Simpan penempatan</button>' +
         '<button type="button" class="tombol" data-a="unduh-penempatan">Unduh hasil (CSV)</button>' : '') + '</div>' +
