@@ -30,6 +30,12 @@ sendiri: satu berkas, memakai tampilannya sendiri (hijau, Inter), bukan gaya
 portofolio. Seluruh isinya data contoh dan halaman itu diberi `noindex`, serta
 tidak dicantumkan pada `sitemap.xml`. Jangan memasukkan data mahasiswa sungguhan.
 
+Halaman `/kkn/daftar/` adalah formulir uji coba pendaftaran KKN. Isiannya dikirim
+ke Netlify Forms dengan nama formulir `pendaftaran-kkn`; nama tiap isian
+(`nama_lengkap`, `nim`, `jurusan`, `bahasa_bugis`, dan seterusnya) dibaca oleh
+pengimpor di `/kkn/`, jadi jangan diubah tanpa menyesuaikan pengimpornya. Berkas
+pendaftar dibaca di peramban dan tidak pernah dikirim ke peladen.
+
 ## Arah desain
 
 Atas permintaan pemilik situs, tampilan dirancang agar sederhana, elegan, dan
