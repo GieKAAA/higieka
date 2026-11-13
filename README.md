@@ -14,6 +14,7 @@ selain berkas font yang dimuat dari Google Fonts.
 | `robots.txt`   | Izin perayapan mesin pencari                  |
 | `sitemap.xml`  | Peta situs                                    |
 | `kkn/index.html` | Rancangan dashboard admin LKH KKN (data contoh) |
+| `kkn/Templat-Impor-LKH-KKN.xlsx` | Templat Excel impor data, diunduh dari halaman rancangan |
 
 ## Menjalankan secara lokal
 
