@@ -15,6 +15,7 @@ selain berkas font yang dimuat dari Google Fonts.
 | `sitemap.xml`  | Peta situs                                    |
 | `kkn/index.html` | Rancangan dashboard admin LKH KKN (data contoh) |
 | `kkn/Templat-Impor-LKH-KKN.xlsx` | Templat Excel impor data, diunduh dari halaman rancangan |
+| `kkn/daftar/index.html` | Formulir uji coba pendaftaran KKN (Netlify Forms) |
 
 ## Menjalankan secara lokal
 

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pendaftaran KKN (uji coba)</title>
+<meta name="description" content="Formulir uji coba pendaftaran KKN. Belum menjadi pendaftaran resmi.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{
+  --hijau:#0B753A; --hijau-tua:#0F3D26; --hijau-teks:#0B5A2D;
+  --dasar:#F4F6F3; --kartu:#FFFFFF; --garis:#DDE3DF; --garis-tegas:#8A968F;
+  --teks:#17211B; --teks-2:#33413A; --teks-3:#4A554F; --sela:#EEF2EF;
+  --jingga-bg:#FCE6D2; --jingga:#5F2108; --ok-bg:#DDEFE3;
+  --judul:'Space Grotesk',Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--dasar);color:var(--teks);font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.5}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #1D4ED8;outline-offset:2px}
+a{color:var(--hijau-teks)}a:hover{color:#063D1E}
+h1,h2,p{margin:0}
+.atas{background:var(--hijau-tua);color:#fff;padding:20px 16px}
+.atas div{max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.atas b{font-family:var(--judul);font-size:20px}
+.atas a{color:#fff;font-size:13px}
+main{max-width:720px;margin:0 auto;padding:28px 16px 56px;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--judul);font-size:28px;line-height:1.2}
+.pengantar{color:var(--teks-3)}
+.catatan{padding:14px 16px;border-radius:10px;background:var(--jingga-bg);color:var(--jingga);font-size:14px;font-weight:500}
+.kartu{background:var(--kartu);border:1px solid var(--garis);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.kartu h2{font-size:17px}
+.dua{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.isian{display:flex;flex-direction:column;gap:6px;min-width:0}
+.isian label,legend{font-size:14px;font-weight:600;padding:0}
+.isian small,fieldset small{font-size:13px;color:var(--teks-3)}
+input[type=text],input[type=date],select{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pilihan{display:flex;flex-wrap:wrap;gap:8px}
+.pilihan label{display:flex;align-items:center;gap:8px;min-height:46px;padding:8px 14px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff;font-weight:500;cursor:pointer}
+.pilihan input{width:18px;height:18px;margin:0;accent-color:var(--hijau)}
+.pilihan label:has(input:checked){border-color:var(--hijau-tua);background:#EAF3ED;font-weight:600}
+.setuju{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.setuju input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--hijau)}
+.kirim{align-self:flex-start;min-height:48px;padding:12px 24px;border:0;border-radius:8px;background:var(--hijau);color:#fff;font-weight:700;cursor:pointer}
+.kirim:disabled{opacity:.5;cursor:progress}
+.galat{padding:14px 16px;border-radius:10px;background:var(--jingga-bg);color:var(--jingga);font-weight:600}
+.berhasil{background:var(--ok-bg);border-color:#B7D8C2}
+.berhasil h2{font-size:20px;color:var(--hijau-teks)}
+.rekap{margin:0;display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:6px 16px;font-size:14px}
+.rekap dt{color:var(--teks-3)}
+.rekap dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.sembunyi{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+<header class="atas"><div><b>LKH KKN</b><a href="/kkn/">Rancangan dashboard admin</a></div></header>
+<main>
+<div>
+<h1>Pendaftaran KKN</h1>
+<p class="pengantar">Isi data berikut dengan lengkap. Penempatan posko ditentukan panitia secara acak berdasarkan jurusan, jenis kelamin, dan penguasaan bahasa daerah.</p>
+</div>
+<p class="catatan">Formulir uji coba. Formulir ini belum menjadi pendaftaran resmi KKN.</p>
+
+<form id="formulir" name="pendaftaran-kkn" method="POST" action="/kkn/daftar/" data-netlify="true" netlify-honeypot="situs">
+<input type="hidden" name="form-name" value="pendaftaran-kkn">
+<p class="sembunyi"><label>Kosongkan kolom ini <input name="situs" tabindex="-1" autocomplete="off"></label></p>
+
+<div class="kartu">
+<h2>Data diri</h2>
+<div class="isian">
+<label for="nama">Nama lengkap</label>
+<input id="nama" name="nama_lengkap" type="text" autocomplete="name" maxlength="120" required>
+</div>
+<div class="dua">
+<div class="isian">
+<label for="nim">NIM</label>
+<input id="nim" name="nim" type="text" inputmode="numeric" pattern="[0-9]{8,15}" maxlength="15" aria-describedby="nim-bantu" required>
+<small id="nim-bantu">Angka saja, 8 sampai 15 digit.</small>
+</div>
+<fieldset>
+<legend>Jenis kelamin</legend>
+<div class="pilihan">
+<label><input type="radio" name="jenis_kelamin" value="L" required> Laki-laki</label>
+<label><input type="radio" name="jenis_kelamin" value="P"> Perempuan</label>
+</div>
+</fieldset>
+</div>
+<div class="dua">
+<div class="isian">
+<label for="tempat">Tempat lahir</label>
+<input id="tempat" name="tempat_lahir" type="text" maxlength="80" required>
+</div>
+<div class="isian">
+<label for="tanggal">Tanggal lahir</label>
+<input id="tanggal" name="tanggal_lahir" type="date" min="1970-01-01" required>
+</div>
+</div>
+</div>
+
+<div class="kartu" style="margin-top:20px">
+<h2>Akademik</h2>
+<div class="dua">
+<div class="isian">
+<label for="fakultas">Fakultas</label>
+<select id="fakultas" name="fakultas" required>
+<option value="">Pilih fakultas</option>
+<option>Syariah dan Hukum</option>
+<option>Tarbiyah dan Keguruan</option>
+<option>Ushuluddin dan Filsafat</option>
+<option>Adab dan Humaniora</option>
+<option>Dakwah dan Komunikasi</option>
+<option>Sains dan Teknologi</option>
+<option>Kedokteran dan Ilmu Kesehatan</option>
+<option>Ekonomi dan Bisnis Islam</option>
+</select>
+</div>
+<div class="isian">
+<label for="jurusan">Jurusan</label>
+<input id="jurusan" name="jurusan" type="text" maxlength="80" aria-describedby="jurusan-bantu" required>
+<small id="jurusan-bantu">Tulis nama lengkap jurusan tanpa singkatan, misalnya Teknik Informatika.</small>
+</div>
+</div>
+</div>
+
+<div class="kartu" style="margin-top:20px">
+<h2>Minat dan bahasa</h2>
+<div class="isian">
+<label for="hobi">Hobi</label>
+<input id="hobi" name="hobi" type="text" maxlength="120" required>
+</div>
+<fieldset>
+<legend>Penguasaan bahasa Bugis</legend>
+<div class="pilihan">
+<label><input type="radio" name="bahasa_bugis" value="Tidak bisa" required> Tidak bisa</label>
+<label><input type="radio" name="bahasa_bugis" value="Pasif"> Pasif</label>
+<label><input type="radio" name="bahasa_bugis" value="Aktif"> Aktif</label>
+</div>
+</fieldset>
+<fieldset>
+<legend>Penguasaan bahasa Makassar</legend>
+<div class="pilihan">
+<label><input type="radio" name="bahasa_makassar" value="Tidak bisa" required> Tidak bisa</label>
+<label><input type="radio" name="bahasa_makassar" value="Pasif"> Pasif</label>
+<label><input type="radio" name="bahasa_makassar" value="Aktif"> Aktif</label>
+</div>
+<small>Pasif berarti mengerti saat mendengar tetapi belum lancar berbicara. Aktif berarti lancar berbicara. Jawaban ini dipakai untuk penempatan di daerah berbahasa Bugis atau Makassar.</small>
+</fieldset>
+</div>
+
+<div class="kartu" style="margin-top:20px">
+<label class="setuju"><input type="checkbox" name="persetujuan" value="Ya" required><span>Saya menyatakan data di atas benar dan menyetujui penggunaannya untuk keperluan pendaftaran dan penempatan KKN.</span></label>
+<p id="galat" class="galat" role="alert" hidden></p>
+<button id="kirim" class="kirim" type="submit">Kirim pendaftaran</button>
+</div>
+</form>
+
+<section id="berhasil" class="kartu berhasil" tabindex="-1" hidden>
+<h2>Pendaftaran terkirim</h2>
+<p>Data berikut telah diterima. Penempatan posko diumumkan oleh panitia.</p>
+<dl class="rekap" id="rekap"></dl>
+</section>
+</main>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('formulir');
+  var galat = document.getElementById('galat');
+  var tombol = document.getElementById('kirim');
+  var tanggal = document.getElementById('tanggal');
+  tanggal.max = new Date().toISOString().slice(0, 10);
+
+  var LABEL = [
+    ['nama_lengkap', 'Nama lengkap'], ['nim', 'NIM'], ['jenis_kelamin', 'Jenis kelamin'],
+    ['tempat_lahir', 'Tempat lahir'], ['tanggal_lahir', 'Tanggal lahir'], ['fakultas', 'Fakultas'],
+    ['jurusan', 'Jurusan'], ['hobi', 'Hobi'], ['bahasa_bugis', 'Bahasa Bugis'], ['bahasa_makassar', 'Bahasa Makassar']
+  ];
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    // Rapikan spasi supaya nama jurusan yang sama tidak terbaca sebagai dua jurusan.
+    ['nama', 'tempat', 'jurusan', 'hobi'].forEach(function (id) {
+      var el = document.getElementById(id);
+      el.value = el.value.replace(/\s+/g, ' ').trim();
+    });
+    if (!form.reportValidity()) return;
+    var data = new FormData(form);
+    galat.hidden = true;
+    tombol.disabled = true;
+    tombol.textContent = 'Mengirim…';
+    fetch(form.getAttribute('action'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString()
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      var rekap = document.getElementById('rekap');
+      rekap.textContent = '';
+      LABEL.forEach(function (l) {
+        var dt = document.createElement('dt'), dd = document.createElement('dd');
+        dt.textContent = l[1];
+        dd.textContent = l[0] === 'jenis_kelamin' ? (data.get(l[0]) === 'L' ? 'Laki-laki' : 'Perempuan') : data.get(l[0]);
+        rekap.appendChild(dt); rekap.appendChild(dd);
+      });
+      form.hidden = true;
+      var berhasil = document.getElementById('berhasil');
+      berhasil.hidden = false;
+      berhasil.focus();
+    }).catch(function (err) {
+      galat.textContent = 'Pendaftaran belum tersimpan (' + err.message + '). Periksa sambungan internet lalu coba lagi. Bila tetap gagal, penyimpanan formulir pada situs ini belum diaktifkan.';
+      galat.hidden = false;
+      tombol.disabled = false;
+      tombol.textContent = 'Kirim pendaftaran';
+    });
+  });
+})();
+</script>
+</body>
+</html>
