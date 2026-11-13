@@ -19,10 +19,16 @@ Hosting: Netlify, deploy otomatis dari branch `main`, publish directory `.`.
 | `netlify.toml` | Konfigurasi deploy dan tajuk keamanan       |
 | `robots.txt`   | Izin perayapan mesin pencari                |
 | `sitemap.xml`  | Peta situs                                  |
+| `kkn/index.html` | Rancangan dashboard admin LKH KKN          |
 
 Seluruh CSS dan JavaScript berada inline di dalam `index.html`. Jangan memecahnya
 menjadi berkas terpisah tanpa diminta; sifat satu-berkas adalah keputusan desain
 yang disengaja.
+
+Halaman `/kkn/` adalah rancangan antarmuka dashboard admin LKH KKN yang berdiri
+sendiri: satu berkas, memakai tampilannya sendiri (hijau, Inter), bukan gaya
+portofolio. Seluruh isinya data contoh dan halaman itu diberi `noindex`, serta
+tidak dicantumkan pada `sitemap.xml`. Jangan memasukkan data mahasiswa sungguhan.
 
 ## Arah desain
 

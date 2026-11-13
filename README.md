@@ -13,6 +13,7 @@ selain berkas font yang dimuat dari Google Fonts.
 | `netlify.toml` | Konfigurasi deploy dan tajuk keamanan         |
 | `robots.txt`   | Izin perayapan mesin pencari                  |
 | `sitemap.xml`  | Peta situs                                    |
+| `kkn/index.html` | Rancangan dashboard admin LKH KKN (data contoh) |
 
 ## Menjalankan secara lokal
 
