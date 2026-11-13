@@ -208,7 +208,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     layar: 'ringkasan', angkatan: 'A', rentang: 'minggu', kelompok: 'kecamatan', tindak: 'absen',
     langkah: 1, jenis: 'peserta', berkas: null, saring: 'semua', lewati: false,
     hasil: '', tanyaBatal: null,
-    satuan: 'kabupaten', kab: null, isiPosko: 10,
+    satuan: 'kabupaten', kab: null, isiPosko: 10, angkatanSql: '',
     nPosko: 12, nBugis: 4, nMakassar: 3, aturan: { bahasa: true, prodi: true, jk: true, fak: true }, penempatan: null, penempatanTersimpan: false,
     berkasData: null, galatBerkas: '', pesertaAktif: null, sumberPeserta: '',
     riwayat: [
@@ -692,6 +692,113 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
+  function unduhTeks(nama, teks, tipe) {
+    var url = URL.createObjectURL(new Blob([teks], { type: tipe }));
+    var a = document.createElement('a');
+    a.href = url; a.download = nama;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  function kutipSql(v) {
+    return "'" + String(v == null ? '' : v).replace(/[\u0000-\u001f]/g, ' ').replace(/\\/g, '\\\\').replace(/'/g, "''") + "'";
+  }
+  /* Membuat berkas SQL untuk basis data LKH KKN (MySQL 8) menurut skema
+     lkhkkn_3: peserta ditulis ke tabel pengguna. ID angkatan, peran, prodi,
+     dan kecamatan dicari oleh SQL itu sendiri dari namanya, sehingga berkas ini
+     tidak bergantung pada nomor ID. Bila ada nama yang tidak ditemukan, tidak
+     ada satu baris pun yang ditulis. daftar = [{ m: peserta, penempatan: nama }]. */
+  function buatSql(daftar, angkatan, catatan) {
+    var b = [
+      '-- Impor peserta KKN ke basis data LKH KKN (MySQL 8).',
+      '-- Dibuat oleh dashboard admin. ' + catatan,
+      '-- Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: pengguna. Tabel akun tidak disentuh.',
+      '-- Aman dijalankan ulang: peserta yang sudah ada (kode dan angkatan sama) diperbarui, tidak digandakan.',
+      '-- Bila pemeriksaan menemukan masalah, tidak ada satu baris pun yang ditulis.',
+      '-- Kolom wilayah_id_kec hanya terisi bila nama penempatan sama dengan nama satu kecamatan pada tabel wilayah.',
+      '',
+      'SET NAMES utf8mb4;',
+      'SET @angkatan = ' + angkatan + ';           -- nilai kolom angkatan.nama_angkatan',
+      'SET @level_kecamatan = 3;     -- nilai kolom wilayah.level untuk kecamatan; sesuaikan bila berbeda',
+      'SET @angkatan_id = (SELECT id FROM angkatan WHERE nama_angkatan = @angkatan ORDER BY id DESC LIMIT 1);',
+      "SET @peran_id = (SELECT id FROM peran WHERE tipe = 'Peserta' ORDER BY id LIMIT 1);",
+      '',
+      'DROP TEMPORARY TABLE IF EXISTS impor_peserta;',
+      'CREATE TEMPORARY TABLE impor_peserta (',
+      '  baris INT NOT NULL PRIMARY KEY,',
+      '  kode VARCHAR(20) NOT NULL,',
+      '  nama VARCHAR(255) NOT NULL,',
+      '  prodi VARCHAR(255) NOT NULL,',
+      '  penempatan VARCHAR(255) NULL',
+      ') DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;',
+      ''
+    ];
+    for (var i = 0; i < daftar.length; i += 200) {
+      b.push('INSERT INTO impor_peserta (baris, kode, nama, prodi, penempatan) VALUES');
+      b.push(daftar.slice(i, i + 200).map(function (d, j) {
+        return ' (' + (i + j + 1) + ', ' + kutipSql(d.m.nim) + ', ' + kutipSql(d.m.nama) + ', ' + kutipSql(d.m.prodi) + ', ' + (d.penempatan ? kutipSql(d.penempatan) : 'NULL') + ')';
+      }).join(',\n') + ';');
+    }
+    b.push(
+      '',
+      '-- 1. Pemeriksaan.',
+      'DROP TEMPORARY TABLE IF EXISTS impor_masalah;',
+      'CREATE TEMPORARY TABLE impor_masalah (baris INT NOT NULL, kode VARCHAR(20) NOT NULL, masalah VARCHAR(400) NOT NULL) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;',
+      "INSERT INTO impor_masalah SELECT 0, '', CONCAT('Angkatan ', @angkatan, ' tidak ada pada tabel angkatan') FROM DUAL WHERE @angkatan_id IS NULL;",
+      "INSERT INTO impor_masalah SELECT 0, '', 'Tidak ada peran bertipe Peserta pada tabel peran' FROM DUAL WHERE @peran_id IS NULL;",
+      "INSERT INTO impor_masalah SELECT i.baris, i.kode, CONCAT('Prodi tidak ditemukan pada tabel prodi: ', i.prodi) FROM impor_peserta i LEFT JOIN prodi p ON p.nama = i.prodi WHERE p.id IS NULL;",
+      "INSERT INTO impor_masalah SELECT i.baris, i.kode, CONCAT('Nama prodi ganda pada tabel prodi: ', i.prodi) FROM impor_peserta i JOIN prodi p ON p.nama = i.prodi GROUP BY i.baris, i.kode, i.prodi HAVING COUNT(*) > 1;",
+      "INSERT INTO impor_masalah SELECT MIN(i.baris), i.kode, 'NIM ganda di dalam berkas' FROM impor_peserta i GROUP BY i.kode HAVING COUNT(*) > 1;",
+      'SET @masalah = (SELECT COUNT(*) FROM impor_masalah);',
+      '',
+      '-- 2. Penulisan, hanya bila tidak ada masalah.',
+      'START TRANSACTION;',
+      'INSERT INTO pengguna (kode, nama, angkatan_id, peran_id, prodi_id, wilayah_id_kec)',
+      'SELECT baru.kode, baru.nama, baru.angkatan_id, baru.peran_id, baru.prodi_id, baru.wilayah_id_kec FROM (',
+      '  SELECT i.kode AS kode, i.nama AS nama, @angkatan_id AS angkatan_id, @peran_id AS peran_id, p.id AS prodi_id, k.id AS wilayah_id_kec',
+      '  FROM impor_peserta i',
+      '  JOIN prodi p ON p.nama = i.prodi',
+      '  LEFT JOIN (SELECT nama, MIN(id) AS id FROM wilayah WHERE level = @level_kecamatan GROUP BY nama HAVING COUNT(*) = 1) k',
+      '    ON k.nama = i.penempatan COLLATE utf8mb4_0900_ai_ci',
+      '  WHERE @masalah = 0',
+      ') AS baru',
+      'ON DUPLICATE KEY UPDATE nama = baru.nama, peran_id = baru.peran_id, prodi_id = baru.prodi_id,',
+      '  wilayah_id_kec = COALESCE(baru.wilayah_id_kec, pengguna.wilayah_id_kec);',
+      'COMMIT;',
+      '',
+      '-- 3. Laporan. Daftar masalah yang kosong berarti semua baris tertulis.',
+      'SELECT baris, kode, masalah FROM impor_masalah ORDER BY baris;',
+      'SET @baris_berkas = (SELECT COUNT(*) FROM impor_peserta);',
+      'SET @di_basis_data = (SELECT COUNT(*) FROM pengguna g JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id);',
+      'SET @tanpa_kecamatan = (SELECT COUNT(*) FROM pengguna g JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id AND g.wilayah_id_kec IS NULL);',
+      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, @di_basis_data AS peserta_di_basis_data, @tanpa_kecamatan AS belum_punya_kecamatan;",
+      'DROP TEMPORARY TABLE impor_peserta;',
+      'DROP TEMPORARY TABLE impor_masalah;'
+    );
+    return b.join('\n') + '\n';
+  }
+  function angkatanSah() {
+    var a = Math.round(Number(S.angkatanSql));
+    return S.angkatanSql !== '' && !isNaN(a) && a > 0 && a < 100000 ? a : 0;
+  }
+  function kotakSql(aksi, label) {
+    return '<div class="baris" style="align-items:flex-end"><div class="isian" style="flex:0 1 190px"><label for="angkatan-sql">Angkatan (angka)</label>' +
+      '<input id="angkatan-sql" type="number" inputmode="numeric" min="1" max="99999" value="' + esc(S.angkatanSql) + '" style="min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff;font-weight:600"></div>' +
+      '<button type="button" class="tombol" data-a="' + aksi + '"' + (angkatanSah() ? '' : ' disabled') + '>' + label + '</button>' +
+      '<span class="kecil" style="flex:1 1 240px">Berkas SQL untuk tabel pengguna. Dijalankan oleh pengelola basis data; dashboard ini tidak tersambung ke basis data.</span></div>';
+  }
+  // Kecamatan lokasi KKN Angkatan 78 beserta jumlah mahasiswanya (sumber sama dengan WILAYAH_78).
+  function kecamatanBawaan() {
+    return [
+      ['Ajangale', 'bugis', 88], ['Amali', 'bugis', 107], ["Mare'", 'bugis', 86],
+      ['Pammana', 'bugis', 109], ['Sabbangparu', 'bugis', 78], ['Tanasitolo', 'bugis', 123],
+      ['Baranti', 'bugis', 56], ['Duapitue', 'bugis', 76], ['Panca Rijang', 'bugis', 56],
+      ['Pujananting', 'bugis', 52], ['Tanete Riaja', 'bugis', 55], ['Tanete Rilau', 'bugis', 75],
+      ['Camba', 'keduanya', 58], ['Cenrana', 'keduanya', 60], ['Mallawa', 'keduanya', 85],
+      ["Ma'rang", 'keduanya', 109], ['Mandalle', 'keduanya', 49], ['Segeri', 'keduanya', 49],
+      ['Kamanre', '', 51], ['Larompong', '', 51], ['Larompong Selatan', '', 71]
+    ].map(function (x) { return { nama: x[0], bahasa: x[1], bobot: x[2] }; });
+  }
+
   // Lokasi KKN Angkatan 78 menurut Pengumuman Lokasi Mahasiswa KKN Angkatan 78
   // Tahun 2026 (LP2M UIN Alauddin, 2 Maret 2026): 1.544 mahasiswa, 7 kabupaten,
   // 21 kecamatan. Bahasa setempat menurut artikel Bahasa Bugis dan Bahasa
@@ -872,7 +979,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     } else {
       isi = '<section class="kartu sempit-maks" role="status"><h2 style="font-size:18px;color:var(--hijau-teks)">Impor selesai</h2><p>' + esc(S.hasil) + '</p>' +
         (S.jenis === 'peserta' ? '<p class="kecil">Peserta yang belum punya posko dapat ditempatkan lewat menu Penempatan.</p>' : '') +
-        (S.jenis === 'peserta' && S.pesertaAktif ? '<div class="baris"><button type="button" class="tombol utama" data-a="layar:penempatan">Tempatkan peserta</button></div>' : '') +
+        (S.jenis === 'peserta' && S.pesertaAktif ? '<div class="baris"><button type="button" class="tombol utama" data-a="layar:penempatan">Tempatkan peserta</button></div>' + kotakSql('unduh-sql-peserta', 'Unduh SQL tanpa penempatan') : '') +
         '<div class="baris"><button type="button" class="tombol utama" data-a="riwayat-buka">Lihat riwayat impor</button><button type="button" class="tombol" data-a="impor-lagi">Impor berkas lain</button></div></section>';
     }
 
@@ -901,7 +1008,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         }).join('');
       };
       var nomorKuota = 0;
-      pengaturan = '<div class="gulir"><div class="tabel t-kab" role="table" aria-label="Daftar kabupaten"><div role="row" class="judul"><span role="columnheader">Kabupaten</span><span role="columnheader">Bahasa setempat</span><span role="columnheader">Daya tampung acuan</span><span role="columnheader">Kuota</span><span role="columnheader">Tindakan</span></div>' +
+      pengaturan = '<div class="gulir"><div class="tabel t-kab" role="table" aria-label="Daftar kabupaten atau kecamatan"><div role="row" class="judul"><span role="columnheader">Kabupaten atau kecamatan</span><span role="columnheader">Bahasa setempat</span><span role="columnheader">Daya tampung acuan</span><span role="columnheader">Kuota</span><span role="columnheader">Tindakan</span></div>' +
         S.kab.map(function (x, i) {
           var dipakai = x.nama.trim() !== '' && x.bobot > 0;
           var k = dipakai ? kuota[nomorKuota++] : 0;
@@ -911,10 +1018,10 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
             '<span role="cell" class="tebal angka-rata">' + (dipakai ? k : '–') + '</span>' +
             '<span role="cell"><button type="button" class="tombol rapat" data-a="kab-hapus:' + i + '" aria-label="Hapus ' + esc(x.nama || 'baris ' + (i + 1)) + '">Hapus</button></span></div>';
         }).join('') + '</div></div>' +
-        '<p class="kecil">Kuota dihitung sebanding dengan daya tampung acuan, sehingga jumlah seluruh kuota sama dengan jumlah peserta. Daya tampung bawaan adalah jumlah mahasiswa tiap kabupaten pada KKN Angkatan 78.</p>' +
-        '<div class="baris"><button type="button" class="tombol" data-a="kab-tambah">Tambah kabupaten</button><button type="button" class="tombol" data-a="kab-78">Pakai lokasi Angkatan 78</button></div>' +
+        '<p class="kecil">Kuota dihitung sebanding dengan daya tampung acuan, sehingga jumlah seluruh kuota sama dengan jumlah peserta. Daya tampung bawaan adalah jumlah mahasiswa pada KKN Angkatan 78. Basis data hanya menyimpan penempatan sampai kecamatan, jadi penempatan baru tertulis ke basis data bila daftar ini berisi kecamatan.</p>' +
+        '<div class="baris"><button type="button" class="tombol" data-a="kab-tambah">Tambah baris</button><button type="button" class="tombol" data-a="kab-78">Pakai 7 kabupaten Angkatan 78</button><button type="button" class="tombol" data-a="kec-78">Pakai 21 kecamatan Angkatan 78</button></div>' +
         '<div class="angka-isian">' + angka('isiposko', 'Perkiraan peserta per posko', S.isiPosko, 2, 100) + '</div>';
-      if (!satuan.length) peringatan += '<div class="peringatan"><span>Belum ada kabupaten. Tambahkan sekurangnya satu.</span></div>';
+      if (!satuan.length) peringatan += '<div class="peringatan"><span>Belum ada wilayah. Tambahkan sekurangnya satu.</span></div>';
       if (S.aturan.bahasa) {
         [['bugis', 'Bugis'], ['makassar', 'Makassar'], ['keduanya', 'Bugis atau Makassar']].forEach(function (b) {
           var butuh = 0;
@@ -923,7 +1030,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
           var aktif = peserta.filter(function (m) { return tingkatBahasa(m, b[0]) === 2; }).length;
           var pasif = peserta.filter(function (m) { return tingkatBahasa(m, b[0]) === 1; }).length;
           if (aktif + pasif < butuh) peringatan += '<div class="peringatan"><span>Penutur bahasa ' + b[1] + ' tidak cukup: dibutuhkan ' + butuh + ' orang, sedangkan yang ada ' + aktif + ' aktif dan ' + pasif + ' pasif.</span></div>';
-          else if (aktif < butuh) peringatan += '<p class="kecil">Kabupaten berbahasa ' + b[1] + ' membutuhkan ' + butuh + ' penutur; yang aktif hanya ' + aktif + ', kekurangannya diisi penutur pasif.</p>';
+          else if (aktif < butuh) peringatan += '<p class="kecil">Wilayah berbahasa ' + b[1] + ' membutuhkan ' + butuh + ' penutur; yang aktif hanya ' + aktif + ', kekurangannya diisi penutur pasif.</p>';
         });
       }
     } else {
@@ -948,20 +1055,20 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     }
 
     var aturan = perKab
-      ? centang('a-bahasa', 'bahasa', 'Kabupaten berbahasa Bugis atau Makassar mendapat ' + MIN_PENUTUR + ' penutur untuk tiap perkiraan posko. Penutur aktif diutamakan, penutur pasif menjadi cadangan.') +
-        centang('a-prodi', 'prodi', 'Tiap prodi disebar ke semua kabupaten sebanding dengan kuotanya.') +
-        centang('a-jk', 'jk', 'Laki-laki dan perempuan dibagi sebanding ke semua kabupaten.') +
-        centang('a-fak', 'fak', 'Tiap fakultas disebar ke semua kabupaten sebanding dengan kuotanya.')
+      ? centang('a-bahasa', 'bahasa', 'Wilayah berbahasa Bugis atau Makassar mendapat ' + MIN_PENUTUR + ' penutur untuk tiap perkiraan posko. Penutur aktif diutamakan, penutur pasif menjadi cadangan.') +
+        centang('a-prodi', 'prodi', 'Tiap prodi disebar ke semua wilayah sebanding dengan kuotanya.') +
+        centang('a-jk', 'jk', 'Laki-laki dan perempuan dibagi sebanding ke semua wilayah.') +
+        centang('a-fak', 'fak', 'Tiap fakultas disebar ke semua wilayah sebanding dengan kuotanya.')
       : centang('a-bahasa', 'bahasa', 'Posko di wilayah berbahasa Bugis atau Makassar mendapat sekurangnya ' + MIN_PENUTUR + ' peserta yang menguasai bahasanya. Penutur aktif diutamakan, penutur pasif menjadi cadangan.') +
         centang('a-prodi', 'prodi', 'Tidak ada dua peserta dari prodi yang sama dalam satu posko.') +
         centang('a-jk', 'jk', 'Laki-laki dan perempuan dibagi merata ke semua posko.') +
         centang('a-fak', 'fak', 'Peserta dari fakultas yang sama disebar ke posko yang berbeda sejauh mungkin.');
 
-    var html = '<header class="kepala"><div><h1>Penempatan</h1><p>Peserta ditempatkan secara acak menurut aturan di bawah. Tahap pertama per kabupaten; pembagian ke posko menyusul. Hasilnya diperiksa admin sebelum disimpan.</p></div></header>' +
+    var html = '<header class="kepala"><div><h1>Penempatan</h1><p>Peserta ditempatkan secara acak menurut aturan di bawah. Tahap pertama per kabupaten, lalu per kecamatan; pembagian ke posko menyusul. Hasilnya diperiksa admin sebelum disimpan.</p></div></header>' +
       '<section class="kartu"><div class="atas"><div><h2>Aturan penempatan</h2><p class="sub">Sumber data: ' +
       (S.pesertaAktif ? 'berkas ' + esc(S.sumberPeserta) + ', ' + peserta.length + ' peserta' : peserta.length + ' peserta contoh') +
       ' dari ' + jumlahProdi(peserta) + ' prodi.' + (S.pesertaAktif ? '' : ' Untuk memakai data pendaftar, muat berkasnya lewat menu Impor data.') + '</p></div>' +
-      '<div class="segmen" role="group" aria-label="Satuan penempatan">' + tombolPilih('satuan:kabupaten', 'Per kabupaten', perKab) + tombolPilih('satuan:posko', 'Per posko', !perKab) + '</div></div>' +
+      '<div class="segmen" role="group" aria-label="Satuan penempatan">' + tombolPilih('satuan:kabupaten', 'Per kabupaten atau kecamatan', perKab) + tombolPilih('satuan:posko', 'Per posko', !perKab) + '</div></div>' +
       pengaturan + '<div class="aturan">' + aturan + '</div>' +
       '<details class="rujukan"><summary>Rujukan wilayah bahasa: lokasi KKN Angkatan 78</summary>' +
       '<div class="gulir"><div class="tabel t-rujukan" role="table" aria-label="Wilayah bahasa lokasi KKN Angkatan 78"><div role="row" class="judul"><span role="columnheader">Kabupaten</span><span role="columnheader">Kecamatan</span><span role="columnheader">Mahasiswa</span><span role="columnheader">Bahasa setempat</span></div>' +
@@ -971,13 +1078,14 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       '<div class="baris"><button type="button" class="tombol utama" data-a="acak"' + (satuan.length ? '' : ' disabled') + '>' + (H ? 'Acak ulang' : 'Acak penempatan') + '</button>' +
       (H ? '<button type="button" class="tombol" data-a="simpan-penempatan"' + (S.penempatanTersimpan ? ' disabled' : '') + '>Simpan penempatan</button>' +
         '<button type="button" class="tombol" data-a="unduh-penempatan">Unduh hasil (CSV)</button>' : '') + '</div>' +
+      (H ? kotakSql('unduh-sql', 'Unduh SQL') : '') +
       (S.penempatanTersimpan ? '<span role="status" class="status">Penempatan tersimpan. Pada sistem sebenarnya, hasil ini ditulis ke basis data dan tercatat di riwayat.</span>' : '') +
       '</section>';
     if (!H) return html;
 
     var kotakBahasa = H.berbahasa
       ? '<div style="background:' + (H.terpenuhi < H.berbahasa ? 'var(--jingga-bg);color:var(--jingga)' : 'var(--ok-bg);color:var(--hijau-teks)') + '"><b>' + H.terpenuhi + ' dari ' + H.berbahasa + '</b><span>' +
-        (perKab ? 'kabupaten berbahasa daerah terpenuhi kebutuhan penuturnya' : 'posko berbahasa daerah punya ' + MIN_PENUTUR + ' penutur atau lebih') + '</span></div>'
+        (perKab ? 'wilayah berbahasa daerah terpenuhi kebutuhan penuturnya' : 'posko berbahasa daerah punya ' + MIN_PENUTUR + ' penutur atau lebih') + '</span></div>'
       : '';
     var kotakProdi = perKab
       ? '<div style="background:var(--netral-bg);color:var(--teks-2)"><b>' + koma(H.simpang) + '</b><span>orang, selisih terbesar sebaran prodi dari jatah sebanding' + (H.simpangProdi ? ' (' + esc(H.simpangProdi) + ')' : '') + '</span></div>' +
@@ -1085,6 +1193,17 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     else if (a === 'kab-tambah') { S.kab.push({ nama: '', bahasa: '', bobot: 100 }); atur({ penempatan: null, penempatanTersimpan: false }, 'kab-nama-' + (S.kab.length - 1)); }
     else if (a === 'kab-hapus') { S.kab.splice(Number(v), 1); atur({ penempatan: null, penempatanTersimpan: false }, 'kab-tambah'); }
     else if (a === 'kab-78') atur({ kab: kabupatenBawaan(), penempatan: null, penempatanTersimpan: false });
+    else if (a === 'kec-78') atur({ kab: kecamatanBawaan(), penempatan: null, penempatanTersimpan: false });
+    else if (a === 'unduh-sql' && S.penempatan && angkatanSah()) {
+      var baris = [];
+      S.penempatan.unit.forEach(function (p) { p.anggota.forEach(function (m) { baris.push({ m: m, penempatan: p.nama }); }); });
+      unduhTeks('impor-peserta-angkatan-' + angkatanSah() + '-benih-' + S.penempatan.benih + '.sql',
+        buatSql(baris, angkatanSah(), 'Penempatan dengan benih acak ' + S.penempatan.benih + '.'), 'application/sql;charset=utf-8');
+    }
+    else if (a === 'unduh-sql-peserta' && S.pesertaAktif && angkatanSah()) {
+      unduhTeks('impor-peserta-angkatan-' + angkatanSah() + '-tanpa-penempatan.sql',
+        buatSql(S.pesertaAktif.map(function (m) { return { m: m, penempatan: '' }; }), angkatanSah(), 'Tanpa penempatan.'), 'application/sql;charset=utf-8');
+    }
     else if (a === 'simpan-penempatan') atur({ penempatanTersimpan: true }, 'unduh-penempatan');
     else if (a === 'unduh-penempatan') { if (S.penempatan) unduhCsv(S.penempatan); }
     else if (a === 'batal-minta') atur({ tanyaBatal: Number(v) }, 'batal-tidak');
@@ -1109,6 +1228,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       else baris.bahasa = t.value;
       atur({ penempatan: null, penempatanTersimpan: false });
     }
+    else if (t.id === 'angkatan-sql') atur({ angkatanSql: t.value.trim() }, t.closest('.baris').querySelector('[data-a]').getAttribute('data-a'));
     else if (t.id === 'isiposko') {
       var isi = Math.round(Number(t.value));
       atur({ isiPosko: isNaN(isi) ? 10 : Math.max(2, Math.min(100, isi)), penempatan: null, penempatanTersimpan: false });
