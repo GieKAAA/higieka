@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rancangan Dashboard Admin LKH KKN</title>
+<meta name="description" content="Rancangan antarmuka dashboard admin LKH KKN. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{
+  --hijau:#0B753A; --hijau-tua:#0F3D26; --hijau-teks:#0B5A2D;
+  --dasar:#F4F6F3; --kartu:#FFFFFF; --garis:#DDE3DF; --garis-tegas:#B8C2BC;
+  --teks:#17211B; --teks-2:#33413A; --teks-3:#4A554F; --sela:#EEF2EF; --alas:#E6ECE8;
+  --biru-bg:#E3ECFB; --biru:#1E3A8A; --jingga-bg:#FCE6D2; --jingga:#5F2108; --jingga-tua:#8A2F0B;
+  --ok-bg:#DDEFE3; --netral-bg:#E8ECE9;
+  --judul:'Space Grotesk',Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--dasar);color:var(--teks);font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.45}
+button,select,input{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.45}
+:focus-visible{outline:3px solid #1D4ED8;outline-offset:2px}
+a{color:var(--hijau-teks)}a:hover{color:#063D1E}
+h1,h2,p{margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.app{min-height:100vh;display:flex;flex-wrap:wrap;align-items:stretch}
+.sisi{flex:1 1 232px;background:var(--hijau-tua);color:#fff;padding:24px 16px;display:flex;flex-direction:column;gap:24px}
+.merek{display:flex;flex-direction:column;gap:2px;padding:0 8px}
+.merek b{font-family:var(--judul);font-size:20px;letter-spacing:.2px}
+.merek span{font-size:12px;color:#C9DDD0}
+.menu{display:flex;flex-direction:column;gap:4px}
+.menu button{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border:0;border-radius:8px;text-align:left;font-weight:600;color:#fff;background:transparent}
+.menu button::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35)}
+.menu button[aria-current="page"]{background:rgba(255,255,255,.16)}
+.menu button[aria-current="page"]::before{background:#fff}
+.menu button:focus-visible{outline-color:#fff}
+.catatan{margin-top:auto;padding:12px;border-radius:8px;background:rgba(255,255,255,.08);font-size:12px;color:#DCE9E1}
+.catatan a{color:#fff}
+main{flex:999 1 560px;min-width:0;padding:28px 32px 48px;display:flex;flex-direction:column;gap:24px}
+main:focus{outline:none}
+
+.kepala{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+.kepala h1{font-family:var(--judul);font-size:28px}
+.kepala p{color:var(--teks-3);margin-top:4px}
+.isian{display:flex;flex-direction:column;gap:4px}
+.isian label{font-size:12px;font-weight:600;color:var(--teks-3)}
+select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff;color:var(--teks);font-weight:600}
+
+.kartu{background:var(--kartu);border:1px solid var(--garis);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.kartu h2{font-size:16px}
+.kartu .sub{font-size:12px;color:var(--teks-3);margin-top:2px}
+.angka{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.angka .kartu{gap:6px;padding:18px 20px}
+.angka .label{font-size:12px;font-weight:600;color:var(--teks-3)}
+.angka .nilai{font-family:var(--judul);font-size:32px;font-weight:700;line-height:1.1}
+.angka .ket{font-size:12px;color:var(--teks-3)}
+.dua{display:flex;flex-wrap:wrap;gap:16px;align-items:stretch}
+.dua > .lebar{flex:3 1 420px}
+.dua > .sempit{flex:2 1 340px}
+.atas{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+
+.segmen{display:flex;gap:4px;padding:4px;border-radius:10px;background:var(--alas)}
+.segmen button{min-height:36px;padding:6px 14px;border:0;border-radius:7px;font-weight:600;font-size:13px;background:transparent;color:var(--teks-2)}
+.segmen button[aria-pressed="true"]{background:#fff;color:var(--teks)}
+.pil{display:flex;flex-wrap:wrap;gap:8px}
+.pil button{min-height:44px;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13px;border:1px solid var(--garis-tegas);background:#fff;color:var(--teks)}
+.pil button[aria-pressed="true"]{background:var(--hijau-tua);border-color:var(--hijau-tua);color:#fff}
+
+.minggu{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:start}
+.minggu > div{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.minggu .nilai{font-size:13px;font-weight:700}
+.minggu .tiang{width:100%;max-width:64px;height:180px;display:flex;align-items:flex-end;border-radius:6px;background:var(--sela)}
+.minggu .tiang i{display:block;width:100%;border-radius:6px;background:var(--hijau)}
+.minggu .nama{font-size:12px;font-weight:600;text-align:center}
+.minggu .ket{font-size:11px;color:var(--teks-3);text-align:center}
+.minggu .pendek{display:none}
+.garis{display:flex;gap:10px}
+.garis .sumbu-y{display:flex;flex-direction:column;justify-content:space-between;height:220px;font-size:11px;color:var(--teks-3);text-align:right}
+.garis .badan{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px}
+.garis svg{display:block;width:100%;height:220px;overflow:visible}
+.garis .sumbu-x{display:flex;font-size:11px;color:var(--teks-3)}
+.garis .sumbu-x span{min-width:0;text-align:center}
+.kecil{font-size:11px;color:var(--teks-3)}
+
+.batang{display:flex;flex-direction:column;gap:12px}
+.batang > div{display:grid;grid-template-columns:minmax(84px,120px) minmax(0,1fr) 92px;gap:10px;align-items:center}
+.batang .nama{font-size:13px;font-weight:500}
+.batang .jalur{height:14px;border-radius:7px;background:var(--alas);overflow:hidden}
+.batang .jalur i{display:block;height:14px;border-radius:7px;background:var(--hijau)}
+.batang .teks{font-size:12px;color:var(--teks-2);text-align:right}
+
+.gulir{overflow-x:auto}
+.tabel{display:flex;flex-direction:column}
+.tabel [role="row"]{display:grid;gap:12px;align-items:center;padding:12px;border-bottom:1px solid var(--alas);font-size:13px}
+.tabel [role="row"].judul{padding:10px 12px;background:var(--sela);border:0;border-radius:8px;font-size:12px;font-weight:700;color:var(--teks-2)}
+.tabel .tebal{font-weight:600}
+.tabel .angka-rata{font-variant-numeric:tabular-nums}
+.t-tindak{min-width:620px}
+.t-tindak [role="row"]{grid-template-columns:140px minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr)}
+.t-pratinjau{min-width:860px}
+.t-pratinjau [role="row"]{grid-template-columns:56px 1fr 1.3fr 1fr 1fr 116px 1.6fr}
+.t-riwayat{min-width:900px}
+.t-riwayat [role="row"]{grid-template-columns:1.1fr .9fr 1.6fr 1.5fr 1fr 110px 190px}
+.lencana{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.l-baru{background:var(--biru-bg);color:var(--biru)}
+.l-ubah,.l-batal{background:var(--netral-bg);color:var(--teks-2)}
+.l-salah{background:var(--jingga-bg);color:var(--jingga)}
+.l-ok{background:var(--ok-bg);color:var(--hijau-teks)}
+
+.langkah{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px}
+.langkah li{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--teks-3)}
+.langkah b{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--alas);color:var(--teks)}
+.langkah li.lewat b{background:#CFE3D6}
+.langkah li[aria-current="step"]{color:var(--teks)}
+.langkah li[aria-current="step"] b{background:var(--hijau-tua);color:#fff}
+.jenis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.jenis button{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;min-height:88px;padding:14px 16px;border-radius:10px;border:2px solid var(--garis);background:#fff;color:var(--teks)}
+.jenis button[aria-pressed="true"]{border-color:var(--hijau-tua);background:#EAF3ED}
+.jenis b{font-size:15px}
+.jenis span{font-size:12px;color:var(--teks-2)}
+.info{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:10px;background:var(--sela)}
+.info b{font-size:12px;color:var(--teks-2)}
+.info small{font-size:12px;color:var(--teks-2)}
+.baris{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.tombol{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid var(--garis-tegas);background:#fff;color:var(--teks);font-weight:600}
+.tombol.utama{border:0;padding:10px 20px;background:var(--hijau);color:#fff;font-weight:700}
+.tombol.bahaya{border:0;background:var(--jingga-tua);color:#fff;font-weight:700}
+.tombol.rapat{padding:8px 12px;font-size:13px}
+.unggah{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:20px;border:2px dashed var(--garis-tegas);border-radius:10px;background:#FAFBFA}
+.unggah input:focus-visible + label{outline:3px solid #1D4ED8;outline-offset:2px}
+.status{font-size:13px;font-weight:600;color:var(--hijau-teks)}
+.peringatan{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:10px;background:var(--jingga-bg);color:var(--jingga)}
+.peringatan input{width:20px;height:20px;margin:2px 0 0;flex:none}
+.peringatan label{font-size:13px;font-weight:600}
+.sempit-maks{max-width:720px}
+.tiga{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tiga > div{padding:14px 16px;border-radius:10px;display:flex;flex-direction:column;gap:2px}
+.tiga b{font-family:var(--judul);font-size:26px}
+.tiga span{font-size:12px;font-weight:600}
+.aksi{display:flex;flex-wrap:wrap;gap:8px}
+
+@media (max-width:560px){
+  main{padding:20px 16px 40px}
+  .kepala h1{font-size:24px}
+  .minggu{gap:4px}
+  .minggu .panjang,.minggu .ket{display:none}
+  .minggu .pendek{display:inline}
+  .minggu .nilai{font-size:11px}
+  .batang > div{grid-template-columns:minmax(72px,96px) minmax(0,1fr) 76px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="sisi" aria-label="Menu utama">
+<div class="merek"><b>LKH KKN</b><span>Dashboard admin</span></div>
+<div class="menu" id="menu"></div>
+<div class="catatan">Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh. <a href="/">Kembali ke higieka.web.id</a></div>
+</nav>
+<main id="utama" tabindex="-1">
+<noscript><p>Rancangan ini memerlukan JavaScript untuk ditampilkan.</p></noscript>
+</main>
+</div>
+<script>
+(function () {
+  'use strict';
+
+  // Masa KKN 45 hari = 6 minggu penuh ditambah 3 hari (minggu ke-7).
+  var LAMA = 45;
+
+  var S = {
+    layar: 'ringkasan', angkatan: 'A', rentang: 'minggu', kelompok: 'kecamatan', tindak: 'absen',
+    langkah: 1, jenis: 'peserta', berkas: null, saring: 'semua', lewati: false,
+    templatDiminta: false, hasil: '', tanyaBatal: null,
+    riwayat: [
+      { id: 3, waktu: '2 hari lalu, 09.14', jenis: 'Lokasi', berkas: 'lokasi-contoh.xlsx', baru: 5, ubah: 1, lewat: 0, oleh: 'admin.contoh', status: 'Berhasil' },
+      { id: 2, waktu: '5 hari lalu, 14.02', jenis: 'Pembimbing', berkas: 'pembimbing-contoh.xlsx', baru: 6, ubah: 0, lewat: 1, oleh: 'admin.contoh', status: 'Berhasil' },
+      { id: 1, waktu: '6 hari lalu, 10.37', jenis: 'Peserta', berkas: 'peserta-salah-angkatan.xlsx', baru: 40, ubah: 0, lewat: 0, oleh: 'admin.contoh', status: 'Dibatalkan' }
+    ]
+  };
+
+  var DATA = {
+    A: {
+      belumWajah: 18, lkhMenunggu: 37,
+      harian: [62,70,74,78,80,81,79,83,84,82,85,86,84,83,87,88,86,85,84,86,87,85,83,84,86,88,87,86,84,85,86,87,85,84,86,87,86,85],
+      kecamatan: [['Kecamatan A',48,44],['Kecamatan B',42,37],['Kecamatan C',40,35],['Kecamatan D',38,30],['Kecamatan E',36,31],['Kecamatan F',36,27]],
+      pembimbing: [['Pembimbing 1',40,36],['Pembimbing 2',40,33],['Pembimbing 3',40,35],['Pembimbing 4',40,34],['Pembimbing 5',40,32],['Pembimbing 6',40,34]],
+      absen: [['CONTOH-014','Mahasiswa Contoh 14','Kecamatan D','5 hari'],['CONTOH-031','Mahasiswa Contoh 31','Kecamatan F','4 hari'],['CONTOH-052','Mahasiswa Contoh 52','Kecamatan F','3 hari'],['CONTOH-077','Mahasiswa Contoh 77','Kecamatan B','3 hari']],
+      reset: [['CONTOH-009','Mahasiswa Contoh 09','Diajukan kemarin','Sisa kuota 1'],['CONTOH-120','Mahasiswa Contoh 120','Diajukan hari ini','Sisa kuota 2']],
+      lkh: [['Kecamatan D','Pembimbing 4','14 LKH','Tertua 6 hari'],['Kecamatan F','Pembimbing 5','12 LKH','Tertua 4 hari'],['Kecamatan B','Pembimbing 2','11 LKH','Tertua 3 hari']]
+    },
+    B: {
+      belumWajah: 31, lkhMenunggu: 52,
+      harian: [55,60,66,70,71,69,72,74,73,75,76,74,72,73,75,77,76,74,73,75,76,78,77,75],
+      kecamatan: [['Kecamatan G',40,32],['Kecamatan H',38,30],['Kecamatan I',36,27],['Kecamatan J',34,24],['Kecamatan K',32,22]],
+      pembimbing: [['Pembimbing 7',36,29],['Pembimbing 8',36,27],['Pembimbing 9',36,28],['Pembimbing 10',36,26],['Pembimbing 11',36,25]],
+      absen: [['CONTOH-203','Mahasiswa Contoh 203','Kecamatan J','6 hari'],['CONTOH-218','Mahasiswa Contoh 218','Kecamatan K','4 hari'],['CONTOH-240','Mahasiswa Contoh 240','Kecamatan K','4 hari'],['CONTOH-251','Mahasiswa Contoh 251','Kecamatan I','3 hari'],['CONTOH-266','Mahasiswa Contoh 266','Kecamatan J','3 hari']],
+      reset: [['CONTOH-207','Mahasiswa Contoh 207','Diajukan 2 hari lalu','Sisa kuota 0'],['CONTOH-229','Mahasiswa Contoh 229','Diajukan kemarin','Sisa kuota 1'],['CONTOH-270','Mahasiswa Contoh 270','Diajukan hari ini','Sisa kuota 2']],
+      lkh: [['Kecamatan J','Pembimbing 10','19 LKH','Tertua 7 hari'],['Kecamatan K','Pembimbing 11','18 LKH','Tertua 5 hari'],['Kecamatan I','Pembimbing 9','15 LKH','Tertua 4 hari']]
+    }
+  };
+
+  var IMPOR = {
+    peserta: {
+      nama: 'Peserta', uraian: 'Mahasiswa KKN beserta penempatannya.',
+      kolom: ['NIM', 'Nama', 'Angkatan', 'Kecamatan'], kolomLain: 'Kelurahan/Desa (opsional)',
+      tujuan: 'data peserta dan penempatan. Nama tabel dipastikan dari struktur basis data.',
+      contoh: 'peserta-contoh.xlsx',
+      baris: [
+        ['CONTOH-301','Mahasiswa Contoh 301','Angkatan C','Kecamatan A','baru',''],
+        ['CONTOH-302','Mahasiswa Contoh 302','Angkatan C','Kecamatan A','baru',''],
+        ['CONTOH-303','Mahasiswa Contoh 303','Angkatan C','Kecamatan B','baru',''],
+        ['CONTOH-304','Mahasiswa Contoh 304','Angkatan C','Kecamatan B','baru',''],
+        ['CONTOH-014','Mahasiswa Contoh 14','Angkatan A','Kecamatan E','ubah','Penempatan berubah dari Kecamatan D ke Kecamatan E'],
+        ['CONTOH-305','Mahasiswa Contoh 305','Angkatan C','Kecamatan C','baru',''],
+        ['','Mahasiswa Contoh 306','Angkatan C','Kecamatan C','salah','NIM kosong'],
+        ['CONTOH-307','Mahasiswa Contoh 307','Angkatan C','Kecamatan D','baru',''],
+        ['CONTOH-303','Mahasiswa Contoh 308','Angkatan C','Kecamatan D','salah','NIM sama dengan baris 4'],
+        ['CONTOH-031','Mahasiswa Contoh 31','Angkatan A','Kecamatan F','ubah','Nama diperbarui'],
+        ['CONTOH-309','Mahasiswa Contoh 309','Angkatan C','Kecamatan E','baru',''],
+        ['CONTOH-310','Mahasiswa Contoh 310','Angkatan C','Kecamatan F','baru','']
+      ]
+    },
+    pembimbing: {
+      nama: 'Pembimbing', uraian: 'Dosen pembimbing dan kecamatan bimbingannya.',
+      kolom: ['NIP', 'Nama', 'Angkatan', 'Kecamatan'], kolomLain: '',
+      tujuan: 'data pembimbing dan wilayah bimbingan. Nama tabel dipastikan dari struktur basis data.',
+      contoh: 'pembimbing-contoh.xlsx',
+      baris: [
+        ['NIP-CONTOH-01','Pembimbing 12','Angkatan C','Kecamatan A','baru',''],
+        ['NIP-CONTOH-02','Pembimbing 13','Angkatan C','Kecamatan B','baru',''],
+        ['NIP-CONTOH-03','Pembimbing 14','Angkatan C','Kecamatan C','baru',''],
+        ['NIP-CONTOH-04','Pembimbing 4','Angkatan C','Kecamatan D','ubah','Sudah terdaftar; kecamatan Angkatan C ditambahkan'],
+        ['NIP-CONTOH-05','Pembimbing 15','Angkatan C','Kecamatan X','salah','Kecamatan X tidak ada pada data lokasi'],
+        ['NIP-CONTOH-06','Pembimbing 16','Angkatan C','Kecamatan F','baru','']
+      ]
+    },
+    lokasi: {
+      nama: 'Lokasi', uraian: 'Kecamatan, titik koordinat, radius, dan tanggal per lokasi.',
+      kolom: ['Kecamatan', 'Lintang; Bujur', 'Radius (m)', 'Kabupaten/Kota'], kolomLain: 'Tanggal mulai dan Tanggal selesai (opsional)',
+      tujuan: 'pengaturan lokasi absen per kecamatan. Nama tabel dipastikan dari struktur basis data.',
+      contoh: 'lokasi-contoh.xlsx',
+      baris: [
+        ['Kecamatan A','-5,2000; 119,4000','3000','Kabupaten Contoh','baru',''],
+        ['Kecamatan B','-5,2500; 119,4500','3000','Kabupaten Contoh','baru',''],
+        ['Kecamatan C','-5,3000; 119,5000','','Kabupaten Contoh','salah','Radius kosong'],
+        ['Kecamatan D','-5,3500; 119,5500','2500','Kabupaten Contoh','ubah','Radius berubah dari 3000 ke 2500'],
+        ['Kecamatan E','-95,4000; 119,6000','3000','Kabupaten Contoh','salah','Lintang di luar rentang -90 s.d. 90'],
+        ['Kecamatan F','-5,4500; 119,6500','3000','Kabupaten Contoh','baru','']
+      ]
+    },
+    angkatan: {
+      nama: 'Angkatan', uraian: 'Nama angkatan serta tanggal mulai dan selesai KKN.',
+      kolom: ['Nama angkatan', 'Tanggal mulai', 'Tanggal selesai', 'Lama'], kolomLain: '',
+      tujuan: 'data angkatan dan periode KKN. Nama tabel dipastikan dari struktur basis data.',
+      contoh: 'angkatan-contoh.xlsx',
+      baris: [
+        ['Angkatan C','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','baru',''],
+        ['Angkatan D','[TANGGAL MULAI]','[TANGGAL SELESAI]','','salah','Tanggal selesai lebih awal daripada tanggal mulai'],
+        ['Angkatan A','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','ubah','Tanggal selesai diperbarui']
+      ]
+    }
+  };
+
+  var LENCANA = { baru: ['Baru', 'l-baru'], ubah: ['Diperbarui', 'l-ubah'], salah: ['Bermasalah', 'l-salah'] };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function persen(a, b) { return Math.round((a / b) * 100) + '%'; }
+  function tombolPilih(aksi, label, aktif) {
+    return '<button type="button" data-a="' + aksi + '" aria-pressed="' + (aktif ? 'true' : 'false') + '">' + esc(label) + '</button>';
+  }
+  function barisImpor() {
+    return IMPOR[S.jenis].baris.map(function (r, i) {
+      return { baris: i + 2, c: [r[0] || '(kosong)', r[1], r[2] || '(kosong)', r[3] || '(kosong)'], jenis: r[4], ket: r[5] || 'Siap ditambahkan' };
+    });
+  }
+  function hitungImpor(semua) {
+    var h = { total: semua.length, baru: 0, ubah: 0, salah: 0 };
+    semua.forEach(function (r) { h[r.jenis] += 1; });
+    return h;
+  }
+
+  // ---------------------------------------------------------------- Ringkasan
+  function grafikMinggu(D) {
+    var html = '';
+    for (var k = 0; k < Math.ceil(LAMA / 7); k++) {
+      var awal = k * 7 + 1;
+      var akhir = Math.min(LAMA, awal + 6);
+      var isi = D.harian.slice(awal - 1, akhir);
+      var penuh = isi.length === akhir - awal + 1;
+      var rata = isi.length ? Math.round(isi.reduce(function (t, v) { return t + v; }, 0) / isi.length) : null;
+      var ket = rata === null ? 'Belum berjalan' : 'Hari ' + awal + '–' + akhir + (penuh ? '' : ', berjalan');
+      html += '<div><span class="nilai">' + (rata === null ? '–' : rata + '%') + '</span>' +
+        '<div class="tiang" aria-hidden="true"><i style="height:' + (rata === null ? 0 : Math.round(rata * 1.8)) + 'px;opacity:' + (penuh ? 1 : 0.55) + '"></i></div>' +
+        '<span class="nama"><span class="panjang">Minggu ' + (k + 1) + '</span><span class="pendek">M' + (k + 1) + '</span></span>' +
+        '<span class="ket">' + ket + '</span></div>';
+    }
+    return '<div class="minggu">' + html + '</div>';
+  }
+  function grafikHari(D) {
+    var n = D.harian.length;
+    var x = function (d) { return (((d - 0.5) / LAMA) * 100).toFixed(2); };
+    var titik = D.harian.map(function (v, i) { return x(i + 1) + ',' + (100 - ((v - 50) / 50) * 100).toFixed(2); });
+    var gaya = 'vector-effect:non-scaling-stroke;stroke-width:1;';
+    var garis = '<line x1="0" y1="0" x2="100" y2="0" style="' + gaya + 'stroke:#DDE3DF"/>' +
+      '<line x1="0" y1="50" x2="100" y2="50" style="' + gaya + 'stroke:#DDE3DF"/>' +
+      '<line x1="0" y1="100" x2="100" y2="100" style="' + gaya + 'stroke:#B8C2BC"/>';
+    var sumbu = '';
+    for (var k = 0; k < Math.ceil(LAMA / 7); k++) {
+      var lebar = Math.min(7, LAMA - k * 7);
+      if (k > 0) {
+        var gx = ((k * 7 / LAMA) * 100).toFixed(2);
+        garis += '<line x1="' + gx + '" y1="0" x2="' + gx + '" y2="100" style="' + gaya + 'stroke:#E6ECE8"/>';
+      }
+      sumbu += '<span style="flex:' + lebar + ' 1 0">M' + (k + 1) + '</span>';
+    }
+    var label = 'Grafik garis kehadiran harian sampai hari ke-' + n + ' dari ' + LAMA + ' hari, dari ' + D.harian[0] + ' persen menjadi ' + D.harian[n - 1] + ' persen.';
+    return '<div class="garis"><div class="sumbu-y" aria-hidden="true"><span>100%</span><span>75%</span><span>50%</span></div>' +
+      '<div class="badan"><svg role="img" aria-label="' + label + '" viewBox="0 0 100 100" preserveAspectRatio="none">' + garis +
+      '<path d="M' + x(1) + ',100 L' + titik.join(' L') + ' L' + x(n) + ',100 Z" style="fill:#0B753A;opacity:.12"/>' +
+      '<polyline points="' + titik.join(' ') + '" style="fill:none;stroke:#0B753A;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke"/>' +
+      '</svg><div class="sumbu-x" aria-hidden="true">' + sumbu + '</div>' +
+      '<span class="kecil">M = minggu. Garis berhenti pada hari yang sedang berjalan.</span></div></div>';
+  }
+  function ringkasan() {
+    var D = DATA[S.angkatan];
+    var peserta = D.kecamatan.reduce(function (t, r) { return t + r[1]; }, 0);
+    var hadir = D.kecamatan.reduce(function (t, r) { return t + r[2]; }, 0);
+    var n = D.harian.length;
+    var kartu = [
+      ['Peserta aktif', peserta, D.kecamatan.length + ' kecamatan'],
+      ['Sudah absen hari ini', persen(hadir, peserta), hadir + ' dari ' + peserta + ' peserta'],
+      ['Belum mendaftarkan wajah', D.belumWajah, 'peserta belum dapat absen'],
+      ['LKH menunggu pembimbing', D.lkhMenunggu, 'laporan belum diperiksa']
+    ].map(function (k) {
+      return '<div class="kartu"><span class="label">' + k[0] + '</span><span class="nilai">' + k[1] + '</span><span class="ket">' + k[2] + '</span></div>';
+    }).join('');
+    var batang = D[S.kelompok].map(function (r) {
+      return '<div><span class="nama">' + r[0] + '</span><div class="jalur" aria-hidden="true"><i style="width:' + persen(r[2], r[1]) + '"></i></div><span class="teks">' + r[2] + ' dari ' + r[1] + '</span></div>';
+    }).join('');
+    var kepala = {
+      absen: ['NIM', 'Nama', 'Kecamatan', 'Tidak absen'],
+      reset: ['NIM', 'Nama', 'Pengajuan', 'Kuota reset'],
+      lkh: ['Kecamatan', 'Pembimbing', 'Belum diperiksa', 'Menunggu']
+    }[S.tindak];
+    var tindak = [['absen', 'Tidak absen 3 hari atau lebih'], ['reset', 'Permintaan reset wajah'], ['lkh', 'LKH belum diperiksa']].map(function (t) {
+      return tombolPilih('tindak:' + t[0], t[1] + ' · ' + D[t[0]].length, S.tindak === t[0]);
+    }).join('');
+    var baris = D[S.tindak].map(function (r) {
+      return '<div role="row"><span role="cell" class="angka-rata">' + r[0] + '</span><span role="cell" class="tebal">' + r[1] + '</span><span role="cell">' + r[2] + '</span><span role="cell">' + r[3] + '</span></div>';
+    }).join('');
+
+    return '<header class="kepala"><div><h1>Ringkasan</h1><p>Keadaan absensi dan laporan kerja harian per angkatan.</p></div>' +
+      '<div class="isian"><label for="angkatan">Angkatan</label><select id="angkatan">' +
+      '<option value="A"' + (S.angkatan === 'A' ? ' selected' : '') + '>Angkatan A (contoh)</option>' +
+      '<option value="B"' + (S.angkatan === 'B' ? ' selected' : '') + '>Angkatan B (contoh)</option></select></div></header>' +
+      '<section class="angka" aria-label="Angka ringkas">' + kartu + '</section>' +
+      '<section class="dua"><div class="kartu lebar"><div class="atas"><div><h2>Kehadiran selama KKN</h2>' +
+      '<p class="sub">Persentase peserta yang absen. Hari ke-' + n + ' dari ' + LAMA + ' hari KKN; hari ini ' + D.harian[n - 1] + '%.</p></div>' +
+      '<div class="segmen" role="group" aria-label="Tampilan grafik">' + tombolPilih('rentang:minggu', 'Per minggu', S.rentang === 'minggu') + tombolPilih('rentang:hari', 'Per hari', S.rentang === 'hari') + '</div></div>' +
+      (S.rentang === 'minggu' ? grafikMinggu(D) : grafikHari(D)) + '</div>' +
+      '<div class="kartu sempit"><div class="atas"><div><h2>Kehadiran hari ini</h2><p class="sub">Jumlah yang sudah absen dari jumlah peserta.</p></div>' +
+      '<div class="segmen" role="group" aria-label="Kelompokkan menurut">' + tombolPilih('kelompok:kecamatan', 'Kecamatan', S.kelompok === 'kecamatan') + tombolPilih('kelompok:pembimbing', 'Pembimbing', S.kelompok === 'pembimbing') + '</div></div>' +
+      '<div class="batang">' + batang + '</div></div></section>' +
+      '<section class="kartu"><div><h2>Perlu ditindaklanjuti</h2><p class="sub">Daftar yang membutuhkan tindakan admin atau pembimbing.</p></div>' +
+      '<div class="pil" role="group" aria-label="Jenis tindak lanjut">' + tindak + '</div>' +
+      '<div class="gulir"><div class="tabel t-tindak" role="table" aria-label="Daftar tindak lanjut"><div role="row" class="judul">' +
+      kepala.map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '</div>' + baris + '</div></div></section>';
+  }
+
+  // -------------------------------------------------------------------- Impor
+  function impor() {
+    var J = IMPOR[S.jenis];
+    var semua = barisImpor();
+    var h = hitungImpor(semua);
+    var langkah = ['Pilih dan unggah', 'Periksa', 'Konfirmasi', 'Selesai'].map(function (l, i) {
+      var no = i + 1;
+      return '<li' + (S.langkah === no ? ' aria-current="step"' : '') + (S.langkah > no ? ' class="lewat"' : '') + '><b>' + no + '</b>' + l + '</li>';
+    }).join('');
+    var isi = '';
+
+    if (S.langkah === 1) {
+      var jenis = ['peserta', 'pembimbing', 'lokasi', 'angkatan'].map(function (id) {
+        return '<button type="button" data-a="jenis:' + id + '" aria-pressed="' + (S.jenis === id ? 'true' : 'false') + '"><b>' + IMPOR[id].nama + '</b><span>' + IMPOR[id].uraian + '</span></button>';
+      }).join('');
+      isi = '<section class="kartu"><h2>1. Pilih jenis data</h2><div class="jenis" role="group" aria-label="Jenis data">' + jenis + '</div>' +
+        '<div class="info"><b>Kolom lembar ' + J.nama + '</b><span>' + J.kolom.join(', ') + (J.kolomLain ? ', ' + J.kolomLain : '') + '</span><small>Tujuan: ' + J.tujuan + '</small></div>' +
+        '<div class="baris"><button type="button" class="tombol" data-a="templat">Unduh templat Excel</button>' +
+        (S.templatDiminta ? '<span role="status" class="kecil">Pada sistem sebenarnya, berkas templat terunduh di sini.</span>' : '') + '</div></section>' +
+        '<section class="kartu"><h2>2. Unggah berkas</h2><div class="unggah"><span class="tebal" style="font-weight:600">Berkas Excel atau CSV (.xlsx, .xls, .csv)</span>' +
+        '<div class="baris"><input class="sr" id="berkas" type="file" accept=".xlsx,.xls,.csv"><label class="tombol" for="berkas">Pilih berkas</label>' +
+        '<button type="button" class="tombol" data-a="contoh">Pakai berkas contoh</button></div>' +
+        (S.berkas ? '<span role="status" class="status">Berkas terpilih: ' + esc(S.berkas) + '</span>' : '') + '</div>' +
+        '<div class="baris"><button type="button" class="tombol utama" data-a="langkah:2"' + (S.berkas ? '' : ' disabled') + '>Periksa berkas</button>' +
+        (S.berkas ? '' : '<span class="kecil">Pilih berkas lebih dahulu.</span>') + '</div></section>';
+    } else if (S.langkah === 2) {
+      var saring = [['semua', 'Semua', h.total], ['baru', 'Baru', h.baru], ['ubah', 'Diperbarui', h.ubah], ['salah', 'Bermasalah', h.salah]].map(function (t) {
+        return tombolPilih('saring:' + t[0], t[1] + ' · ' + t[2], S.saring === t[0]);
+      }).join('');
+      var baris = semua.filter(function (r) { return S.saring === 'semua' || r.jenis === S.saring; }).map(function (r) {
+        return '<div role="row"><span role="cell" class="angka-rata" style="color:var(--teks-3)">' + r.baris + '</span><span role="cell" class="angka-rata">' + r.c[0] + '</span><span role="cell" class="tebal">' + r.c[1] + '</span><span role="cell">' + r.c[2] + '</span><span role="cell">' + r.c[3] + '</span>' +
+          '<span role="cell"><span class="lencana ' + LENCANA[r.jenis][1] + '">' + LENCANA[r.jenis][0] + '</span></span><span role="cell" style="font-size:12px;color:var(--teks-2)">' + r.ket + '</span></div>';
+      }).join('');
+      var boleh = h.salah === 0 || S.lewati;
+      isi = '<section class="kartu"><div><h2>Hasil pemeriksaan ' + J.nama + '</h2><p class="sub">Berkas ' + esc(S.berkas) + ' · ' + h.total + ' baris terbaca. Pratinjau ini memakai baris contoh; pembacaan berkas sungguhan dikerjakan di peladen.</p></div>' +
+        '<div class="pil" role="group" aria-label="Saring baris">' + saring + '</div>' +
+        '<div class="gulir"><div class="tabel t-pratinjau" role="table" aria-label="Pratinjau baris"><div role="row" class="judul"><span role="columnheader">Baris</span>' +
+        J.kolom.map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '<span role="columnheader">Status</span><span role="columnheader">Keterangan</span></div>' + baris + '</div></div>' +
+        (h.salah > 0 ? '<div class="peringatan"><input id="lewati" type="checkbox"' + (S.lewati ? ' checked' : '') + '><label for="lewati">Lewati ' + h.salah + ' baris bermasalah dan impor sisanya. Tanpa pilihan ini, berkas harus diperbaiki dan diunggah ulang.</label></div>' : '') +
+        '<div class="baris"><button type="button" class="tombol" data-a="langkah:1">Kembali</button><button type="button" class="tombol utama" data-a="langkah:3"' + (boleh ? '' : ' disabled') + '>Lanjut ke konfirmasi</button></div></section>';
+    } else if (S.langkah === 3) {
+      isi = '<section class="kartu sempit-maks"><h2>Konfirmasi impor ' + J.nama + '</h2><div class="tiga">' +
+        '<div style="background:var(--biru-bg);color:var(--biru)"><b>' + h.baru + '</b><span>baris baru ditambahkan</span></div>' +
+        '<div style="background:var(--netral-bg);color:var(--teks-2)"><b>' + h.ubah + '</b><span>baris lama diperbarui</span></div>' +
+        '<div style="background:var(--jingga-bg);color:var(--jingga)"><b>' + h.salah + '</b><span>baris dilewati</span></div></div>' +
+        '<p style="font-size:13px;color:var(--teks-2)">Seluruh perubahan ditulis dalam satu transaksi: tersimpan semuanya atau tidak sama sekali. Impor ini tercatat di riwayat dan dapat dibatalkan.</p>' +
+        '<div class="baris"><button type="button" class="tombol" data-a="langkah:2">Kembali</button><button type="button" class="tombol utama" data-a="impor">Impor sekarang</button></div></section>';
+    } else {
+      isi = '<section class="kartu sempit-maks" role="status"><h2 style="font-size:18px;color:var(--hijau-teks)">Impor selesai</h2><p>' + esc(S.hasil) + '</p>' +
+        '<div class="baris"><button type="button" class="tombol utama" data-a="riwayat-buka">Lihat riwayat impor</button><button type="button" class="tombol" data-a="impor-lagi">Impor berkas lain</button></div></section>';
+    }
+
+    return '<header class="kepala"><div><h1>Impor data</h1><p>Data dari Excel diperiksa dan ditampilkan lebih dahulu. Tidak ada yang tersimpan sebelum admin menekan konfirmasi.</p></div></header>' +
+      '<ol class="langkah" aria-label="Langkah impor">' + langkah + '</ol>' + isi;
+  }
+
+  // ------------------------------------------------------------------ Riwayat
+  function riwayat() {
+    var baris = S.riwayat.map(function (r) {
+      var aksi = '';
+      if (S.tanyaBatal === r.id) {
+        aksi = '<button type="button" class="tombol bahaya rapat" data-a="batal-ya:' + r.id + '">Ya, batalkan</button><button type="button" class="tombol rapat" data-a="batal-tidak">Tidak</button>';
+      } else if (r.status === 'Berhasil') {
+        aksi = '<button type="button" class="tombol rapat" data-a="batal-minta:' + r.id + '">Batalkan impor</button>';
+      }
+      return '<div role="row"><span role="cell">' + r.waktu + '</span><span role="cell" class="tebal">' + r.jenis + '</span><span role="cell" style="overflow-wrap:anywhere">' + esc(r.berkas) + '</span>' +
+        '<span role="cell" style="font-size:12px;color:var(--teks-2)">' + r.baru + ' baru, ' + r.ubah + ' diperbarui, ' + r.lewat + ' dilewati</span><span role="cell">' + r.oleh + '</span>' +
+        '<span role="cell"><span class="lencana ' + (r.status === 'Berhasil' ? 'l-ok' : 'l-batal') + '">' + r.status + '</span></span><span role="cell" class="aksi">' + aksi + '</span></div>';
+    }).join('');
+    return '<header class="kepala"><div><h1>Riwayat impor</h1><p>Catatan setiap impor: siapa, kapan, berkas apa, dan berapa baris. Impor yang keliru dapat dibatalkan.</p></div></header>' +
+      '<section class="kartu"><div class="gulir"><div class="tabel t-riwayat" role="table" aria-label="Riwayat impor"><div role="row" class="judul">' +
+      ['Waktu', 'Jenis data', 'Berkas', 'Hasil', 'Oleh', 'Status', 'Tindakan'].map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '</div>' + baris + '</div></div></section>';
+  }
+
+  // ------------------------------------------------------------------- render
+  var utama = document.getElementById('utama');
+  var menu = document.getElementById('menu');
+
+  function render(fokusKe) {
+    var aktif = document.activeElement;
+    var kunci = fokusKe || (aktif && (aktif.getAttribute('data-a') || aktif.id)) || '';
+    menu.innerHTML = [['ringkasan', 'Ringkasan'], ['impor', 'Impor data'], ['riwayat', 'Riwayat impor']].map(function (n) {
+      return '<button type="button" data-a="layar:' + n[0] + '"' + (S.layar === n[0] ? ' aria-current="page"' : '') + '>' + n[1] + '</button>';
+    }).join('');
+    utama.innerHTML = S.layar === 'ringkasan' ? ringkasan() : (S.layar === 'impor' ? impor() : riwayat());
+    if (kunci) {
+      var el = document.querySelector('[data-a="' + kunci + '"]') || document.getElementById(kunci);
+      if (el && !el.disabled) el.focus({ preventScroll: true });
+    }
+  }
+  function atur(perubahan, fokusKe) {
+    for (var k in perubahan) S[k] = perubahan[k];
+    render(fokusKe);
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-a]');
+    if (!t || t.disabled) return;
+    var bagian = t.getAttribute('data-a').split(':');
+    var a = bagian[0], v = bagian[1];
+    if (a === 'layar') atur({ layar: v, tanyaBatal: null });
+    else if (a === 'rentang') atur({ rentang: v });
+    else if (a === 'kelompok') atur({ kelompok: v });
+    else if (a === 'tindak') atur({ tindak: v });
+    else if (a === 'jenis') atur({ jenis: v, berkas: null, saring: 'semua', lewati: false, templatDiminta: false });
+    else if (a === 'templat') atur({ templatDiminta: true });
+    else if (a === 'contoh') atur({ berkas: IMPOR[S.jenis].contoh });
+    else if (a === 'saring') atur({ saring: v });
+    else if (a === 'langkah') { atur({ langkah: Number(v), saring: 'semua' }); utama.focus({ preventScroll: true }); }
+    else if (a === 'impor') {
+      var h = hitungImpor(barisImpor());
+      var J = IMPOR[S.jenis];
+      var id = S.riwayat.reduce(function (m, r) { return Math.max(m, r.id); }, 0) + 1;
+      atur({
+        langkah: 4,
+        riwayat: [{ id: id, waktu: 'Baru saja', jenis: J.nama, berkas: S.berkas, baru: h.baru, ubah: h.ubah, lewat: h.salah, oleh: 'admin.contoh', status: 'Berhasil' }].concat(S.riwayat),
+        hasil: h.baru + ' baris ' + J.nama.toLowerCase() + ' ditambahkan, ' + h.ubah + ' diperbarui, dan ' + h.salah + ' dilewati dari berkas ' + S.berkas + '.'
+      }, 'riwayat-buka');
+    }
+    else if (a === 'riwayat-buka') atur({ layar: 'riwayat', langkah: 1, berkas: null, lewati: false, saring: 'semua' }, 'layar:riwayat');
+    else if (a === 'impor-lagi') { atur({ langkah: 1, berkas: null, lewati: false, saring: 'semua', templatDiminta: false }); utama.focus({ preventScroll: true }); }
+    else if (a === 'batal-minta') atur({ tanyaBatal: Number(v) }, 'batal-tidak');
+    else if (a === 'batal-tidak') atur({ tanyaBatal: null });
+    else if (a === 'batal-ya') {
+      atur({
+        tanyaBatal: null,
+        riwayat: S.riwayat.map(function (r) { return r.id === Number(v) ? Object.assign({}, r, { status: 'Dibatalkan' }) : r; })
+      });
+      utama.focus({ preventScroll: true });
+    }
+  });
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.id === 'angkatan') atur({ angkatan: t.value });
+    else if (t.id === 'lewati') atur({ lewati: t.checked });
+    else if (t.id === 'berkas' && t.files && t.files[0]) atur({ berkas: t.files[0].name }, 'langkah:2');
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
