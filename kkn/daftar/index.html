@@ -65,7 +65,7 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;
 <h1>Pendaftaran KKN</h1>
 <p class="pengantar">Isi data berikut dengan lengkap. Penempatan posko ditentukan panitia secara acak berdasarkan jurusan, jenis kelamin, dan penguasaan bahasa daerah.</p>
 </div>
-<p class="catatan">Formulir uji coba. Formulir ini belum menjadi pendaftaran resmi KKN.</p>
+<p class="catatan">Formulir uji coba. Formulir ini belum menjadi pendaftaran resmi KKN, dan penyimpanan jawabannya sedang tidak aktif sehingga isian tidak dapat dikirim.</p>
 
 <form id="formulir" name="pendaftaran-kkn" method="POST" action="/kkn/daftar/" data-netlify="true" netlify-honeypot="situs">
 <input type="hidden" name="form-name" value="pendaftaran-kkn">
@@ -227,7 +227,7 @@ fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;
 <div class="kartu" style="margin-top:20px">
 <label class="setuju"><input type="checkbox" name="persetujuan" value="Ya" required><span>Saya menyatakan data di atas benar dan menyetujui penggunaannya untuk keperluan pendaftaran dan penempatan KKN.</span></label>
 <p id="galat" class="galat" role="alert" hidden></p>
-<button id="kirim" class="kirim" type="submit">Kirim pendaftaran</button>
+<button id="kirim" class="kirim" type="submit" disabled style="cursor:not-allowed">Pengiriman sedang tidak aktif</button>
 </div>
 </form>
 
