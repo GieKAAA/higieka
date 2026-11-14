@@ -9,14 +9,16 @@ Makassar. Satu halaman statis, tanpa tahap build, tanpa dependensi selain font
 yang dimuat dari Google Fonts.
 
 Domain: `higieka.web.id` (registrar NyanHosting, domain saja tanpa hosting).
-Hosting: Netlify, deploy otomatis dari branch `main`, publish directory `.`.
+Hosting: GitHub Pages (pindah dari Netlify pada 14 November 2026), tayang otomatis
+dari branch `main`, akar repositori. Berkas `CNAME` dan `.nojekyll` wajib tetap ada.
 
 ## Struktur
 
 | Berkas         | Keterangan                                  |
 | -------------- | ------------------------------------------- |
 | `index.html`   | Seluruh halaman: markup, gaya, skrip, ikon  |
-| `netlify.toml` | Konfigurasi deploy dan tajuk keamanan       |
+| `CNAME`        | Domain khusus untuk GitHub Pages            |
+| `.nojekyll`    | Menyajikan berkas apa adanya, tanpa Jekyll  |
 | `robots.txt`   | Izin perayapan mesin pencari                |
 | `sitemap.xml`  | Peta situs                                  |
 | `kkn/index.html` | Rancangan dashboard admin LKH KKN          |
@@ -30,8 +32,9 @@ sendiri: satu berkas, memakai tampilannya sendiri (hijau, Inter), bukan gaya
 portofolio. Seluruh isinya data contoh dan halaman itu diberi `noindex`, serta
 tidak dicantumkan pada `sitemap.xml`. Jangan memasukkan data mahasiswa sungguhan.
 
-Halaman `/kkn/daftar/` adalah formulir uji coba pendaftaran KKN. Isiannya dikirim
-ke Netlify Forms dengan nama formulir `pendaftaran-kkn`; nama tiap isian
+Halaman `/kkn/daftar/` adalah formulir uji coba pendaftaran KKN. Sejak pindah ke
+GitHub Pages isiannya tidak dapat disimpan, sehingga tombol kirimnya dinonaktifkan;
+markah Netlify Forms (`pendaftaran-kkn`) dibiarkan sebagai rujukan. Nama tiap isian
 (`nama_lengkap`, `nim`, `jurusan`, `bahasa_bugis`, dan seterusnya) dibaca oleh
 pengimpor di `/kkn/`, jadi jangan diubah tanpa menyesuaikan pengimpornya. Berkas
 pendaftar dibaca di peramban dan tidak pernah dikirim ke peladen.
