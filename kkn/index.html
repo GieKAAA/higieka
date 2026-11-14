@@ -30,13 +30,25 @@ h1,h2,h3,p{margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 .app{min-height:100vh;display:flex;flex-direction:column}
-.puncak{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 20px;padding:12px max(32px,calc((100% - 1320px)/2 + 32px));background:var(--kartu);border-bottom:1px solid var(--garis)}
-.merek{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-.merek b{font-family:var(--judul);font-size:20px;letter-spacing:.2px;color:var(--hijau-tua)}
-.merek span{font-size:12px;color:var(--teks-3)}
-.tautan-puncak{display:flex;flex-wrap:wrap;gap:0 18px;font-size:13px;font-weight:600}
-.tautan-puncak a{display:inline-flex;align-items:center;min-height:44px}
-.catatan{flex:1 1 100%;font-size:12px;color:var(--teks-3)}
+.puncak{display:flex;flex-direction:column;gap:16px;width:100%;max-width:1320px;margin:0 auto;padding:24px 32px 0}
+.puncak-atas{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.merek{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.merek b{font-family:var(--judul);font-size:26px;line-height:1;letter-spacing:-.3px;color:var(--hijau-tua)}
+.merek span{padding:4px 10px;border:1px solid var(--garis-tegas);border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teks-2)}
+.cip-puncak{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.cip-puncak a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border:1px solid var(--garis-tegas);border-radius:999px;background:var(--kartu);color:var(--teks);font-size:13px;font-weight:600;text-decoration:none}
+.cip-puncak a:hover{border-color:var(--hijau);color:var(--hijau-teks)}
+.cip-contoh{margin-left:auto;display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:999px;background:var(--jingga-bg);color:var(--jingga);font-size:12px;font-weight:700}
+.masa{display:flex;flex-direction:column;gap:8px}
+.masa-teks{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;font-size:13px;color:var(--teks-3)}
+.masa-teks b{color:var(--teks);font-weight:700}
+.masa-hari{display:flex;gap:8px}
+.masa-minggu{display:flex;flex-direction:column;gap:5px;min-width:0}
+.masa-sel{display:flex;align-items:center;gap:2px;height:18px}
+.masa-sel i{flex:1 1 0;height:8px;border-radius:2px;background:var(--garis)}
+.masa-sel i.lewat{background:var(--hijau)}
+.masa-sel i.kini{height:18px;border-radius:3px;background:var(--hijau-tua)}
+.masa-minggu small{overflow:hidden;font-size:10px;font-weight:600;letter-spacing:.04em;white-space:nowrap;color:var(--teks-3)}
 .dok{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;display:flex;gap:4px;padding:6px;border-radius:999px;background:var(--hijau-tua);box-shadow:0 10px 28px rgba(15,61,38,.32);max-width:calc(100% - 16px)}
 .dok button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#fff;font-weight:600;font-size:13px;white-space:nowrap}
 .dok button svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -173,12 +185,20 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 .t-rujukan [role="row"]{grid-template-columns:110px minmax(0,1.6fr) 90px minmax(0,1.5fr);padding:9px 12px}
 
 @media (max-width:640px){
+  .masa-hari{gap:4px}
+  .masa-sel{gap:1px}
+  .masa-minggu small{display:none}
   .dok button{padding:0 11px}
   .dok button span{display:none}
   .dok button[aria-current="page"] span{display:inline}
 }
 @media (max-width:560px){
-  .puncak{padding:10px 16px}
+  .puncak{padding:18px 16px 0;gap:10px}
+  .puncak-atas{gap:2px 12px}
+  .merek b{font-size:22px}
+  .merek span{display:none}
+  .cip-puncak{flex:1 1 100%;gap:0 18px}
+  .cip-puncak a{padding:0;border:0;border-radius:0;background:transparent;color:var(--hijau-teks);text-decoration:underline}
   main{padding:20px 16px 112px}
   .kepala h1{font-size:24px}
   .minggu{gap:4px}
@@ -192,9 +212,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 <body>
 <div class="app">
 <header class="puncak">
+<div class="puncak-atas">
 <div class="merek"><b>LKH KKN</b><span>Dashboard admin</span></div>
-<div class="tautan-puncak"><a href="daftar/">Formulir pendaftaran</a><a href="/">Kembali ke situs</a></div>
-<p class="catatan">Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh.</p>
+<span class="cip-contoh" title="Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh.">Rancangan, data contoh</span>
+<div class="cip-puncak"><a href="daftar/">Formulir pendaftaran</a><a href="/">Kembali ke situs</a></div>
+</div>
+<div class="masa" id="masa"></div>
 </header>
 <nav class="dok" id="menu" aria-label="Menu utama"></nav>
 <main id="utama" tabindex="-1">
@@ -1484,6 +1507,18 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   // ------------------------------------------------------------------- render
   var utama = document.getElementById('utama');
   var menu = document.getElementById('menu');
+  var masa = document.getElementById('masa');
+  // Garis waktu pada kepala halaman: satu sel per hari KKN, dikelompokkan per minggu.
+  function garisWaktu() {
+    var n = Math.min(DATA[S.angkatan].harian.length, LAMA), sisa = LAMA - n, html = '';
+    for (var m = 0; m * 7 < LAMA; m++) {
+      var isi = Math.min(7, LAMA - m * 7), sel = '';
+      for (var h = m * 7 + 1; h <= m * 7 + isi; h++) sel += '<i' + (h < n ? ' class="lewat"' : (h === n ? ' class="kini"' : '')) + '></i>';
+      html += '<div class="masa-minggu" style="flex:' + isi + ' 1 0"><div class="masa-sel">' + sel + '</div><small>Minggu ' + (m + 1) + '</small></div>';
+    }
+    return '<div class="masa-teks"><span><b>Angkatan ' + esc(S.angkatan) + ' (contoh)</b> · hari ke-' + n + ' dari ' + LAMA + '</span><span>' + (sisa > 0 ? sisa + ' hari lagi' : 'Masa KKN selesai') + '</span></div>' +
+      '<div class="masa-hari" role="img" aria-label="Hari ke-' + n + ' dari ' + LAMA + ' hari KKN">' + html + '</div>';
+  }
   var IKON_MENU = {
     ringkasan: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     impor: '<path d="M12 15V4M8 8l4-4 4 4M4 15v5h16v-5"/>',
@@ -1498,6 +1533,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       return '<button type="button" data-a="layar:' + n[0] + '" title="' + n[1] + '" aria-label="' + n[1] + '"' + (S.layar === n[0] ? ' aria-current="page"' : '') + '>' +
         '<svg viewBox="0 0 24 24" aria-hidden="true">' + IKON_MENU[n[0]] + '</svg><span>' + n[1] + '</span></button>';
     }).join('');
+    masa.innerHTML = garisWaktu();
     utama.innerHTML = S.layar === 'ringkasan' ? ringkasan() : (S.layar === 'impor' ? impor() : (S.layar === 'penempatan' ? penempatan() : riwayat()));
     if (kunci) {
       var el = document.querySelector('[data-a="' + kunci + '"]') || document.getElementById(kunci);
