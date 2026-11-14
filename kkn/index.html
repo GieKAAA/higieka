@@ -210,7 +210,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     hasil: '', tanyaBatal: null,
     satuan: 'kabupaten', kab: null, isiPosko: 10, angkatanSql: '',
     nPosko: 12, nBugis: 4, nMakassar: 3, aturan: { bahasa: true, prodi: true, jk: true, fak: true }, penempatan: null, penempatanTersimpan: false,
-    berkasData: null, galatBerkas: '', pesertaAktif: null, sumberPeserta: '',
+    berkasData: null, galatBerkas: '', pesertaAktif: null, sumberPeserta: '', dimuat: {},
     riwayat: [
       { id: 3, waktu: '2 hari lalu, 09.14', jenis: 'Lokasi', berkas: 'lokasi-contoh.xlsx', baru: 5, ubah: 1, lewat: 0, oleh: 'admin.contoh', status: 'Berhasil' },
       { id: 2, waktu: '5 hari lalu, 14.02', jenis: 'Pembimbing', berkas: 'pembimbing-contoh.xlsx', baru: 6, ubah: 0, lewat: 1, oleh: 'admin.contoh', status: 'Berhasil' },
@@ -266,37 +266,37 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       tujuan: 'tabel pengguna (kode = NIP) untuk dosennya, tabel pembimbingan (pengguna_id, kec_wilayah_id, angkatan_id) untuk kecamatannya, dan tabel daftarbimbingan untuk mahasiswa bimbingannya.',
       contoh: 'pembimbing-contoh.xlsx',
       baris: [
-        ['NIP-CONTOH-01','Pembimbing 12','Angkatan C','Kecamatan A','baru',''],
-        ['NIP-CONTOH-02','Pembimbing 13','Angkatan C','Kecamatan B','baru',''],
-        ['NIP-CONTOH-03','Pembimbing 14','Angkatan C','Kecamatan C','baru',''],
-        ['NIP-CONTOH-04','Pembimbing 4','Angkatan C','Kecamatan D','ubah','Sudah terdaftar; kecamatan Angkatan C ditambahkan'],
-        ['NIP-CONTOH-05','Pembimbing 15','Angkatan C','Kecamatan X','salah','Kecamatan X tidak ada pada data lokasi'],
-        ['NIP-CONTOH-06','Pembimbing 16','Angkatan C','Kecamatan F','baru','']
+        ['NIP-CONTOH-01','Pembimbing 12','100','Kecamatan A','baru',''],
+        ['NIP-CONTOH-02','Pembimbing 13','100','Kecamatan B','baru',''],
+        ['NIP-CONTOH-03','Pembimbing 14','100','Kecamatan C','baru',''],
+        ['NIP-CONTOH-04','Pembimbing 4','100','Kecamatan D','ubah','Sudah terdaftar; kecamatan angkatan 100 ditambahkan'],
+        ['NIP-CONTOH-05','Pembimbing 15','100','Kecamatan X','salah','Kecamatan X tidak ada pada data lokasi'],
+        ['NIP-CONTOH-06','Pembimbing 16','100','Kecamatan F','baru','']
       ]
     },
     lokasi: {
       nama: 'Lokasi', uraian: 'Kecamatan, titik koordinat, radius, dan tanggal per lokasi.',
-      kolom: ['Kecamatan', 'Lintang; Bujur', 'Radius (m)', 'Kabupaten/Kota'], kolomLain: 'Tanggal mulai dan Tanggal selesai (opsional)',
+      kolom: ['Kecamatan', 'Koordinat', 'Radius (m)', 'Kabupaten/Kota'], kolomLain: 'Lintang dan Bujur (digabung menjadi koordinat), Tanggal mulai dan Tanggal selesai (opsional), Bahasa daerah (tidak disimpan di basis data)',
       tujuan: 'tabel setting (koordinat, radius, tanggal_mulai, tanggal_selesai, jumlah_hari, angkatan_id, wilayah_id). Lintang dan bujur digabung menjadi satu nilai koordinat; kecamatan dicocokkan dengan tabel wilayah.',
       contoh: 'lokasi-contoh.xlsx',
       baris: [
-        ['Kecamatan A','-5,2000; 119,4000','3000','Kabupaten Contoh','baru',''],
-        ['Kecamatan B','-5,2500; 119,4500','3000','Kabupaten Contoh','baru',''],
-        ['Kecamatan C','-5,3000; 119,5000','','Kabupaten Contoh','salah','Radius kosong'],
-        ['Kecamatan D','-5,3500; 119,5500','2500','Kabupaten Contoh','ubah','Radius berubah dari 3000 ke 2500'],
-        ['Kecamatan E','-95,4000; 119,6000','3000','Kabupaten Contoh','salah','Lintang di luar rentang -90 s.d. 90'],
-        ['Kecamatan F','-5,4500; 119,6500','3000','Kabupaten Contoh','baru','']
+        ['Kecamatan A','-5.2000,119.4000','3000','Kabupaten Contoh','baru',''],
+        ['Kecamatan B','-5.2500,119.4500','3000','Kabupaten Contoh','baru',''],
+        ['Kecamatan C','-5.3000,119.5000','','Kabupaten Contoh','salah','Radius kosong'],
+        ['Kecamatan D','-5.3500,119.5500','2500','Kabupaten Contoh','ubah','Radius berubah dari 3000 ke 2500'],
+        ['Kecamatan E','-95.4000,119.6000','3000','Kabupaten Contoh','salah','Lintang di luar rentang -90 s.d. 90'],
+        ['Kecamatan F','-5.4500,119.6500','3000','Kabupaten Contoh','baru','']
       ]
     },
     angkatan: {
-      nama: 'Angkatan', uraian: 'Nama angkatan serta tanggal mulai dan selesai KKN.',
-      kolom: ['Nama angkatan', 'Tanggal mulai', 'Tanggal selesai', 'Lama'], kolomLain: '',
+      nama: 'Angkatan', uraian: 'Nomor angkatan serta tanggal mulai dan selesai KKN.',
+      kolom: ['Angkatan', 'Tanggal mulai', 'Tanggal selesai', 'Jumlah hari'], kolomLain: '',
       tujuan: 'tabel angkatan (nama_angkatan berupa angka, jumlah_hari, tanggal_mulai, tanggal_selesai, aktif).',
       contoh: 'angkatan-contoh.xlsx',
       baris: [
-        ['Angkatan C','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','baru',''],
-        ['Angkatan D','[TANGGAL MULAI]','[TANGGAL SELESAI]','','salah','Tanggal selesai lebih awal daripada tanggal mulai'],
-        ['Angkatan A','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','ubah','Tanggal selesai diperbarui']
+        ['100','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','baru',''],
+        ['101','[TANGGAL MULAI]','[TANGGAL SELESAI]','','salah','Tanggal selesai lebih awal daripada tanggal mulai'],
+        ['99','[TANGGAL MULAI]','[TANGGAL SELESAI]','45 hari','ubah','Tanggal selesai diperbarui']
       ]
     }
   };
@@ -380,7 +380,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         .then(function (b) { return dek.decode(b); });
     };
   }
-  function bacaXlsx(buf) {
+  function bacaXlsx(buf, namaLembar) {
     var ambil = bukaZip(buf), px = new DOMParser();
     var xml = function (t) { return px.parseFromString(t, 'application/xml'); };
     var daftar = function (simpul, tag) { return Array.prototype.slice.call(simpul.getElementsByTagName(tag)); };
@@ -389,7 +389,10 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       var sasaran = {};
       daftar(xml(r[1]), 'Relationship').forEach(function (x) { sasaran[x.getAttribute('Id')] = x.getAttribute('Target'); });
       var lembar = daftar(xml(r[0]), 'sheet');
-      var pilih = lembar.filter(function (x) { return kunci(x.getAttribute('name')) === 'peserta'; })[0] || lembar[0];
+      var pilih = lembar.filter(function (x) { return kunci(x.getAttribute('name')) === kunci(namaLembar || 'peserta'); })[0];
+      // Berkas satu lembar (misalnya unduhan Google Sheets) dibaca apa adanya.
+      if (!pilih && lembar.length === 1) pilih = lembar[0];
+      if (!pilih) throw new Error('Lembar "' + (namaLembar || 'Peserta') + '" tidak ditemukan di berkas ini.');
       var jalur = sasaran[pilih.getAttribute('r:id')] || '';
       jalur = jalur.charAt(0) === '/' ? jalur.slice(1) : 'xl/' + jalur;
       var teks = r[2] ? daftar(xml(r[2]), 'si').map(function (si) {
@@ -477,6 +480,150 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     if (!hasil.length) throw new Error('Tidak ada baris data di bawah baris judul.');
     return hasil;
   }
+
+  // --------------------------------------- angkatan, lokasi, dan pembimbing
+  function keTanggal(v) {
+    v = String(v == null ? '' : v).trim();
+    if (v === '') return '';
+    var sah = function (y, b, h) {
+      var t = new Date(Date.UTC(y, b - 1, h));
+      return t.getUTCFullYear() === y && t.getUTCMonth() === b - 1 && t.getUTCDate() === h ? t.toISOString().slice(0, 10) : null;
+    };
+    // Excel menyimpan tanggal sebagai bilangan hari sejak 30 Desember 1899.
+    if (/^\d+(\.\d+)?$/.test(v)) {
+      var x = Number(v);
+      return x > 1 && x < 80000 ? new Date(Date.UTC(1899, 11, 30) + Math.round(x) * 86400000).toISOString().slice(0, 10) : null;
+    }
+    var m = /^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T].*)?$/.exec(v);
+    if (m) return sah(+m[1], +m[2], +m[3]);
+    m = /^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/.exec(v);
+    if (m) return sah(+m[3], +m[2], +m[1]);
+    return null;
+  }
+  function selisihHari(a, b) { return Math.round((Date.parse(b) - Date.parse(a)) / 86400000); }
+  function bulatPositif(v) {
+    v = String(v == null ? '' : v).trim();
+    if (!/^\d+(\.0+)?$/.test(v)) return 0;
+    var x = Number(v);
+    return x > 0 && x < 1e9 ? x : 0;
+  }
+  function desimal(v) {
+    v = String(v == null ? '' : v).trim().replace(',', '.');
+    return /^-?\d+(\.\d+)?$/.test(v) ? Number(v) : NaN;
+  }
+  // Membaca baris judul dan baris data. peta: { id: [judul yang dikenali] }.
+  function bacaKolom(tabel, peta, wajib) {
+    var kepala = null, mulai = 0;
+    for (var r = 0; r < tabel.length && !kepala; r++) {
+      if (tabel[r] && tabel[r].some(function (v) { return v && String(v).trim() !== ''; })) { kepala = tabel[r]; mulai = r + 1; }
+    }
+    if (!kepala) throw new Error('Berkas kosong.');
+    var letak = {};
+    for (var k = 0; k < kepala.length; k++) {
+      var nama = String(kepala[k] || '').toLowerCase().replace(/[_\-\/]+/g, ' ').replace(/\s+/g, ' ').trim();
+      Object.keys(peta).forEach(function (id) { if (letak[id] === undefined && peta[id].indexOf(nama) >= 0) letak[id] = k; });
+    }
+    var kurang = wajib.filter(function (w) { return letak[w[0]] === undefined; }).map(function (w) { return w[1]; });
+    if (kurang.length) throw new Error('Kolom berikut tidak ditemukan pada baris judul: ' + kurang.join(', ') + '.');
+    var hasil = [];
+    for (r = mulai; r < tabel.length; r++) {
+      var b = tabel[r] || [], d = {}, kosong = true;
+      Object.keys(peta).forEach(function (id) {
+        d[id] = letak[id] === undefined || b[letak[id]] === undefined ? '' : String(b[letak[id]]).replace(/\s+/g, ' ').trim();
+        if (d[id] !== '') kosong = false;
+      });
+      if (!kosong) hasil.push({ baris: r + 1, data: d });
+    }
+    if (!hasil.length) throw new Error('Tidak ada baris data di bawah baris judul.');
+    return { letak: letak, baris: hasil };
+  }
+  function tandai(h, salah, c, obj) {
+    h.jenis = salah ? 'salah' : 'baru';
+    h.ket = salah || 'Siap dimuat';
+    h.c = c;
+    h.obj = salah ? null : obj;
+  }
+  function olahAngkatan(tabel) {
+    var t = bacaKolom(tabel, {
+      angkatan: ['angkatan', 'nama angkatan', 'nomor angkatan', 'angkatan (angka)'], mulai: ['tanggal mulai'],
+      selesai: ['tanggal selesai'], hari: ['jumlah hari', 'lama']
+    }, [['angkatan', 'Angkatan'], ['mulai', 'Tanggal mulai'], ['selesai', 'Tanggal selesai']]);
+    var hitung = {};
+    t.baris.forEach(function (h) { var a = bulatPositif(h.data.angkatan); if (a) hitung[a] = (hitung[a] || 0) + 1; });
+    t.baris.forEach(function (h) {
+      var d = h.data, a = bulatPositif(d.angkatan), m = keTanggal(d.mulai), e = keTanggal(d.selesai), hari = 0, salah = '';
+      if (d.angkatan === '') salah = 'Angkatan kosong';
+      else if (!a) salah = 'Angkatan harus bilangan bulat, misalnya 78';
+      else if (hitung[a] > 1) salah = 'Angkatan ganda';
+      else if (!m || !e) salah = 'Tanggal kosong atau bukan tanggal';
+      else if (e < m) salah = 'Tanggal selesai lebih awal daripada tanggal mulai';
+      else if (d.hari !== '' && !bulatPositif(d.hari)) salah = 'Jumlah hari harus bilangan bulat lebih dari 0';
+      if (!salah) hari = d.hari !== '' ? bulatPositif(d.hari) : selisihHari(m, e) + 1;
+      tandai(h, salah, [d.angkatan || '(kosong)', m || d.mulai || '(kosong)', e || d.selesai || '(kosong)', hari ? hari + ' hari' : ''],
+        { angkatan: a, mulai: m, selesai: e, hari: hari });
+    });
+    return t.baris;
+  }
+  function olahLokasi(tabel) {
+    var t = bacaKolom(tabel, {
+      kec: ['kecamatan'], kab: ['kabupaten kota', 'kabupaten', 'kota'], lat: ['lintang', 'latitude'], lon: ['bujur', 'longitude'],
+      koordinat: ['koordinat'], radius: ['radius (m)', 'radius'], mulai: ['tanggal mulai'], selesai: ['tanggal selesai']
+    }, [['kec', 'Kecamatan'], ['radius', 'Radius (m)']]);
+    if (t.letak.koordinat === undefined && (t.letak.lat === undefined || t.letak.lon === undefined)) {
+      throw new Error('Kolom berikut tidak ditemukan pada baris judul: Lintang dan Bujur, atau Koordinat.');
+    }
+    var hitung = {}, kunciBaris = function (d) { return kunci(d.kec) + '|' + kunci(d.kab); };
+    t.baris.forEach(function (h) { if (h.data.kec) hitung[kunciBaris(h.data)] = (hitung[kunciBaris(h.data)] || 0) + 1; });
+    t.baris.forEach(function (h) {
+      var d = h.data, lat = desimal(d.lat), lon = desimal(d.lon), salah = '';
+      if ((d.lat === '' || d.lon === '') && d.koordinat) {
+        var bagian = d.koordinat.indexOf(';') >= 0 ? d.koordinat.split(';') : d.koordinat.split(',');
+        if (bagian.length === 2) { lat = desimal(bagian[0]); lon = desimal(bagian[1]); }
+      }
+      var radius = bulatPositif(d.radius), m = keTanggal(d.mulai), e = keTanggal(d.selesai);
+      if (d.kec === '') salah = 'Kecamatan kosong';
+      else if (hitung[kunciBaris(d)] > 1) salah = 'Kecamatan ganda';
+      else if (isNaN(lat) || isNaN(lon)) salah = 'Lintang dan bujur kosong atau bukan angka';
+      else if (lat < -90 || lat > 90) salah = 'Lintang di luar rentang -90 s.d. 90';
+      else if (lon < -180 || lon > 180) salah = 'Bujur di luar rentang -180 s.d. 180';
+      else if (lat === 0 && lon === 0) salah = 'Koordinat 0, 0 dianggap kosong';
+      else if (!radius) salah = 'Radius harus bilangan bulat lebih dari 0, dalam meter';
+      else if (m === null) salah = 'Tanggal mulai bukan tanggal';
+      else if (e === null) salah = 'Tanggal selesai bukan tanggal';
+      else if (m && e && e < m) salah = 'Tanggal selesai lebih awal daripada tanggal mulai';
+      var koordinat = isNaN(lat) || isNaN(lon) ? '' : lat + ',' + lon;
+      tandai(h, salah, [d.kec || '(kosong)', koordinat || d.koordinat || '(kosong)', d.radius || '(kosong)', d.kab],
+        { kec: d.kec, kab: d.kab, koordinat: koordinat, radius: radius, mulai: m || '', selesai: e || '', hari: m && e ? selisihHari(m, e) + 1 : '' });
+    });
+    return t.baris;
+  }
+  function olahPembimbing(tabel) {
+    var t = bacaKolom(tabel, { nip: ['nip'], nama: ['nama', 'nama lengkap'], angkatan: ['angkatan'], kec: ['kecamatan'] },
+      [['nip', 'NIP'], ['nama', 'Nama'], ['angkatan', 'Angkatan'], ['kec', 'Kecamatan']]);
+    var hitung = {}, namaNip = {};
+    t.baris.forEach(function (h) {
+      var d = h.data;
+      d.nip = d.nip.replace(/\s+/g, '');
+      var k = d.nip + '|' + bulatPositif(d.angkatan) + '|' + kunci(d.kec);
+      hitung[k] = (hitung[k] || 0) + 1;
+      var kn = d.nip + '|' + bulatPositif(d.angkatan);
+      (namaNip[kn] = namaNip[kn] || {})[kunci(d.nama)] = 1;
+    });
+    t.baris.forEach(function (h) {
+      var d = h.data, a = bulatPositif(d.angkatan), salah = '';
+      if (d.nip === '') salah = 'NIP kosong';
+      else if (d.nip.length > 20) salah = 'NIP lebih dari 20 karakter';
+      else if (d.nama === '') salah = 'Nama kosong';
+      else if (!a) salah = 'Angkatan harus bilangan bulat, misalnya 78';
+      else if (d.kec === '') salah = 'Kecamatan kosong';
+      else if (hitung[d.nip + '|' + a + '|' + kunci(d.kec)] > 1) salah = 'Baris ganda (NIP, angkatan, dan kecamatan sama)';
+      else if (Object.keys(namaNip[d.nip + '|' + a]).length > 1) salah = 'NIP yang sama ditulis dengan nama berbeda';
+      tandai(h, salah, [d.nip || '(kosong)', d.nama || '(kosong)', d.angkatan || '(kosong)', d.kec || '(kosong)'],
+        { nip: d.nip, nama: d.nama, angkatan: a, kec: d.kec });
+    });
+    return t.baris;
+  }
+  var OLAH = { peserta: olahPeserta, angkatan: olahAngkatan, lokasi: olahLokasi, pembimbing: olahPembimbing };
 
   // ----------------------------------------------------------- penempatan
   // Pembangkit bilangan acak berbenih (mulberry32): benih yang sama selalu
@@ -711,7 +858,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     var b = [
       '-- Impor peserta KKN ke basis data LKH KKN (MySQL 8).',
       '-- Dibuat oleh dashboard admin. ' + catatan,
-      '-- Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: pengguna. Tabel akun tidak disentuh.',
+      '-- Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: pengguna, dan daftarbimbingan bila pembimbing kecamatannya sudah tercatat. Tabel akun tidak disentuh.',
       '-- Aman dijalankan ulang: peserta yang sudah ada (kode dan angkatan sama) diperbarui, tidak digandakan.',
       '-- Bila pemeriksaan menemukan masalah, tidak ada satu baris pun yang ditulis.',
       '-- Kolom wilayah_id_kec hanya terisi bila nama penempatan sama dengan nama satu kecamatan pada tabel wilayah.',
@@ -748,6 +895,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       "INSERT INTO impor_masalah SELECT i.baris, i.kode, CONCAT('Prodi tidak ditemukan pada tabel prodi: ', i.prodi) FROM impor_peserta i LEFT JOIN prodi p ON p.nama = i.prodi WHERE p.id IS NULL;",
       "INSERT INTO impor_masalah SELECT i.baris, i.kode, CONCAT('Nama prodi ganda pada tabel prodi: ', i.prodi) FROM impor_peserta i JOIN prodi p ON p.nama = i.prodi GROUP BY i.baris, i.kode, i.prodi HAVING COUNT(*) > 1;",
       "INSERT INTO impor_masalah SELECT MIN(i.baris), i.kode, 'NIM ganda di dalam berkas' FROM impor_peserta i GROUP BY i.kode HAVING COUNT(*) > 1;",
+      "INSERT INTO impor_masalah SELECT i.baris, i.kode, 'NIM ini sudah terdaftar sebagai pembimbing pada angkatan yang sama' FROM impor_peserta i JOIN pengguna g ON g.kode = i.kode AND g.angkatan_id = @angkatan_id JOIN peran r ON r.id = g.peran_id WHERE r.tipe = 'Pembimbing';",
       'SET @masalah = (SELECT COUNT(*) FROM impor_masalah);',
       '',
       '-- 2. Penulisan, hanya bila tidak ada masalah.',
@@ -763,6 +911,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       ') AS baru',
       'ON DUPLICATE KEY UPDATE nama = baru.nama, peran_id = baru.peran_id, prodi_id = baru.prodi_id,',
       '  wilayah_id_kec = COALESCE(baru.wilayah_id_kec, pengguna.wilayah_id_kec);',
+      '-- Peserta ditautkan ke dosen pembimbing kecamatannya bila pembimbingnya sudah tercatat.',
+      'INSERT INTO daftarbimbingan (pembimbingan_id, pengguna_id)',
+      'SELECT b.id, g.id FROM impor_peserta i',
+      '  JOIN pengguna g ON g.kode = i.kode AND g.angkatan_id = @angkatan_id',
+      '  JOIN pembimbingan b ON b.angkatan_id = g.angkatan_id AND b.kec_wilayah_id = g.wilayah_id_kec',
+      '  WHERE @masalah = 0 AND NOT EXISTS (SELECT 1 FROM daftarbimbingan d WHERE d.pembimbingan_id = b.id AND d.pengguna_id = g.id);',
       'COMMIT;',
       '',
       '-- 3. Laporan. Daftar masalah yang kosong berarti semua baris tertulis.',
@@ -770,21 +924,215 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       'SET @baris_berkas = (SELECT COUNT(*) FROM impor_peserta);',
       'SET @di_basis_data = (SELECT COUNT(*) FROM pengguna g JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id);',
       'SET @tanpa_kecamatan = (SELECT COUNT(*) FROM pengguna g JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id AND g.wilayah_id_kec IS NULL);',
-      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, @di_basis_data AS peserta_di_basis_data, @tanpa_kecamatan AS belum_punya_kecamatan;",
+      'SET @tertaut = (SELECT COUNT(DISTINCT d.pengguna_id) FROM daftarbimbingan d JOIN pengguna g ON g.id = d.pengguna_id JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id);',
+      '-- Tautan lama ke pembimbing kecamatan lain tidak dihapus otomatis; jumlahnya dilaporkan di bawah.',
+      'SET @tautan_lain = (SELECT COUNT(*) FROM daftarbimbingan d JOIN pembimbingan b ON b.id = d.pembimbingan_id JOIN pengguna g ON g.id = d.pengguna_id JOIN impor_peserta i ON i.kode = g.kode WHERE g.angkatan_id = @angkatan_id AND b.kec_wilayah_id <> g.wilayah_id_kec);',
+      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, @di_basis_data AS peserta_di_basis_data, @tanpa_kecamatan AS belum_punya_kecamatan, @tertaut AS tertaut_ke_pembimbing, @tautan_lain AS tautan_ke_kecamatan_lain;",
       'DROP TEMPORARY TABLE impor_peserta;',
       'DROP TEMPORARY TABLE impor_masalah;'
     );
     return b.join('\n') + '\n';
   }
+  function nilaiSql(v) { return v === '' || v == null ? 'NULL' : kutipSql(v); }
+  function barisNilai(daftar, ubah) {
+    return daftar.map(function (d, i) { return ' (' + (i + 1) + ', ' + ubah(d).join(', ') + ')'; }).join(',\n') + ';';
+  }
+  function buatSqlAngkatan(daftar) {
+    return [
+      '-- Impor angkatan KKN ke basis data LKH KKN (MySQL 8).',
+      '-- Dibuat oleh dashboard admin. Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: angkatan.',
+      '-- Angkatan yang sudah ada (nama_angkatan sama) diperbarui tanggal dan jumlah harinya; yang belum ada ditambahkan.',
+      '-- Kolom aktif tidak diubah; atur sendiri angkatan mana yang aktif.',
+      '-- Bila pemeriksaan menemukan masalah, tidak ada satu baris pun yang ditulis.',
+      '',
+      'SET NAMES utf8mb4;',
+      'DROP TEMPORARY TABLE IF EXISTS impor_angkatan;',
+      'CREATE TEMPORARY TABLE impor_angkatan (baris INT NOT NULL PRIMARY KEY, angkatan INT NOT NULL, mulai DATE NOT NULL, selesai DATE NOT NULL, hari INT NOT NULL);',
+      'INSERT INTO impor_angkatan (baris, angkatan, mulai, selesai, hari) VALUES',
+      barisNilai(daftar, function (d) { return [d.angkatan, kutipSql(d.mulai), kutipSql(d.selesai), d.hari]; }),
+      '',
+      '-- 1. Pemeriksaan.',
+      'DROP TEMPORARY TABLE IF EXISTS impor_masalah;',
+      'CREATE TEMPORARY TABLE impor_masalah (baris INT NOT NULL, masalah VARCHAR(400) NOT NULL) DEFAULT CHARSET = utf8mb4;',
+      "INSERT INTO impor_masalah SELECT i.baris, CONCAT('Angkatan ', i.angkatan, ' tercatat lebih dari sekali pada tabel angkatan') FROM impor_angkatan i JOIN angkatan a ON a.nama_angkatan = i.angkatan GROUP BY i.baris, i.angkatan HAVING COUNT(*) > 1;",
+      'SET @masalah = (SELECT COUNT(*) FROM impor_masalah);',
+      'SET @baris_berkas = (SELECT COUNT(*) FROM impor_angkatan);',
+      'SET @sudah_ada = (SELECT COUNT(DISTINCT i.baris) FROM impor_angkatan i JOIN angkatan a ON a.nama_angkatan = i.angkatan);',
+      '',
+      '-- 2. Penulisan, hanya bila tidak ada masalah.',
+      'START TRANSACTION;',
+      'UPDATE angkatan a JOIN impor_angkatan i ON i.angkatan = a.nama_angkatan',
+      '  SET a.tanggal_mulai = i.mulai, a.tanggal_selesai = i.selesai, a.jumlah_hari = i.hari',
+      '  WHERE @masalah = 0;',
+      'INSERT INTO angkatan (nama_angkatan, jumlah_hari, tanggal_mulai, tanggal_selesai)',
+      'SELECT i.angkatan, i.hari, i.mulai, i.selesai FROM impor_angkatan i',
+      '  WHERE @masalah = 0 AND NOT EXISTS (SELECT 1 FROM angkatan a WHERE a.nama_angkatan = i.angkatan);',
+      'COMMIT;',
+      '',
+      '-- 3. Laporan. Daftar masalah yang kosong berarti semua baris tertulis.',
+      'SELECT baris, masalah FROM impor_masalah ORDER BY baris;',
+      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, IF(@masalah = 0, @sudah_ada, 0) AS diperbarui, IF(@masalah = 0, @baris_berkas - @sudah_ada, 0) AS ditambahkan;",
+      'DROP TEMPORARY TABLE impor_angkatan;',
+      'DROP TEMPORARY TABLE impor_masalah;'
+    ].join('\n') + '\n';
+  }
+  function buatSqlLokasi(daftar, angkatan) {
+    var syarat = 'k.level = @level_kecamatan AND k.nama = i.kecamatan AND (i.kabupaten IS NULL OR p.nama = i.kabupaten)';
+    return [
+      '-- Impor lokasi KKN ke basis data LKH KKN (MySQL 8).',
+      '-- Dibuat oleh dashboard admin. Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: setting, untuk angkatan ' + angkatan + '.',
+      '-- Kecamatan dicari pada tabel wilayah menurut namanya, dan bila kolom Kabupaten/Kota diisi, menurut nama wilayah induknya.',
+      '-- Lokasi yang sudah ada (angkatan dan kecamatan sama) diperbarui; yang belum ada ditambahkan.',
+      '-- Tanggal yang kosong ditulis NULL, artinya lokasi itu mengikuti tanggal angkatannya.',
+      '-- Bila pemeriksaan menemukan masalah, tidak ada satu baris pun yang ditulis.',
+      '',
+      'SET NAMES utf8mb4;',
+      'SET @angkatan = ' + angkatan + ';           -- nilai kolom angkatan.nama_angkatan',
+      'SET @level_kecamatan = 3;     -- nilai kolom wilayah.level untuk kecamatan; sesuaikan bila berbeda',
+      'SET @angkatan_id = (SELECT id FROM angkatan WHERE nama_angkatan = @angkatan ORDER BY id DESC LIMIT 1);',
+      '',
+      'DROP TEMPORARY TABLE IF EXISTS impor_lokasi;',
+      'CREATE TEMPORARY TABLE impor_lokasi (',
+      '  baris INT NOT NULL PRIMARY KEY,',
+      '  kecamatan VARCHAR(255) NOT NULL,',
+      '  kabupaten VARCHAR(255) NULL,',
+      '  koordinat VARCHAR(255) NOT NULL,',
+      '  radius BIGINT NOT NULL,',
+      '  mulai DATE NULL,',
+      '  selesai DATE NULL,',
+      '  hari INT NULL,',
+      '  cocok INT NULL,',
+      '  wilayah_id VARCHAR(10) NULL',
+      ') DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;',
+      'INSERT INTO impor_lokasi (baris, kecamatan, kabupaten, koordinat, radius, mulai, selesai, hari) VALUES',
+      barisNilai(daftar, function (d) {
+        return [kutipSql(d.kec), nilaiSql(d.kab), kutipSql(d.koordinat), d.radius, nilaiSql(d.mulai), nilaiSql(d.selesai), d.hari === '' ? 'NULL' : d.hari];
+      }),
+      'UPDATE impor_lokasi i SET i.cocok = (SELECT COUNT(*) FROM wilayah k LEFT JOIN wilayah p ON p.id = k.atas WHERE ' + syarat + ');',
+      'UPDATE impor_lokasi i SET i.wilayah_id = (SELECT MIN(k.id) FROM wilayah k LEFT JOIN wilayah p ON p.id = k.atas WHERE ' + syarat + ') WHERE i.cocok = 1;',
+      '',
+      '-- 1. Pemeriksaan.',
+      'DROP TEMPORARY TABLE IF EXISTS impor_masalah;',
+      'CREATE TEMPORARY TABLE impor_masalah (baris INT NOT NULL, masalah VARCHAR(400) NOT NULL) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;',
+      "INSERT INTO impor_masalah SELECT 0, CONCAT('Angkatan ', @angkatan, ' tidak ada pada tabel angkatan') FROM DUAL WHERE @angkatan_id IS NULL;",
+      "INSERT INTO impor_masalah SELECT baris, CONCAT('Kecamatan tidak ditemukan pada tabel wilayah: ', kecamatan, IF(kabupaten IS NULL, '', CONCAT(' (', kabupaten, ')'))) FROM impor_lokasi WHERE cocok = 0;",
+      "INSERT INTO impor_masalah SELECT baris, CONCAT('Nama kecamatan cocok dengan lebih dari satu wilayah: ', kecamatan, '. Isi kolom Kabupaten/Kota.') FROM impor_lokasi WHERE cocok > 1;",
+      "INSERT INTO impor_masalah SELECT MIN(baris), CONCAT('Kecamatan muncul lebih dari sekali di berkas: ', MIN(kecamatan)) FROM impor_lokasi WHERE wilayah_id IS NOT NULL GROUP BY wilayah_id HAVING COUNT(*) > 1;",
+      'SET @masalah = (SELECT COUNT(*) FROM impor_masalah);',
+      'SET @baris_berkas = (SELECT COUNT(*) FROM impor_lokasi);',
+      'SET @sudah_ada = (SELECT COUNT(DISTINCT i.baris) FROM impor_lokasi i JOIN setting s ON s.wilayah_id = i.wilayah_id AND s.angkatan_id = @angkatan_id);',
+      '',
+      '-- 2. Penulisan, hanya bila tidak ada masalah.',
+      'START TRANSACTION;',
+      'UPDATE setting s JOIN impor_lokasi i ON i.wilayah_id = s.wilayah_id',
+      '  SET s.koordinat = i.koordinat, s.radius = i.radius, s.tanggal_mulai = i.mulai, s.tanggal_selesai = i.selesai, s.jumlah_hari = i.hari',
+      '  WHERE s.angkatan_id = @angkatan_id AND @masalah = 0;',
+      'INSERT INTO setting (koordinat, radius, tanggal_mulai, tanggal_selesai, jumlah_hari, angkatan_id, wilayah_id, created_at)',
+      'SELECT i.koordinat, i.radius, i.mulai, i.selesai, i.hari, @angkatan_id, i.wilayah_id, NOW() FROM impor_lokasi i',
+      '  WHERE @masalah = 0 AND NOT EXISTS (SELECT 1 FROM setting s WHERE s.angkatan_id = @angkatan_id AND s.wilayah_id = i.wilayah_id);',
+      'COMMIT;',
+      '',
+      '-- 3. Laporan. Daftar masalah yang kosong berarti semua baris tertulis.',
+      'SELECT baris, masalah FROM impor_masalah ORDER BY baris;',
+      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, IF(@masalah = 0, @sudah_ada, 0) AS diperbarui, IF(@masalah = 0, @baris_berkas - @sudah_ada, 0) AS ditambahkan;",
+      'DROP TEMPORARY TABLE impor_lokasi;',
+      'DROP TEMPORARY TABLE impor_masalah;'
+    ].join('\n') + '\n';
+  }
+  function buatSqlPembimbing(daftar) {
+    var syarat = 'k.level = @level_kecamatan AND k.nama = i.kecamatan';
+    return [
+      '-- Impor dosen pembimbing KKN ke basis data LKH KKN (MySQL 8).',
+      '-- Dibuat oleh dashboard admin. Jumlah baris: ' + daftar.length + '. Tabel yang ditulis: pengguna, pembimbingan, daftarbimbingan.',
+      '-- Dosen ditulis ke pengguna dengan peran bertipe Pembimbing; yang sudah ada (NIP dan angkatan sama) diperbarui namanya.',
+      '-- Tiap baris menjadi satu pembimbingan (dosen, kecamatan, angkatan). Peserta yang sudah ditempatkan di kecamatan itu',
+      '-- ditautkan ke daftarbimbingan. Bila satu kecamatan dibimbing lebih dari satu dosen, semua peserta kecamatan itu',
+      '-- tertaut ke tiap dosennya; atur pembagiannya sendiri bila perlu. Tabel akun tidak disentuh.',
+      '-- Bila pemeriksaan menemukan masalah, tidak ada satu baris pun yang ditulis.',
+      '',
+      'SET NAMES utf8mb4;',
+      'SET @level_kecamatan = 3;     -- nilai kolom wilayah.level untuk kecamatan; sesuaikan bila berbeda',
+      "SET @peran_id = (SELECT id FROM peran WHERE tipe = 'Pembimbing' ORDER BY id LIMIT 1);",
+      '',
+      'DROP TEMPORARY TABLE IF EXISTS impor_pembimbing;',
+      'CREATE TEMPORARY TABLE impor_pembimbing (',
+      '  baris INT NOT NULL PRIMARY KEY,',
+      '  kode VARCHAR(20) COLLATE utf8mb4_unicode_ci NOT NULL,',
+      '  nama VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,',
+      '  angkatan INT NOT NULL,',
+      '  kecamatan VARCHAR(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,',
+      '  angkatan_id INT NULL,',
+      '  cocok INT NULL,',
+      '  wilayah_id VARCHAR(10) COLLATE utf8mb4_0900_ai_ci NULL',
+      ') DEFAULT CHARSET = utf8mb4;',
+      'INSERT INTO impor_pembimbing (baris, kode, nama, angkatan, kecamatan) VALUES',
+      barisNilai(daftar, function (d) { return [kutipSql(d.nip), kutipSql(d.nama), d.angkatan, kutipSql(d.kec)]; }),
+      'UPDATE impor_pembimbing i SET i.angkatan_id = (SELECT MAX(a.id) FROM angkatan a WHERE a.nama_angkatan = i.angkatan);',
+      'UPDATE impor_pembimbing i SET i.cocok = (SELECT COUNT(*) FROM wilayah k WHERE ' + syarat + ');',
+      'UPDATE impor_pembimbing i SET i.wilayah_id = (SELECT MIN(k.id) FROM wilayah k WHERE ' + syarat + ') WHERE i.cocok = 1;',
+      '',
+      '-- 1. Pemeriksaan.',
+      'DROP TEMPORARY TABLE IF EXISTS impor_masalah;',
+      'CREATE TEMPORARY TABLE impor_masalah (baris INT NOT NULL, kode VARCHAR(20) NOT NULL, masalah VARCHAR(400) NOT NULL) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;',
+      "INSERT INTO impor_masalah SELECT 0, '', 'Tidak ada peran bertipe Pembimbing pada tabel peran' FROM DUAL WHERE @peran_id IS NULL;",
+      "INSERT INTO impor_masalah SELECT baris, kode, CONCAT('Angkatan ', angkatan, ' tidak ada pada tabel angkatan') FROM impor_pembimbing WHERE angkatan_id IS NULL;",
+      "INSERT INTO impor_masalah SELECT baris, kode, CONCAT('Kecamatan tidak ditemukan pada tabel wilayah: ', kecamatan) FROM impor_pembimbing WHERE cocok = 0;",
+      "INSERT INTO impor_masalah SELECT baris, kode, CONCAT('Nama kecamatan cocok dengan lebih dari satu wilayah: ', kecamatan) FROM impor_pembimbing WHERE cocok > 1;",
+      "INSERT INTO impor_masalah SELECT i.baris, i.kode, 'NIP ini sudah terdaftar sebagai peserta pada angkatan yang sama' FROM impor_pembimbing i JOIN pengguna g ON g.kode = i.kode AND g.angkatan_id = i.angkatan_id JOIN peran r ON r.id = g.peran_id WHERE r.tipe = 'Peserta';",
+      'SET @masalah = (SELECT COUNT(*) FROM impor_masalah);',
+      'SET @baris_berkas = (SELECT COUNT(*) FROM impor_pembimbing);',
+      '',
+      '-- 2. Penulisan, hanya bila tidak ada masalah.',
+      'START TRANSACTION;',
+      'INSERT INTO pengguna (kode, nama, angkatan_id, peran_id)',
+      'SELECT baru.kode, baru.nama, baru.angkatan_id, baru.peran_id FROM (',
+      '  SELECT i.kode AS kode, MIN(i.nama) AS nama, i.angkatan_id AS angkatan_id, @peran_id AS peran_id',
+      '  FROM impor_pembimbing i WHERE @masalah = 0 GROUP BY i.kode, i.angkatan_id',
+      ') AS baru',
+      'ON DUPLICATE KEY UPDATE nama = baru.nama, peran_id = baru.peran_id;',
+      'INSERT INTO pembimbingan (pengguna_id, kec_wilayah_id, angkatan_id)',
+      'SELECT g.id, i.wilayah_id, i.angkatan_id FROM impor_pembimbing i',
+      '  JOIN pengguna g ON g.kode = i.kode AND g.angkatan_id = i.angkatan_id',
+      '  WHERE @masalah = 0 AND NOT EXISTS (SELECT 1 FROM pembimbingan b WHERE b.pengguna_id = g.id AND b.kec_wilayah_id = i.wilayah_id AND b.angkatan_id = i.angkatan_id);',
+      'INSERT INTO daftarbimbingan (pembimbingan_id, pengguna_id)',
+      'SELECT b.id, s.id FROM impor_pembimbing i',
+      '  JOIN pengguna g ON g.kode = i.kode AND g.angkatan_id = i.angkatan_id',
+      '  JOIN pembimbingan b ON b.pengguna_id = g.id AND b.kec_wilayah_id = i.wilayah_id AND b.angkatan_id = i.angkatan_id',
+      '  JOIN pengguna s ON s.angkatan_id = b.angkatan_id AND s.wilayah_id_kec = b.kec_wilayah_id',
+      "  JOIN peran r ON r.id = s.peran_id AND r.tipe = 'Peserta'",
+      '  WHERE @masalah = 0 AND NOT EXISTS (SELECT 1 FROM daftarbimbingan d WHERE d.pembimbingan_id = b.id AND d.pengguna_id = s.id);',
+      'COMMIT;',
+      '',
+      '-- 3. Laporan. Daftar masalah yang kosong berarti semua baris tertulis.',
+      'SELECT baris, kode, masalah FROM impor_masalah ORDER BY baris;',
+      'SET @dosen = (SELECT COUNT(DISTINCT g.id) FROM pengguna g JOIN impor_pembimbing i ON i.kode = g.kode AND i.angkatan_id = g.angkatan_id);',
+      'SET @kecamatan = (SELECT COUNT(DISTINCT b.id) FROM pembimbingan b JOIN pengguna g ON g.id = b.pengguna_id JOIN impor_pembimbing i ON i.kode = g.kode AND i.angkatan_id = b.angkatan_id AND i.wilayah_id = b.kec_wilayah_id);',
+      'SET @mahasiswa = (SELECT COUNT(DISTINCT d.pengguna_id) FROM daftarbimbingan d JOIN pembimbingan b ON b.id = d.pembimbingan_id JOIN pengguna g ON g.id = b.pengguna_id JOIN impor_pembimbing i ON i.kode = g.kode AND i.angkatan_id = b.angkatan_id AND i.wilayah_id = b.kec_wilayah_id);',
+      "SELECT IF(@masalah = 0, 'DITULIS', 'DIBATALKAN, lihat daftar masalah') AS hasil, @baris_berkas AS baris_berkas, @dosen AS dosen_di_basis_data, @kecamatan AS pembimbingan, @mahasiswa AS mahasiswa_tertaut;",
+      'DROP TEMPORARY TABLE impor_pembimbing;',
+      'DROP TEMPORARY TABLE impor_masalah;'
+    ].join('\n') + '\n';
+  }
+  function tombolSql(aksi, ket) {
+    return '<div class="baris"><button type="button" class="tombol" data-a="' + aksi + '">Unduh SQL</button>' +
+      '<span class="kecil" style="flex:1 1 240px">' + ket + ' Dijalankan oleh pengelola basis data; dashboard ini tidak tersambung ke basis data.</span></div>';
+  }
+  function kotakSqlJenis() {
+    if (!S.dimuat[S.jenis]) return '';
+    if (S.jenis === 'angkatan') return tombolSql('unduh-sql-angkatan', 'Berkas SQL untuk tabel angkatan.');
+    if (S.jenis === 'pembimbing') return tombolSql('unduh-sql-pembimbing', 'Berkas SQL untuk tabel pengguna, pembimbingan, dan daftarbimbingan.');
+    if (S.jenis === 'lokasi') return kotakSql('unduh-sql-lokasi', 'Unduh SQL', 'Berkas SQL untuk tabel setting.');
+    return '';
+  }
   function angkatanSah() {
     var a = Math.round(Number(S.angkatanSql));
     return S.angkatanSql !== '' && !isNaN(a) && a > 0 && a < 100000 ? a : 0;
   }
-  function kotakSql(aksi, label) {
+  function kotakSql(aksi, label, ket) {
     return '<div class="baris" style="align-items:flex-end"><div class="isian" style="flex:0 1 190px"><label for="angkatan-sql">Angkatan (angka)</label>' +
       '<input id="angkatan-sql" type="number" inputmode="numeric" min="1" max="99999" value="' + esc(S.angkatanSql) + '" style="min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);border-radius:8px;background:#fff;font-weight:600"></div>' +
       '<button type="button" class="tombol" data-a="' + aksi + '"' + (angkatanSah() ? '' : ' disabled') + '>' + label + '</button>' +
-      '<span class="kecil" style="flex:1 1 240px">Berkas SQL untuk tabel pengguna. Dijalankan oleh pengelola basis data; dashboard ini tidak tersambung ke basis data.</span></div>';
+      '<span class="kecil" style="flex:1 1 240px">' + (ket || 'Berkas SQL untuk tabel pengguna.') + ' Dijalankan oleh pengelola basis data; dashboard ini tidak tersambung ke basis data.</span></div>';
   }
   // Kecamatan lokasi KKN Angkatan 78 beserta jumlah mahasiswanya (sumber sama dengan WILAYAH_78).
   function kecamatanBawaan() {
@@ -825,7 +1173,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     return '<button type="button" data-a="' + aksi + '" aria-pressed="' + (aktif ? 'true' : 'false') + '">' + esc(label) + '</button>';
   }
   function barisImpor() {
-    if (S.jenis === 'peserta' && S.berkasData) return S.berkasData;
+    if (S.berkasData) return S.berkasData;
     return IMPOR[S.jenis].baris.map(function (r, i) {
       return { baris: i + 2, c: [r[0] || '(kosong)', r[1], r[2] || '(kosong)', r[3] || '(kosong)'], jenis: r[4], ket: r[5] || 'Siap ditambahkan' };
     });
@@ -944,7 +1292,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         '<div class="baris"><a class="tombol" href="Templat-Impor-LKH-KKN.xlsx" download>Unduh templat Excel</a>' +
         '<span class="kecil">Satu berkas memuat lembar Angkatan, Lokasi, Pembimbing, dan Peserta.</span></div></section>' +
         '<section class="kartu"><h2>2. Unggah berkas</h2><div class="unggah"><span class="tebal" style="font-weight:600">Berkas Excel atau CSV (.xlsx, .csv)</span>' +
-        (S.jenis === 'peserta' ? '<span class="kecil">Berkas peserta benar-benar dibaca: templat Excel yang sudah diisi, atau CSV hasil unduhan formulir pendaftaran. Berkas dibaca di peramban ini dan tidak dikirim ke peladen.</span>' : '<span class="kecil">Untuk jenis data ini pratinjaunya masih memakai baris contoh.</span>') +
+        '<span class="kecil">Berkas benar-benar dibaca: templat Excel yang sudah diisi (lembar ' + J.nama + ')' + (S.jenis === 'peserta' ? ', atau CSV hasil unduhan formulir pendaftaran' : ', atau CSV dengan judul kolom yang sama') + '. Berkas dibaca di peramban ini dan tidak dikirim ke peladen. Tombol berkas contoh hanya memperlihatkan alurnya.</span>' +
         (S.galatBerkas ? '<div class="peringatan" role="alert"><span>' + esc(S.galatBerkas) + '</span></div>' : '') +
         '<div class="baris"><input class="sr" id="berkas" type="file" accept=".xlsx,.csv"><label class="tombol" for="berkas">Pilih berkas</label>' +
         '<button type="button" class="tombol" data-a="contoh">Pakai berkas contoh</button></div>' +
@@ -955,7 +1303,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       var saring = [['semua', 'Semua', h.total], ['baru', 'Baru', h.baru], ['ubah', 'Diperbarui', h.ubah], ['salah', 'Bermasalah', h.salah]].map(function (t) {
         return tombolPilih('saring:' + t[0], t[1] + ' · ' + t[2], S.saring === t[0]);
       }).join('');
-      var asli = S.jenis === 'peserta' && !!S.berkasData;
+      var asli = !!S.berkasData;
       var tersaring = semua.filter(function (r) { return S.saring === 'semua' || r.jenis === S.saring; });
       var baris = tersaring.slice(0, 300).map(function (r) {
         return '<div role="row"><span role="cell" class="angka-rata" style="color:var(--teks-3)">' + r.baris + '</span><span role="cell" class="angka-rata">' + esc(r.c[0]) + '</span><span role="cell" class="tebal">' + esc(r.c[1]) + '</span><span role="cell">' + esc(r.c[2]) + '</span><span role="cell">' + esc(r.c[3]) + '</span>' +
@@ -980,6 +1328,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       isi = '<section class="kartu sempit-maks" role="status"><h2 style="font-size:18px;color:var(--hijau-teks)">Impor selesai</h2><p>' + esc(S.hasil) + '</p>' +
         (S.jenis === 'peserta' ? '<p class="kecil">Peserta yang belum punya posko dapat ditempatkan lewat menu Penempatan.</p>' : '') +
         (S.jenis === 'peserta' && S.pesertaAktif ? '<div class="baris"><button type="button" class="tombol utama" data-a="layar:penempatan">Tempatkan peserta</button></div>' + kotakSql('unduh-sql-peserta', 'Unduh SQL tanpa penempatan') : '') +
+        kotakSqlJenis() +
         '<div class="baris"><button type="button" class="tombol utama" data-a="riwayat-buka">Lihat riwayat impor</button><button type="button" class="tombol" data-a="impor-lagi">Impor berkas lain</button></div></section>';
     }
 
@@ -1166,8 +1515,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       var h = hitungImpor(barisImpor());
       var J = IMPOR[S.jenis];
       var id = S.riwayat.reduce(function (m, r) { return Math.max(m, r.id); }, 0) + 1;
-      var asli = S.jenis === 'peserta' && !!S.berkasData;
-      var dimuat = asli ? S.berkasData.filter(function (r) { return r.peserta; }).map(function (r) { return r.peserta; }) : [];
+      var asli = !!S.berkasData;
+      if (asli && S.jenis !== 'peserta') {
+        var sah = S.berkasData.filter(function (r) { return r.obj; }).map(function (r) { return r.obj; });
+        if (sah.length) S.dimuat[S.jenis] = sah;
+      }
+      var dimuat = asli && S.jenis === 'peserta' ? S.berkasData.filter(function (r) { return r.peserta; }).map(function (r) { return r.peserta; }) : [];
       if (dimuat.length) {
         S.pesertaAktif = dimuat;
         S.sumberPeserta = S.berkas;
@@ -1179,7 +1532,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         langkah: 4,
         riwayat: [{ id: id, waktu: 'Baru saja', jenis: J.nama, berkas: S.berkas, baru: h.baru, ubah: h.ubah, lewat: h.salah, oleh: 'admin.contoh', status: 'Berhasil' }].concat(S.riwayat),
         hasil: asli
-          ? h.baru + ' peserta dimuat dari berkas ' + S.berkas + ' dan ' + h.salah + ' baris dilewati. Data ini hanya ada di peramban ini dan hilang bila halaman dimuat ulang.'
+          ? h.baru + ' ' + (S.jenis === 'peserta' ? 'peserta' : 'baris ' + J.nama.toLowerCase()) + ' dimuat dari berkas ' + S.berkas + ' dan ' + h.salah + ' baris dilewati. Data ini hanya ada di peramban ini dan hilang bila halaman dimuat ulang.'
           : h.baru + ' baris ' + J.nama.toLowerCase() + ' ditambahkan, ' + h.ubah + ' diperbarui, dan ' + h.salah + ' dilewati dari berkas ' + S.berkas + '.'
       }, 'riwayat-buka');
     }
@@ -1199,6 +1552,15 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       S.penempatan.unit.forEach(function (p) { p.anggota.forEach(function (m) { baris.push({ m: m, penempatan: p.nama }); }); });
       unduhTeks('impor-peserta-angkatan-' + angkatanSah() + '-benih-' + S.penempatan.benih + '.sql',
         buatSql(baris, angkatanSah(), 'Penempatan dengan benih acak ' + S.penempatan.benih + '.'), 'application/sql;charset=utf-8');
+    }
+    else if (a === 'unduh-sql-angkatan' && S.dimuat.angkatan) {
+      unduhTeks('impor-angkatan.sql', buatSqlAngkatan(S.dimuat.angkatan), 'application/sql;charset=utf-8');
+    }
+    else if (a === 'unduh-sql-lokasi' && S.dimuat.lokasi && angkatanSah()) {
+      unduhTeks('impor-lokasi-angkatan-' + angkatanSah() + '.sql', buatSqlLokasi(S.dimuat.lokasi, angkatanSah()), 'application/sql;charset=utf-8');
+    }
+    else if (a === 'unduh-sql-pembimbing' && S.dimuat.pembimbing) {
+      unduhTeks('impor-pembimbing.sql', buatSqlPembimbing(S.dimuat.pembimbing), 'application/sql;charset=utf-8');
     }
     else if (a === 'unduh-sql-peserta' && S.pesertaAktif && angkatanSah()) {
       unduhTeks('impor-peserta-angkatan-' + angkatanSah() + '-tanpa-penempatan.sql',
@@ -1248,14 +1610,14 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       atur({ aturan: aturan, penempatan: null, penempatanTersimpan: false });
     }
     else if (t.id === 'berkas' && t.files && t.files[0]) {
-      var f = t.files[0];
-      if (S.jenis !== 'peserta') { atur({ berkas: f.name, berkasData: null, galatBerkas: '' }, 'langkah:2'); return; }
+      var f = t.files[0], jenis = S.jenis;
       f.arrayBuffer().then(function (buf) {
         if (/\.csv$/i.test(f.name)) return bacaCsv(new TextDecoder('utf-8').decode(buf));
-        if (/\.xlsx$/i.test(f.name)) return bacaXlsx(buf);
+        if (/\.xlsx$/i.test(f.name)) return bacaXlsx(buf, IMPOR[jenis].nama);
         throw new Error('Jenis berkas tidak didukung. Pakai .xlsx atau .csv.');
       }).then(function (tabel) {
-        atur({ berkas: f.name, berkasData: olahPeserta(tabel), galatBerkas: '', saring: 'semua', lewati: false }, 'langkah:2');
+        if (S.jenis !== jenis) return;
+        atur({ berkas: f.name, berkasData: OLAH[jenis](tabel), galatBerkas: '', saring: 'semua', lewati: false }, 'langkah:2');
       }).catch(function (e) {
         atur({ berkas: null, berkasData: null, galatBerkas: 'Berkas ' + f.name + ' tidak dapat dibaca. ' + (e && e.message ? e.message : e) });
       });
