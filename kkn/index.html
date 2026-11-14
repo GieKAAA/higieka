@@ -29,20 +29,21 @@ a{color:var(--hijau-teks)}a:hover{color:#063D1E}
 h1,h2,h3,p{margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-.app{min-height:100vh;display:flex;flex-wrap:wrap;align-items:stretch}
-.sisi{flex:1 1 232px;background:var(--hijau-tua);color:#fff;padding:24px 16px;display:flex;flex-direction:column;gap:24px}
-.merek{display:flex;flex-direction:column;gap:2px;padding:0 8px}
-.merek b{font-family:var(--judul);font-size:20px;letter-spacing:.2px}
-.merek span{font-size:12px;color:#C9DDD0}
-.menu{display:flex;flex-direction:column;gap:4px}
-.menu button{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 12px;border:0;border-radius:8px;text-align:left;font-weight:600;color:#fff;background:transparent}
-.menu button::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35)}
-.menu button[aria-current="page"]{background:rgba(255,255,255,.16)}
-.menu button[aria-current="page"]::before{background:#fff}
-.menu button:focus-visible{outline-color:#fff}
-.catatan{margin-top:auto;padding:12px;border-radius:8px;background:rgba(255,255,255,.08);font-size:12px;color:#DCE9E1}
-.catatan a{color:#fff}
-main{flex:999 1 560px;min-width:0;padding:28px 32px 48px;display:flex;flex-direction:column;gap:24px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.puncak{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 20px;padding:12px max(32px,calc((100% - 1320px)/2 + 32px));background:var(--kartu);border-bottom:1px solid var(--garis)}
+.merek{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.merek b{font-family:var(--judul);font-size:20px;letter-spacing:.2px;color:var(--hijau-tua)}
+.merek span{font-size:12px;color:var(--teks-3)}
+.tautan-puncak{display:flex;flex-wrap:wrap;gap:0 18px;font-size:13px;font-weight:600}
+.tautan-puncak a{display:inline-flex;align-items:center;min-height:44px}
+.catatan{flex:1 1 100%;font-size:12px;color:var(--teks-3)}
+.dok{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;display:flex;gap:4px;padding:6px;border-radius:999px;background:var(--hijau-tua);box-shadow:0 10px 28px rgba(15,61,38,.32);max-width:calc(100% - 16px)}
+.dok button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#fff;font-weight:600;font-size:13px;white-space:nowrap}
+.dok button svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dok button:hover{background:rgba(255,255,255,.14)}
+.dok button[aria-current="page"]{background:#fff;color:var(--hijau-tua)}
+.dok button:focus-visible{outline-color:#fff;outline-offset:1px}
+main{flex:1 1 auto;min-width:0;width:100%;max-width:1320px;margin:0 auto;padding:28px 32px 120px;display:flex;flex-direction:column;gap:24px}
 main:focus{outline:none}
 
 .kepala{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
@@ -170,12 +171,15 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 .rujukan p{margin-bottom:12px}
 .t-rujukan{min-width:640px}
 .t-rujukan [role="row"]{grid-template-columns:110px minmax(0,1.6fr) 90px minmax(0,1.5fr);padding:9px 12px}
-.tautan-sisi{display:flex;align-items:center;min-height:44px;padding:10px 12px;border-radius:8px;color:#fff;font-weight:600;border:1px solid rgba(255,255,255,.3);text-decoration:none}
-.tautan-sisi:hover{color:#fff;background:rgba(255,255,255,.1)}
-.tautan-sisi:focus-visible{outline-color:#fff}
 
+@media (max-width:640px){
+  .dok button{padding:0 11px}
+  .dok button span{display:none}
+  .dok button[aria-current="page"] span{display:inline}
+}
 @media (max-width:560px){
-  main{padding:20px 16px 40px}
+  .puncak{padding:10px 16px}
+  main{padding:20px 16px 112px}
   .kepala h1{font-size:24px}
   .minggu{gap:4px}
   .minggu .panjang,.minggu .ket{display:none}
@@ -187,12 +191,12 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 </head>
 <body>
 <div class="app">
-<nav class="sisi" aria-label="Menu utama">
+<header class="puncak">
 <div class="merek"><b>LKH KKN</b><span>Dashboard admin</span></div>
-<div class="menu" id="menu"></div>
-<a class="tautan-sisi" href="daftar/">Formulir pendaftaran</a>
-<div class="catatan">Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh. <a href="/">Kembali ke higieka.web.id</a></div>
-</nav>
+<div class="tautan-puncak"><a href="daftar/">Formulir pendaftaran</a><a href="/">Kembali ke situs</a></div>
+<p class="catatan">Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh.</p>
+</header>
+<nav class="dok" id="menu" aria-label="Menu utama"></nav>
 <main id="utama" tabindex="-1">
 <noscript><p>Rancangan ini memerlukan JavaScript untuk ditampilkan.</p></noscript>
 </main>
@@ -1480,12 +1484,19 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   // ------------------------------------------------------------------- render
   var utama = document.getElementById('utama');
   var menu = document.getElementById('menu');
+  var IKON_MENU = {
+    ringkasan: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    impor: '<path d="M12 15V4M8 8l4-4 4 4M4 15v5h16v-5"/>',
+    penempatan: '<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    riwayat: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+  };
 
   function render(fokusKe) {
     var aktif = document.activeElement;
     var kunci = fokusKe || (aktif && (aktif.getAttribute('data-a') || aktif.id)) || '';
     menu.innerHTML = [['ringkasan', 'Ringkasan'], ['impor', 'Impor data'], ['penempatan', 'Penempatan'], ['riwayat', 'Riwayat impor']].map(function (n) {
-      return '<button type="button" data-a="layar:' + n[0] + '"' + (S.layar === n[0] ? ' aria-current="page"' : '') + '>' + n[1] + '</button>';
+      return '<button type="button" data-a="layar:' + n[0] + '" title="' + n[1] + '" aria-label="' + n[1] + '"' + (S.layar === n[0] ? ' aria-current="page"' : '') + '>' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true">' + IKON_MENU[n[0]] + '</svg><span>' + n[1] + '</span></button>';
     }).join('');
     utama.innerHTML = S.layar === 'ringkasan' ? ringkasan() : (S.layar === 'impor' ? impor() : (S.layar === 'penempatan' ? penempatan() : riwayat()));
     if (kunci) {
