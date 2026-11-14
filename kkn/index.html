@@ -214,7 +214,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
 <header class="puncak">
 <div class="puncak-atas">
 <div class="merek"><b>LKH KKN</b><span>Dashboard admin</span></div>
-<span class="cip-contoh" title="Rancangan antarmuka. Seluruh angka, nama, dan berkas pada halaman ini adalah data contoh.">Rancangan, data contoh</span>
+<span class="cip-contoh" title="Rancangan antarmuka. Angka pada halaman ini berasal dari berkas yang dimuat di peramban ini, bukan dari basis data.">Rancangan antarmuka</span>
 <div class="cip-puncak"><a href="daftar/">Formulir pendaftaran</a><a href="/">Kembali ke situs</a></div>
 </div>
 <div class="masa" id="masa"></div>
@@ -238,32 +238,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     satuan: 'kabupaten', kab: null, isiPosko: 10, angkatanSql: '',
     nPosko: 12, nBugis: 4, nMakassar: 3, aturan: { bahasa: true, prodi: true, jk: true, fak: true }, penempatan: null, penempatanTersimpan: false,
     berkasData: null, galatBerkas: '', pesertaAktif: null, sumberPeserta: '', dimuat: {},
-    riwayat: [
-      { id: 3, waktu: '2 hari lalu, 09.14', jenis: 'Lokasi', berkas: 'lokasi-contoh.xlsx', baru: 5, ubah: 1, lewat: 0, oleh: 'admin.contoh', status: 'Berhasil' },
-      { id: 2, waktu: '5 hari lalu, 14.02', jenis: 'Pembimbing', berkas: 'pembimbing-contoh.xlsx', baru: 6, ubah: 0, lewat: 1, oleh: 'admin.contoh', status: 'Berhasil' },
-      { id: 1, waktu: '6 hari lalu, 10.37', jenis: 'Peserta', berkas: 'peserta-salah-angkatan.xlsx', baru: 40, ubah: 0, lewat: 0, oleh: 'admin.contoh', status: 'Dibatalkan' }
-    ]
-  };
-
-  var DATA = {
-    A: {
-      belumWajah: 18, lkhMenunggu: 37,
-      harian: [62,70,74,78,80,81,79,83,84,82,85,86,84,83,87,88,86,85,84,86,87,85,83,84,86,88,87,86,84,85,86,87,85,84,86,87,86,85],
-      kecamatan: [['Kecamatan A',48,44],['Kecamatan B',42,37],['Kecamatan C',40,35],['Kecamatan D',38,30],['Kecamatan E',36,31],['Kecamatan F',36,27]],
-      pembimbing: [['Pembimbing 1',40,36],['Pembimbing 2',40,33],['Pembimbing 3',40,35],['Pembimbing 4',40,34],['Pembimbing 5',40,32],['Pembimbing 6',40,34]],
-      absen: [['CONTOH-014','Mahasiswa Contoh 14','Kecamatan D','5 hari'],['CONTOH-031','Mahasiswa Contoh 31','Kecamatan F','4 hari'],['CONTOH-052','Mahasiswa Contoh 52','Kecamatan F','3 hari'],['CONTOH-077','Mahasiswa Contoh 77','Kecamatan B','3 hari']],
-      reset: [['CONTOH-009','Mahasiswa Contoh 09','Diajukan kemarin','Sisa kuota 1'],['CONTOH-120','Mahasiswa Contoh 120','Diajukan hari ini','Sisa kuota 2']],
-      lkh: [['Kecamatan D','Pembimbing 4','14 LKH','Tertua 6 hari'],['Kecamatan F','Pembimbing 5','12 LKH','Tertua 4 hari'],['Kecamatan B','Pembimbing 2','11 LKH','Tertua 3 hari']]
-    },
-    B: {
-      belumWajah: 31, lkhMenunggu: 52,
-      harian: [55,60,66,70,71,69,72,74,73,75,76,74,72,73,75,77,76,74,73,75,76,78,77,75],
-      kecamatan: [['Kecamatan G',40,32],['Kecamatan H',38,30],['Kecamatan I',36,27],['Kecamatan J',34,24],['Kecamatan K',32,22]],
-      pembimbing: [['Pembimbing 7',36,29],['Pembimbing 8',36,27],['Pembimbing 9',36,28],['Pembimbing 10',36,26],['Pembimbing 11',36,25]],
-      absen: [['CONTOH-203','Mahasiswa Contoh 203','Kecamatan J','6 hari'],['CONTOH-218','Mahasiswa Contoh 218','Kecamatan K','4 hari'],['CONTOH-240','Mahasiswa Contoh 240','Kecamatan K','4 hari'],['CONTOH-251','Mahasiswa Contoh 251','Kecamatan I','3 hari'],['CONTOH-266','Mahasiswa Contoh 266','Kecamatan J','3 hari']],
-      reset: [['CONTOH-207','Mahasiswa Contoh 207','Diajukan 2 hari lalu','Sisa kuota 0'],['CONTOH-229','Mahasiswa Contoh 229','Diajukan kemarin','Sisa kuota 1'],['CONTOH-270','Mahasiswa Contoh 270','Diajukan hari ini','Sisa kuota 2']],
-      lkh: [['Kecamatan J','Pembimbing 10','19 LKH','Tertua 7 hari'],['Kecamatan K','Pembimbing 11','18 LKH','Tertua 5 hari'],['Kecamatan I','Pembimbing 9','15 LKH','Tertua 4 hari']]
-    }
+    riwayat: [], tanyaKosong: false
   };
 
   var IMPOR = {
@@ -345,22 +320,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   // Tiap posko di wilayah berbahasa daerah memerlukan sekurangnya dua penutur.
   var MIN_PENUTUR = 2;
   function kunci(t) { return String(t).toLowerCase().replace(/\s+/g, ' ').trim(); }
-  var PESERTA = [];
-  (function () {
-    var no = 0;
-    var tingkat = function (x) { return x < 2 ? 2 : (x < 4 ? 1 : 0); };
-    PRODI.forEach(function (p) {
-      for (var i = 0; i < p[2]; i++) {
-        no += 1;
-        PESERTA.push({
-          nim: 'CONTOH-' + ('00' + no).slice(-3), nama: 'Mahasiswa Contoh ' + no, prodi: p[0], kp: kunci(p[0]), fak: p[1],
-          jk: (no * 7) % 5 < 2 ? 'L' : 'P', bugis: tingkat((no * 3) % 7), makassar: tingkat((no * 5) % 9),
-          hobi: HOBI[no % HOBI.length], tempat: '', tgl: ''
-        });
-      }
-    });
-  })();
-  function dataPeserta() { return S.pesertaAktif || PESERTA; }
+  function dataPeserta() { return S.pesertaAktif || []; }
 
   // ------------------------------------------------------ pembaca berkas
   // Berkas dibaca di peramban; tidak ada data yang dikirim ke peladen.
@@ -1199,12 +1159,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   function tombolPilih(aksi, label, aktif) {
     return '<button type="button" data-a="' + aksi + '" aria-pressed="' + (aktif ? 'true' : 'false') + '">' + esc(label) + '</button>';
   }
-  function barisImpor() {
-    if (S.berkasData) return S.berkasData;
-    return IMPOR[S.jenis].baris.map(function (r, i) {
-      return { baris: i + 2, c: [r[0] || '(kosong)', r[1], r[2] || '(kosong)', r[3] || '(kosong)'], jenis: r[4], ket: r[5] || 'Siap ditambahkan' };
-    });
-  }
+  function barisImpor() { return S.berkasData || []; }
   function hitungImpor(semua) {
     var h = { total: semua.length, baru: 0, ubah: 0, salah: 0 };
     semua.forEach(function (r) { h[r.jenis] += 1; });
@@ -1212,91 +1167,61 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   }
 
   // ---------------------------------------------------------------- Ringkasan
-  function grafikMinggu(D) {
-    var html = '';
-    for (var k = 0; k < Math.ceil(LAMA / 7); k++) {
-      var awal = k * 7 + 1;
-      var akhir = Math.min(LAMA, awal + 6);
-      var isi = D.harian.slice(awal - 1, akhir);
-      var penuh = isi.length === akhir - awal + 1;
-      var rata = isi.length ? Math.round(isi.reduce(function (t, v) { return t + v; }, 0) / isi.length) : null;
-      var ket = rata === null ? 'Belum berjalan' : 'Hari ' + awal + '–' + akhir + (penuh ? '' : ', berjalan');
-      html += '<div><span class="nilai">' + (rata === null ? '–' : rata + '%') + '</span>' +
-        '<div class="tiang" aria-hidden="true"><i style="height:' + (rata === null ? 0 : Math.round(rata * 1.8)) + 'px;opacity:' + (penuh ? 1 : 0.55) + '"></i></div>' +
-        '<span class="nama"><span class="panjang">Minggu ' + (k + 1) + '</span><span class="pendek">M' + (k + 1) + '</span></span>' +
-        '<span class="ket">' + ket + '</span></div>';
-    }
-    return '<div class="minggu">' + html + '</div>';
+  // Ringkasan hanya menghitung data yang dimuat lewat menu Impor data pada peramban ini.
+  function hitungMenurut(daftar, f) {
+    var h = {};
+    daftar.forEach(function (x) { var k = f(x); h[k] = (h[k] || 0) + 1; });
+    return Object.keys(h).map(function (k) { return [k, h[k]]; }).sort(function (a, b) { return b[1] - a[1] || (a[0] < b[0] ? -1 : 1); });
   }
-  function grafikHari(D) {
-    var n = D.harian.length;
-    var x = function (d) { return (((d - 0.5) / LAMA) * 100).toFixed(2); };
-    var titik = D.harian.map(function (v, i) { return x(i + 1) + ',' + (100 - ((v - 50) / 50) * 100).toFixed(2); });
-    var gaya = 'vector-effect:non-scaling-stroke;stroke-width:1;';
-    var garis = '<line x1="0" y1="0" x2="100" y2="0" style="' + gaya + 'stroke:#DDE3DF"/>' +
-      '<line x1="0" y1="50" x2="100" y2="50" style="' + gaya + 'stroke:#DDE3DF"/>' +
-      '<line x1="0" y1="100" x2="100" y2="100" style="' + gaya + 'stroke:#B8C2BC"/>';
-    var sumbu = '';
-    for (var k = 0; k < Math.ceil(LAMA / 7); k++) {
-      var lebar = Math.min(7, LAMA - k * 7);
-      if (k > 0) {
-        var gx = ((k * 7 / LAMA) * 100).toFixed(2);
-        garis += '<line x1="' + gx + '" y1="0" x2="' + gx + '" y2="100" style="' + gaya + 'stroke:#E6ECE8"/>';
-      }
-      sumbu += '<span style="flex:' + lebar + ' 1 0">M' + (k + 1) + '</span>';
-    }
-    var label = 'Grafik garis kehadiran harian sampai hari ke-' + n + ' dari ' + LAMA + ' hari, dari ' + D.harian[0] + ' persen menjadi ' + D.harian[n - 1] + ' persen.';
-    return '<div class="garis"><div class="sumbu-y" aria-hidden="true"><span>100%</span><span>75%</span><span>50%</span></div>' +
-      '<div class="badan"><svg role="img" aria-label="' + label + '" viewBox="0 0 100 100" preserveAspectRatio="none">' + garis +
-      '<path d="M' + x(1) + ',100 L' + titik.join(' L') + ' L' + x(n) + ',100 Z" style="fill:#0B753A;opacity:.12"/>' +
-      '<polyline points="' + titik.join(' ') + '" style="fill:none;stroke:#0B753A;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke"/>' +
-      '</svg><div class="sumbu-x" aria-hidden="true">' + sumbu + '</div>' +
-      '<span class="kecil">M = minggu. Garis berhenti pada hari yang sedang berjalan.</span></div></div>';
+  function batangJumlah(pasangan, pembagi) {
+    return '<div class="batang">' + pasangan.map(function (r) {
+      return '<div><span class="nama">' + esc(r[0]) + '</span><div class="jalur" aria-hidden="true"><i style="width:' + persen(r[1], pembagi) + '"></i></div><span class="teks">' + r[1] + ' peserta</span></div>';
+    }).join('') + '</div>';
   }
   function ringkasan() {
-    var D = DATA[S.angkatan];
-    var peserta = D.kecamatan.reduce(function (t, r) { return t + r[1]; }, 0);
-    var hadir = D.kecamatan.reduce(function (t, r) { return t + r[2]; }, 0);
-    var n = D.harian.length;
+    var P = S.pesertaAktif, D = S.dimuat, H = S.penempatan;
+    var ada = P || D.angkatan || D.lokasi || D.pembimbing;
+    var kosongkan = !ada ? '' : (S.tanyaKosong
+      ? '<div class="baris"><span class="kecil">Semua data yang dimuat akan dikeluarkan dari peramban ini.</span><button type="button" class="tombol bahaya rapat" data-a="kosongkan-ya">Ya, kosongkan</button><button type="button" class="tombol rapat" data-a="kosongkan-tidak">Tidak</button></div>'
+      : '<button type="button" class="tombol" data-a="kosongkan-minta">Kosongkan data</button>');
+    var kepala = '<header class="kepala"><div><h1>Ringkasan</h1><p>Angka di halaman ini hanya berasal dari berkas yang dimuat lewat menu Impor data. Datanya tersimpan di peramban ini saja.</p></div>' + kosongkan + '</header>';
+    if (!ada) {
+      return kepala + '<section class="kartu"><div><h2>Belum ada data</h2><p class="sub">Belum ada berkas yang dimuat. Unggah jawaban formulir pendaftaran atau templat Excel, lalu angkanya muncul di sini.</p></div>' +
+        '<div class="baris"><button type="button" class="tombol utama" data-a="layar:impor">Buka Impor data</button></div></section>';
+    }
+    var ditempatkan = H ? H.unit.reduce(function (n, u) { return n + u.anggota.length; }, 0) : 0;
+    var dosen = D.pembimbing ? hitungMenurut(D.pembimbing, function (x) { return x.nip; }).length : 0;
     var kartu = [
-      ['Peserta aktif', peserta, D.kecamatan.length + ' kecamatan'],
-      ['Sudah absen hari ini', persen(hadir, peserta), hadir + ' dari ' + peserta + ' peserta'],
-      ['Belum mendaftarkan wajah', D.belumWajah, 'peserta belum dapat absen'],
-      ['LKH menunggu pembimbing', D.lkhMenunggu, 'laporan belum diperiksa']
+      ['Peserta', P ? P.length : '–', P ? 'dari ' + S.sumberPeserta : 'belum dimuat'],
+      ['Sudah ditempatkan', H ? ditempatkan : '–', H ? 'di ' + H.unit.length + ' ' + (S.satuan === 'posko' ? 'posko' : 'wilayah') : (P ? 'belum diacak' : 'belum ada peserta')],
+      ['Lokasi', D.lokasi ? D.lokasi.length : '–', D.lokasi ? 'kecamatan dengan titik dan radius' : 'belum dimuat'],
+      ['Pembimbing', D.pembimbing ? dosen : '–', D.pembimbing ? 'dosen pada ' + hitungMenurut(D.pembimbing, function (x) { return x.kec; }).length + ' kecamatan' : 'belum dimuat']
     ].map(function (k) {
-      return '<div class="kartu"><span class="label">' + k[0] + '</span><span class="nilai">' + k[1] + '</span><span class="ket">' + k[2] + '</span></div>';
+      return '<div class="kartu"><span class="label">' + k[0] + '</span><span class="nilai">' + k[1] + '</span><span class="ket" style="overflow-wrap:anywhere">' + esc(k[2]) + '</span></div>';
     }).join('');
-    var batang = D[S.kelompok].map(function (r) {
-      return '<div><span class="nama">' + r[0] + '</span><div class="jalur" aria-hidden="true"><i style="width:' + persen(r[2], r[1]) + '"></i></div><span class="teks">' + r[2] + ' dari ' + r[1] + '</span></div>';
-    }).join('');
-    var kepala = {
-      absen: ['NIM', 'Nama', 'Kecamatan', 'Tidak absen'],
-      reset: ['NIM', 'Nama', 'Pengajuan', 'Kuota reset'],
-      lkh: ['Kecamatan', 'Pembimbing', 'Belum diperiksa', 'Menunggu']
-    }[S.tindak];
-    var tindak = [['absen', 'Tidak absen 3 hari atau lebih'], ['reset', 'Permintaan reset wajah'], ['lkh', 'LKH belum diperiksa']].map(function (t) {
-      return tombolPilih('tindak:' + t[0], t[1] + ' · ' + D[t[0]].length, S.tindak === t[0]);
-    }).join('');
-    var baris = D[S.tindak].map(function (r) {
-      return '<div role="row"><span role="cell" class="angka-rata">' + r[0] + '</span><span role="cell" class="tebal">' + r[1] + '</span><span role="cell">' + r[2] + '</span><span role="cell">' + r[3] + '</span></div>';
-    }).join('');
-
-    return '<header class="kepala"><div><h1>Ringkasan</h1><p>Keadaan absensi dan laporan kerja harian per angkatan.</p></div>' +
-      '<div class="isian"><label for="angkatan">Angkatan</label><select id="angkatan">' +
-      '<option value="A"' + (S.angkatan === 'A' ? ' selected' : '') + '>Angkatan A (contoh)</option>' +
-      '<option value="B"' + (S.angkatan === 'B' ? ' selected' : '') + '>Angkatan B (contoh)</option></select></div></header>' +
-      '<section class="angka" aria-label="Angka ringkas">' + kartu + '</section>' +
-      '<section class="dua"><div class="kartu lebar"><div class="atas"><div><h2>Kehadiran selama KKN</h2>' +
-      '<p class="sub">Persentase peserta yang absen. Hari ke-' + n + ' dari ' + LAMA + ' hari KKN; hari ini ' + D.harian[n - 1] + '%.</p></div>' +
-      '<div class="segmen" role="group" aria-label="Tampilan grafik">' + tombolPilih('rentang:minggu', 'Per minggu', S.rentang === 'minggu') + tombolPilih('rentang:hari', 'Per hari', S.rentang === 'hari') + '</div></div>' +
-      (S.rentang === 'minggu' ? grafikMinggu(D) : grafikHari(D)) + '</div>' +
-      '<div class="kartu sempit"><div class="atas"><div><h2>Kehadiran hari ini</h2><p class="sub">Jumlah yang sudah absen dari jumlah peserta.</p></div>' +
-      '<div class="segmen" role="group" aria-label="Kelompokkan menurut">' + tombolPilih('kelompok:kecamatan', 'Kecamatan', S.kelompok === 'kecamatan') + tombolPilih('kelompok:pembimbing', 'Pembimbing', S.kelompok === 'pembimbing') + '</div></div>' +
-      '<div class="batang">' + batang + '</div></div></section>' +
-      '<section class="kartu"><div><h2>Perlu ditindaklanjuti</h2><p class="sub">Daftar yang membutuhkan tindakan admin atau pembimbing.</p></div>' +
-      '<div class="pil" role="group" aria-label="Jenis tindak lanjut">' + tindak + '</div>' +
-      '<div class="gulir"><div class="tabel t-tindak" role="table" aria-label="Daftar tindak lanjut"><div role="row" class="judul">' +
-      kepala.map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '</div>' + baris + '</div></div></section>';
+    var html = kepala + '<section class="angka" aria-label="Angka ringkas">' + kartu + '</section>';
+    if (P) {
+      var n = P.length, jumlah = function (f) { return P.filter(f).length; };
+      var rinci = [
+        ['Laki-laki', jumlah(function (m) { return m.jk === 'L'; })], ['Perempuan', jumlah(function (m) { return m.jk === 'P'; })],
+        ['Bugis aktif', jumlah(function (m) { return m.bugis === 2; })], ['Bugis pasif', jumlah(function (m) { return m.bugis === 1; })],
+        ['Makassar aktif', jumlah(function (m) { return m.makassar === 2; })], ['Makassar pasif', jumlah(function (m) { return m.makassar === 1; })]
+      ];
+      html += '<section class="dua"><div class="kartu lebar"><div><h2>Peserta per fakultas</h2><p class="sub">' + n + ' peserta dari ' + jumlahProdi(P) + ' prodi.</p></div>' +
+        batangJumlah(hitungMenurut(P, function (m) { return m.fak; }), n) + '</div>' +
+        '<div class="kartu sempit"><div><h2>Jenis kelamin dan bahasa</h2><p class="sub">Dihitung dari isian pendaftar.</p></div>' + batangJumlah(rinci, n) + '</div></section>';
+    }
+    if (H) {
+      var unit = H.unit.map(function (u) { return [u.nama, u.anggota.length]; });
+      html += '<section class="kartu"><div><h2>Hasil penempatan</h2><p class="sub">Benih acak ' + H.benih + '. Jumlah peserta di tiap ' + (S.satuan === 'posko' ? 'posko' : 'wilayah') + '.</p></div>' +
+        batangJumlah(unit, Math.max.apply(null, unit.map(function (u) { return u[1]; }))) + '</section>';
+    }
+    if (D.angkatan) {
+      html += '<section class="kartu"><div><h2>Angkatan</h2><p class="sub">Dari lembar Angkatan yang dimuat.</p></div><div class="batang">' + D.angkatan.map(function (a) {
+        return '<div style="grid-template-columns:minmax(84px,120px) minmax(0,1fr)"><span class="nama">Angkatan ' + esc(a.angkatan) + '</span><span class="teks" style="text-align:left">' + esc(a.mulai) + ' sampai ' + esc(a.selesai) + (a.hari ? ', ' + esc(a.hari) + ' hari' : '') + '</span></div>';
+      }).join('') + '</div></section>';
+    }
+    return html + '<section class="kartu"><div><h2>Kehadiran, pendaftaran wajah, dan LKH</h2><p class="sub">Belum ada data. Dashboard ini belum tersambung ke basis data, jadi absen harian belum dapat ditampilkan.</p></div></section>';
   }
 
   // -------------------------------------------------------------------- Impor
@@ -1319,10 +1244,10 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         '<div class="baris"><a class="tombol" href="Templat-Impor-LKH-KKN.xlsx" download>Unduh templat Excel</a>' +
         '<span class="kecil">Satu berkas memuat lembar Angkatan, Lokasi, Pembimbing, dan Peserta.</span></div></section>' +
         '<section class="kartu"><h2>2. Unggah berkas</h2><div class="unggah"><span class="tebal" style="font-weight:600">Berkas Excel atau CSV (.xlsx, .csv)</span>' +
-        '<span class="kecil">Berkas benar-benar dibaca: templat Excel yang sudah diisi (lembar ' + J.nama + ')' + (S.jenis === 'peserta' ? ', atau CSV hasil unduhan formulir pendaftaran' : ', atau CSV dengan judul kolom yang sama') + '. Berkas dibaca di peramban ini dan tidak dikirim ke peladen. Tombol berkas contoh hanya memperlihatkan alurnya.</span>' +
+        '<span class="kecil">Berkas benar-benar dibaca: templat Excel yang sudah diisi (lembar ' + J.nama + ')' + (S.jenis === 'peserta' ? ', atau CSV hasil unduhan formulir pendaftaran' : ', atau CSV dengan judul kolom yang sama') + '. Berkas dibaca di peramban ini dan tidak dikirim ke peladen.</span>' +
         (S.galatBerkas ? '<div class="peringatan" role="alert"><span>' + esc(S.galatBerkas) + '</span></div>' : '') +
         '<div class="baris"><input class="sr" id="berkas" type="file" accept=".xlsx,.csv"><label class="tombol" for="berkas">Pilih berkas</label>' +
-        '<button type="button" class="tombol" data-a="contoh">Pakai berkas contoh</button></div>' +
+        '</div>' +
         (S.berkas ? '<span role="status" class="status">Berkas terpilih: ' + esc(S.berkas) + '</span>' : '') + '</div>' +
         '<div class="baris"><button type="button" class="tombol utama" data-a="langkah:2"' + (S.berkas ? '' : ' disabled') + '>Periksa berkas</button>' +
         (S.berkas ? '' : '<span class="kecil">Pilih berkas lebih dahulu.</span>') + '</div></section>';
@@ -1366,6 +1291,11 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
   // --------------------------------------------------------------- Penempatan
   function koma(x) { return (Math.round(x * 10) / 10).toString().replace('.', ','); }
   function penempatan() {
+    if (!S.pesertaAktif) {
+      return '<header class="kepala"><div><h1>Penempatan</h1><p>Peserta ditempatkan secara acak menurut aturan prodi, bahasa daerah, jenis kelamin, dan fakultas.</p></div></header>' +
+        '<section class="kartu"><div><h2>Belum ada peserta</h2><p class="sub">Muat berkas peserta lebih dahulu lewat menu Impor data.</p></div>' +
+        '<div class="baris"><button type="button" class="tombol utama" data-a="layar:impor">Buka Impor data</button></div></section>';
+    }
     var H = S.penempatan, peserta = dataPeserta(), perKab = S.satuan === 'kabupaten';
     var susunan = susunSatuan(), satuan = susunan.satuan;
     var kuota = bagiKuota(peserta.length, satuan.map(function (x) { return x.bobot; }));
@@ -1499,25 +1429,37 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
         '<span role="cell" style="font-size:12px;color:var(--teks-2)">' + r.baru + ' baru, ' + r.ubah + ' diperbarui, ' + r.lewat + ' dilewati</span><span role="cell">' + r.oleh + '</span>' +
         '<span role="cell"><span class="lencana ' + (r.status === 'Berhasil' ? 'l-ok' : 'l-batal') + '">' + r.status + '</span></span><span role="cell" class="aksi">' + aksi + '</span></div>';
     }).join('');
-    return '<header class="kepala"><div><h1>Riwayat impor</h1><p>Catatan setiap impor: siapa, kapan, berkas apa, dan berapa baris. Impor yang keliru dapat dibatalkan.</p></div></header>' +
+    return '<header class="kepala"><div><h1>Riwayat impor</h1><p>Catatan impor yang dilakukan pada peramban ini. Membatalkan impor mengeluarkan datanya dari dashboard; basis data tidak ikut berubah.</p></div></header>' +
       '<section class="kartu"><div class="gulir"><div class="tabel t-riwayat" role="table" aria-label="Riwayat impor"><div role="row" class="judul">' +
-      ['Waktu', 'Jenis data', 'Berkas', 'Hasil', 'Oleh', 'Status', 'Tindakan'].map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '</div>' + baris + '</div></div></section>';
+      ['Waktu', 'Jenis data', 'Berkas', 'Hasil', 'Oleh', 'Status', 'Tindakan'].map(function (k) { return '<span role="columnheader">' + k + '</span>'; }).join('') + '</div>' + baris + '</div></div>' +
+      (S.riwayat.length ? '' : '<p class="sub">Belum ada impor pada peramban ini.</p>') + '</section>';
   }
 
   // ------------------------------------------------------------------- render
   var utama = document.getElementById('utama');
   var menu = document.getElementById('menu');
   var masa = document.getElementById('masa');
-  // Garis waktu pada kepala halaman: satu sel per hari KKN, dikelompokkan per minggu.
+  // Garis waktu pada kepala halaman: satu sel per hari KKN dari lembar Angkatan yang dimuat.
+  var BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  function tanggalPanjang(iso) { var b = String(iso).split('-'); return Number(b[2]) + ' ' + BULAN[Number(b[1]) - 1] + ' ' + b[0]; }
+  function hariIni() { var t = new Date(); return t.getFullYear() + '-' + ('0' + (t.getMonth() + 1)).slice(-2) + '-' + ('0' + t.getDate()).slice(-2); }
   function garisWaktu() {
-    var n = Math.min(DATA[S.angkatan].harian.length, LAMA), sisa = LAMA - n, html = '';
-    for (var m = 0; m * 7 < LAMA; m++) {
-      var isi = Math.min(7, LAMA - m * 7), sel = '';
+    var daftar = (S.dimuat.angkatan || []).filter(function (a) { return a.mulai && a.selesai; }).sort(function (a, b) { return a.mulai < b.mulai ? -1 : 1; });
+    if (!daftar.length) return '<div class="masa-teks"><span><b>Belum ada angkatan dimuat.</b> Garis waktu masa KKN muncul setelah lembar Angkatan diimpor.</span></div>';
+    var kini = hariIni();
+    var A = daftar.filter(function (a) { return a.selesai >= kini; })[0] || daftar[daftar.length - 1];
+    var total = Math.max(1, Math.min(366, Number(A.hari) || selisihHari(A.mulai, A.selesai) + 1));
+    var n = selisihHari(A.mulai, kini) + 1, ket, kanan, html = '';
+    if (n < 1) { ket = 'mulai ' + tanggalPanjang(A.mulai); kanan = (1 - n) + ' hari lagi'; }
+    else if (n > total) { ket = 'berakhir ' + tanggalPanjang(A.selesai); kanan = 'Masa KKN selesai'; }
+    else { ket = 'hari ke-' + n + ' dari ' + total; kanan = total - n > 0 ? (total - n) + ' hari lagi' : 'Hari terakhir'; }
+    for (var m = 0; m * 7 < total; m++) {
+      var isi = Math.min(7, total - m * 7), sel = '';
       for (var h = m * 7 + 1; h <= m * 7 + isi; h++) sel += '<i' + (h < n ? ' class="lewat"' : (h === n ? ' class="kini"' : '')) + '></i>';
       html += '<div class="masa-minggu" style="flex:' + isi + ' 1 0"><div class="masa-sel">' + sel + '</div><small>Minggu ' + (m + 1) + '</small></div>';
     }
-    return '<div class="masa-teks"><span><b>Angkatan ' + esc(S.angkatan) + ' (contoh)</b> · hari ke-' + n + ' dari ' + LAMA + '</span><span>' + (sisa > 0 ? sisa + ' hari lagi' : 'Masa KKN selesai') + '</span></div>' +
-      '<div class="masa-hari" role="img" aria-label="Hari ke-' + n + ' dari ' + LAMA + ' hari KKN">' + html + '</div>';
+    return '<div class="masa-teks"><span><b>Angkatan ' + esc(A.angkatan) + '</b> · ' + ket + '</span><span>' + kanan + '</span></div>' +
+      '<div class="masa-hari" role="img" aria-label="Angkatan ' + esc(A.angkatan) + ', ' + ket + ', ' + total + ' hari">' + html + '</div>';
   }
   var IKON_MENU = {
     ringkasan: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
@@ -1540,8 +1482,21 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       if (el && !el.disabled) el.focus({ preventScroll: true });
     }
   }
+  // Data yang dimuat disimpan di peramban ini saja, supaya tidak hilang saat halaman dimuat ulang.
+  var KUNCI_SIMPAN = 'kkn-dashboard-v1';
+  var DISIMPAN = ['pesertaAktif', 'sumberPeserta', 'dimuat', 'riwayat', 'penempatan', 'penempatanTersimpan', 'satuan', 'kab', 'isiPosko', 'nPosko', 'nBugis', 'nMakassar', 'aturan', 'angkatanSql'];
+  function simpan() {
+    try { var d = {}; DISIMPAN.forEach(function (k) { d[k] = S[k]; }); localStorage.setItem(KUNCI_SIMPAN, JSON.stringify(d)); } catch (e) { /* penyimpanan peramban tidak tersedia */ }
+  }
+  function muat() {
+    try {
+      var d = JSON.parse(localStorage.getItem(KUNCI_SIMPAN) || 'null');
+      if (d && typeof d === 'object') DISIMPAN.forEach(function (k) { if (d[k] !== undefined && d[k] !== null) S[k] = d[k]; });
+    } catch (e) { /* data tersimpan rusak atau penyimpanan tidak tersedia */ }
+  }
   function atur(perubahan, fokusKe) {
     for (var k in perubahan) S[k] = perubahan[k];
+    simpan();
     render(fokusKe);
   }
 
@@ -1550,7 +1505,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     if (!t || t.disabled) return;
     var bagian = t.getAttribute('data-a').split(':');
     var a = bagian[0], v = bagian[1];
-    if (a === 'layar') atur({ layar: v, tanyaBatal: null });
+    if (a === 'layar') atur({ layar: v, tanyaBatal: null, tanyaKosong: false });
     else if (a === 'rentang') atur({ rentang: v });
     else if (a === 'kelompok') atur({ kelompok: v });
     else if (a === 'tindak') atur({ tindak: v });
@@ -1577,9 +1532,10 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
       }
       atur({
         langkah: 4,
-        riwayat: [{ id: id, waktu: 'Baru saja', jenis: J.nama, berkas: S.berkas, baru: h.baru, ubah: h.ubah, lewat: h.salah, oleh: 'admin.contoh', status: 'Berhasil' }].concat(S.riwayat),
+        riwayat: [{ id: id, kunci: S.jenis, waktu: new Date().toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), jenis: J.nama, berkas: S.berkas, baru: h.baru, ubah: h.ubah, lewat: h.salah, oleh: 'Peramban ini', status: 'Berhasil' }]
+          .concat(S.riwayat.map(function (r) { return r.kunci === S.jenis && r.status === 'Berhasil' ? Object.assign({}, r, { status: 'Digantikan' }) : r; })),
         hasil: asli
-          ? h.baru + ' ' + (S.jenis === 'peserta' ? 'peserta' : 'baris ' + J.nama.toLowerCase()) + ' dimuat dari berkas ' + S.berkas + ' dan ' + h.salah + ' baris dilewati. Data ini hanya ada di peramban ini dan hilang bila halaman dimuat ulang.'
+          ? h.baru + ' ' + (S.jenis === 'peserta' ? 'peserta' : 'baris ' + J.nama.toLowerCase()) + ' dimuat dari berkas ' + S.berkas + ' dan ' + h.salah + ' baris dilewati. Data ini tersimpan di peramban ini saja dan tidak dikirim ke mana pun.'
           : h.baru + ' baris ' + J.nama.toLowerCase() + ' ditambahkan, ' + h.ubah + ' diperbarui, dan ' + h.salah + ' dilewati dari berkas ' + S.berkas + '.'
       }, 'riwayat-buka');
     }
@@ -1615,9 +1571,18 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     }
     else if (a === 'simpan-penempatan') atur({ penempatanTersimpan: true }, 'unduh-penempatan');
     else if (a === 'unduh-penempatan') { if (S.penempatan) unduhCsv(S.penempatan); }
+    else if (a === 'kosongkan-minta') atur({ tanyaKosong: true }, 'kosongkan-tidak');
+    else if (a === 'kosongkan-tidak') atur({ tanyaKosong: false }, 'kosongkan-minta');
+    else if (a === 'kosongkan-ya') {
+      atur({ tanyaKosong: false, pesertaAktif: null, sumberPeserta: '', dimuat: {}, riwayat: [], penempatan: null, penempatanTersimpan: false, kab: null, berkas: null, berkasData: null, langkah: 1 });
+      utama.focus({ preventScroll: true });
+    }
     else if (a === 'batal-minta') atur({ tanyaBatal: Number(v) }, 'batal-tidak');
     else if (a === 'batal-tidak') atur({ tanyaBatal: null });
     else if (a === 'batal-ya') {
+      var dibatalkan = S.riwayat.filter(function (r) { return r.id === Number(v); })[0];
+      if (dibatalkan && dibatalkan.kunci === 'peserta') { S.pesertaAktif = null; S.sumberPeserta = ''; S.penempatan = null; S.penempatanTersimpan = false; }
+      else if (dibatalkan) delete S.dimuat[dibatalkan.kunci];
       atur({
         tanyaBatal: null,
         riwayat: S.riwayat.map(function (r) { return r.id === Number(v) ? Object.assign({}, r, { status: 'Dibatalkan' }) : r; })
@@ -1671,6 +1636,7 @@ select{min-height:44px;padding:8px 12px;border:1px solid var(--garis-tegas);bord
     }
   });
 
+  muat();
   render();
 })();
 </script>
