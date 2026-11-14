@@ -29,7 +29,9 @@ yang disengaja.
 
 Halaman `/kkn/` adalah rancangan antarmuka dashboard admin LKH KKN yang berdiri
 sendiri: satu berkas, memakai tampilannya sendiri (hijau, Inter), bukan gaya
-portofolio. Seluruh isinya data contoh dan halaman itu diberi `noindex`, serta
+portofolio. Halaman itu tidak memuat data contoh: angkanya hanya berasal dari berkas
+yang dimuat lewat menu Impor data dan disimpan di `localStorage` peramban (kunci
+`kkn-dashboard-v1`), tidak dikirim ke mana pun. Halaman itu diberi `noindex`, serta
 tidak dicantumkan pada `sitemap.xml`. Jangan memasukkan data mahasiswa sungguhan.
 
 Halaman `/kkn/daftar/` adalah formulir uji coba pendaftaran KKN. Sejak pindah ke
